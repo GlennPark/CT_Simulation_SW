@@ -23,13 +23,16 @@
 
 #include <vtkOpenGLRenderWindow.h>
 #include <vtkRenderWindow.h>
+#include <vtkTransform.h>
+
+
 #include <InteractionContext.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    
 
     vtkSmartPointer<vtkOBJReader> readerAll = vtkSmartPointer<vtkOBJReader>::New();
     readerAll->SetFileName("IronMan.obj");
@@ -60,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     mapperMain->SetInputConnection(readerMain->GetOutputPort());
     vtkSmartPointer<vtkPolyDataMapper> mapperSub = vtkSmartPointer<vtkPolyDataMapper>::New();
     mapperSub->SetInputConnection(readerSub->GetOutputPort());
-
+    
 
     vtkSmartPointer<vtkActor> actorAll = vtkSmartPointer<vtkActor>::New();
     actorAll->SetMapper(mapperAll);
@@ -104,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     rendererSub->GetActiveCamera()->Azimuth(10);
     rendererSub->GetActiveCamera()->Elevation(10);
     rendererSub->ResetCameraClippingRange();
-
+    
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowAll = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     renderWindowAll->AddRenderer(rendererAll);
     renderWindowAll->SetWindowName("readAll");
@@ -114,10 +117,10 @@ MainWindow::MainWindow(QWidget *parent)
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowSub = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     renderWindowSub->AddRenderer(rendererSub);
     renderWindowSub->SetWindowName("readSub");
-
-//    ui->openGLWidget_All->setRenderWindow(renderWindowAll);
-//    ui->openGLWidget_Main->setRenderWindow(renderWindowMain);
-//    ui->openGLWidget_Sub->setRenderWindow(renderWindowSub);
+    
+    ui->openGLWidget_All->setRenderWindow(renderWindowAll);
+    ui->openGLWidget_Main->setRenderWindow(renderWindowMain);
+    ui->openGLWidget_Sub->setRenderWindow(renderWindowSub);
     
     ui->openGLWidget_All->interactor()->SetRenderWindow(renderWindowAll);
     ui->openGLWidget_Main->interactor()->SetRenderWindow(renderWindowMain);
@@ -126,20 +129,31 @@ MainWindow::MainWindow(QWidget *parent)
     ui->openGLWidget_All->interactor()->ProcessEvents();
     ui->openGLWidget_Main->interactor()->ProcessEvents();
     ui->openGLWidget_Sub->interactor()->ProcessEvents();
-
+    
     rendererAll->AddActor(actorAll);
     rendererMain->AddActor(actorMain);
     rendererSub->AddActor(actorSub);
     
-    renderWindowAll->Render();
-    renderWindowMain->Render();
-    renderWindowSub->Render();
-
     ui->openGLWidget_All->interactor()->Start();
     ui->openGLWidget_Main->interactor()->Start();
     ui->openGLWidget_Sub->interactor()->Start();
     
-    
+    vtkSmartPointer<vtkTransform> transformAll = vtkSmartPointer<vtkTransform>::New();
+    transformAll->Translate(5 / 50, 0, 100);
+    actorAll->SetUserTransform(transformAll);
+
+    vtkSmartPointer<vtkTransform> transformMain = vtkSmartPointer<vtkTransform>::New();
+    transformMain->RotateX(180);
+    actorMain->SetUserTransform(transformMain);
+
+    vtkSmartPointer<vtkTransform> transformSub = vtkSmartPointer<vtkTransform>::New();
+    transformSub->Translate(5 / 50, 100, 0);
+    actorSub->SetUserTransform(transformSub);
+
+    renderWindowAll->Render();
+    renderWindowMain->Render();
+    renderWindowSub->Render();
+
 }   
 
 MainWindow::~MainWindow()
