@@ -15,7 +15,6 @@
 //class vtkSmartPointer;
 //class QVTKOpenGLStereoWidget;
 
-//#include <QVTKWidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,7 +29,7 @@ public:
     ~MainWindow();
 
 private:
-   
+    void loadObj();
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
