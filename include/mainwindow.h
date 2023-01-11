@@ -31,5 +31,9 @@ public:
 private:
     void loadObj();
     Ui::MainWindow *ui;
+
+private slots:
+    void on_MainPushButton_clicked();
+
 };
 #endif // MAINWINDOW_H

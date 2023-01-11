@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     //
     //widget.show();
     
-    MainWindow mainWindow;
-    mainWindow.show();
+    MainWindow MainWindow;
+    MainWindow.show();
     return CTApp.exec();
 }
