@@ -28,14 +28,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_MainPushButton_clicked();
+
+    void on_SubPushButton_clicked();
+
+    void on_CaptureStartPushButton_clicked();
+
+    //    void on_AscendingPushButton_pressed();
+
+    //    void on_AscendingPushButton_released();
+
+    //    void on_DescendingPushButton_pressed();
+
+    //    void on_DescendingPushButton_released();
+
 private:
     void loadObj();
     Ui::MainWindow *ui;
-
-private slots:
-    void on_MainPushButton_clicked();
-    void on_SubPushButton_clicked();
-//    void on_CaptureStartPushButton_clicked();
-
 };
 #endif // MAINWINDOW_H
