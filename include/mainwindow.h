@@ -34,6 +34,8 @@ private:
 
 private slots:
     void on_MainPushButton_clicked();
+    void on_SubPushButton_clicked();
+//    void on_CaptureStartPushButton_clicked();
 
 };
 #endif // MAINWINDOW_H
