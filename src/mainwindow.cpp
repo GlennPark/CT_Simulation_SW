@@ -1,6 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFile>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QList>
 
 /* 3D .Obj Visualization */
 #include <vtkSmartPointer.h>
@@ -58,7 +62,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* Load Source */
     vtkSmartPointer<vtkOBJReader> readerObjAll = vtkSmartPointer<vtkOBJReader>::New();
-    readerObjAll->SetFileName("CTObj.obj");
+   readerObjAll->SetFileName("CTObj.obj");
+    readerObjAll->SetFileName("CephMOudle.obj");
+    readerObjAll->SetFileName("PanoMudule.obj");
+
     readerObjAll->Update();
     vtkSmartPointer<vtkOBJReader> readerObjMain = vtkSmartPointer<vtkOBJReader>::New();
     readerObjMain->SetFileName("CTObj.obj");
@@ -69,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    vtkSmartPointer<vtkOBJReader> readerOBJLowBody = vtkSmartPointer<vtkOBJReader>::New();
 //    readerOBJLowBody->SetFileName("LowBodyModule.obj");
+//    readerOBJLowBody->SetFileName("LowBodyMOdule.obj");
 //    readerOBJLowBody->Update();
 //    vtkSmartPointer<vtkOBJReader> readerOBJMainBody = vtkSmartPointer<vtkOBJReader>::New();
 //    readerOBJMainBody->SetFileName("MainBodyModule.obj");
@@ -271,11 +279,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->openGLWidget_Main->interactor()->Start();
     ui->openGLWidget_Sub->interactor()->Start();
 
-    connect(ui->MainPushButton, SIGNAL(clicked), this, SLOT(on_MainPushButton_Clicked()));
-    connect(ui->SubPushButton, SIGNAL(clicked), this, SLOT(on_SubPushButton_Clicked()));
-//    connect(ui->CaptureStartPushButton, SIGNAL(clicked), this, SLOT(on_CaptureStartPushButton_clicked()));
-
-
+    connect(ui->MainPushButton, SIGNAL(clicked()), this, SLOT(on_MainPushButton_Clicked()));
+    connect(ui->SubPushButton, SIGNAL(clicked()), this, SLOT(on_SubPushButton_Clicked()));
+//    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(CaptureStartPushButton_clicked()));
+//    connect(ui->pushButton_12,SIGNAL(clicked(bool)), this, SLOT(pushbutton_12(bool)));
+    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -288,48 +296,77 @@ void rotateMain()
 
 }
 
+void MainWindow::on_CaptureStartPushButton_clicked()
+{
+    QGraphicsScene *panoScene = new QGraphicsScene();
+    QGraphicsScene *cephScene = new QGraphicsScene();
 
+    if(ui->PanoCheckBox->isChecked())
+    {
+        QString panoPath = "C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0001.raw";
+        QFile panoFile(panoPath);
+        if (!panoFile.open(QFile::ReadOnly))
+            return;
+        int PanoNum = 1249;
+        QByteArray ba = panoFile.readAll();
+        const uchar* data = (const uchar*) ba.constData();;
+        panoFile.close();
+        //QImage image(data, 30, 30, QImage::Format_RGB32);
+        QImage* panoImage = new QImage(data, 150, 470, QImage::Format_RGB555);
+        QImage pano_Image(*panoImage);
+        QPixmap panoPix;
+        panoPix = QPixmap::fromImage(pano_Image,Qt::AutoColor);
+        ui->PanoLabel->setPixmap(panoPix);
+
+    //    ui->PanoGraphicsView->setPixmap(pix);
+    }
+    if(ui->CephCheckBox->isChecked())
+    {
+        QString cephPath = "C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)/0001.raw";
+        QFile cephFile(cephPath);
+        if (!cephFile.open(QFile::ReadOnly))
+            return;
+        int CephNum = 1749;
+        QByteArray ba = cephFile.readAll();
+        const uchar* data = (const uchar*) ba.constData();;
+        cephFile.close();
+        //QImage image(data, 30, 30, QImage::Format_RGB32);
+        QImage* cephImage = new QImage(data, 150, 470, QImage::Format_RGB555);
+        QImage ceph_Image(*cephImage);
+        QPixmap cephPix;
+        cephPix = QPixmap::fromImage(ceph_Image,Qt::AutoColor);
+        ui->CephLabel->setPixmap(cephPix);
+    }
+}
+
+void MainWindow::PanoImageViewer()
+{
+
+}
+
+void MainWindow::CephImageViewer()
+{
+
+}
 void MainWindow::on_MainPushButton_clicked()
 {
 
-    QString panoPath = "C:/Qt_VTK_CT/build/Debug/Pano Frame(1152x64)/0001.raw";
-    QFile panoFile(panoPath);
-    if (!panoFile.open(QFile::ReadOnly))
-        return;
-    QByteArray ba = panoFile.readAll();
-    const uchar* data = (const uchar*) ba.constData();;
-    panoFile.close();
-    //QImage image(data, 30, 30, QImage::Format_RGB32);
-    QImage* panoImage = new QImage(data, 100, 470, QImage::Format_RGB555);
-    QImage pano_Image(*panoImage);
-    QPixmap panoPix;
-    panoPix = QPixmap::fromImage(pano_Image,Qt::AutoColor);
-    ui->PanoLabel->setPixmap(panoPix);
-
-//    ui->PanoGraphicsView->setPixmap(pix);
 }
 void MainWindow::on_SubPushButton_clicked()
 {
-    QString cephPath = "C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)/0001.raw";
-    QFile cephFile(cephPath);
-    if (!cephFile.open(QFile::ReadOnly))
-        return;
-    QByteArray ba = cephFile.readAll();
-    const uchar* data = (const uchar*) ba.constData();;
-    cephFile.close();
-    //QImage image(data, 30, 30, QImage::Format_RGB32);
-    QImage* cephImage = new QImage(data, 100, 470, QImage::Format_RGB555);
-    QImage ceph_Image(*cephImage);
-    QPixmap cephPix;
-    cephPix = QPixmap::fromImage(ceph_Image,Qt::AutoColor);
-    ui->CephLabel->setPixmap(cephPix);
+
 }
 
-//void MainWindow::on_CaptureStartPushButton_clicked()
+//void MainWindow::pushbutton_12(bool a)
+//{
+//    Q_UNUSED(a);
+//}
+//void MainWindow::CaptureStartPushButton_clicked()
 //{
 //    vtkSmartPointer<vtkImageReader2Factory> panoImageFactory = vtkSmartPointer<vtkImageReader2Factory>::New();
 //    std::vector<vtkSmartPointer<vtkImageReader2>> panoImageReaders;
-//    int numImages = 2;
+//    int numImages = 1249;
+//        int numImages = 1749
 //    for(int i = 0; i < numImages; i++)
 //    {
 //        std::string fileName = "./images/pano frame/000" + std::to_string(i) + ".raw";

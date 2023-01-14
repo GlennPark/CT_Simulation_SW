@@ -35,6 +35,9 @@ private slots:
 
     void on_CaptureStartPushButton_clicked();
 
+    void PanoImageViewer();
+
+    void CephImageViewer();
     //    void on_AscendingPushButton_pressed();
 
     //    void on_AscendingPushButton_released();
