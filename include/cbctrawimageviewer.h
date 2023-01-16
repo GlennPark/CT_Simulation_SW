@@ -3,16 +3,28 @@
 
 #include <QObject>
 
+class QDir;
+class QDirIterator;
+class QTimer;
+
 class CBCTRawImageViewer : public QObject
 {
     Q_OBJECT
 public:
-    CBCTRawImageViewer();
+    explicit CBCTRawImageViewer();
+    ~CBCTRawImageViewer();
+
+    QPixmap PanoImageViewer();
+    QPixmap CephImageViewer();
+
+    void showNextImage();
+
+private:
+    QDirIterator *dirIterator;
+    QTimer *timer;
 
 
 
-    void PanoImageViewer();
-    void CephImageViewer();
 };
 
 #endif // CBCTRAWIMAGEVIEWER_H
