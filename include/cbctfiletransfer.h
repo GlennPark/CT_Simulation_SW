@@ -1,9 +1,9 @@
-#ifndef CBCTFILETRANSFER_H
+﻿#ifndef CBCTFILETRANSFER_H
 #define CBCTFILETRANSFER_H
 
 #include <QObject>
 
-class CBCTFileTransfer
+class CBCTFileTransfer : public QObject
 {
     Q_OBJECT
 public:

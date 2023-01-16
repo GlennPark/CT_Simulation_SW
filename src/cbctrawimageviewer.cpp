@@ -1,4 +1,4 @@
-#include "cbctrawimageviewer.h"
+﻿#include "cbctrawimageviewer.h"
 //#include "qpixmap.h"
 #include <QFile>
 #include <QImage>
@@ -11,7 +11,7 @@ CBCTRawImageViewer::CBCTRawImageViewer()
 }
 
 
-void PanoImageViewer()
+void CBCTRawImageViewer::PanoImageViewer()
 {
     QString panoPath = "C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0001.raw";
     QFile panoFile(panoPath);
@@ -26,7 +26,7 @@ void PanoImageViewer()
     QImage pano_Image(*panoImage);
     QPixmap panoPix;
     panoPix = QPixmap::fromImage(pano_Image,Qt::AutoColor);
-    ui->PanoLabel->setPixmap(panoPix);
+    //ui->PanoLabel->setPixmap(panoPix);
 
 //    ui->PanoGraphicsView->setPixmap(pix);
 }
@@ -46,5 +46,5 @@ void CBCTRawImageViewer::CephImageViewer()
     QImage ceph_Image(*cephImage);
     QPixmap   cephPix;
     cephPix = QPixmap::fromImage(ceph_Image,Qt::AutoColor);
-    ui->CephLabel->setPixmap(cephPix);
+    //ui->CephLabel->setPixmap(cephPix);
 }

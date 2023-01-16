@@ -1,17 +1,15 @@
-#ifndef CBCTRAWIMAGEVIEWER_H
+﻿#ifndef CBCTRAWIMAGEVIEWER_H
 #define CBCTRAWIMAGEVIEWER_H
 
 #include <QObject>
 
-class CBCTRawImageViewer
+class CBCTRawImageViewer : public QObject
 {
     Q_OBJECT
 public:
     CBCTRawImageViewer();
 
 
-
-private:
 
     void PanoImageViewer();
     void CephImageViewer();

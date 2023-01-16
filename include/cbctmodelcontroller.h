@@ -1,9 +1,9 @@
-#ifndef CBCTMODELCONTROLLER_H
+﻿#ifndef CBCTMODELCONTROLLER_H
 #define CBCTMODELCONTROLLER_H
 
 #include <QObject>
 
-class CBCTModelController
+class CBCTModelController : public QObject
 {
     Q_OBJECT
 public:
