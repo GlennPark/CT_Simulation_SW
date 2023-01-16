@@ -5,16 +5,10 @@
 #include <QMainWindow.h>
 #include <QObject.h>
 
-//class vtkObject;
-//class vtkObjReader;
-//class vtkActor;
-//class vtkRenderer;
-//class vtkRendererWindow;
-//class vtkPolyDataMapper;
-//class vtkRenderWindowInterActor;
-//class vtkSmartPointer;
-//class QVTKOpenGLStereoWidget;
-
+class CBCTFileTransfer;
+class CBCTLogThread;
+class CBCTModelController;
+class CBCTRawImageViewer;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,9 +29,6 @@ private slots:
 
     void on_CaptureStartPushButton_clicked();
 
-    void PanoImageViewer();
-
-    void CephImageViewer();
     //    void on_AscendingPushButton_pressed();
 
     //    void on_AscendingPushButton_released();
@@ -48,6 +39,12 @@ private slots:
 
 private:
     void loadObj();
+
+    CBCTFileTransfer * m_fileTransfer;
+    CBCTLogThread * m_logThread;
+    CBCTModelController * m_modelController;
+    CBCTRawImageViewer * m_rawImageViewer;
+
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

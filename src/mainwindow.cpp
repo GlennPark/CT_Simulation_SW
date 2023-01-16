@@ -1,5 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "cbctfiletransfer.h"
+#include "cbctlogthread.h"
+#include "cbctrawimageviewer.h"
+
 #include <QFile>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsView>
@@ -298,11 +302,17 @@ void rotateMain()
 
 void MainWindow::on_CaptureStartPushButton_clicked()
 {
+
+
     QGraphicsScene *panoScene = new QGraphicsScene();
     QGraphicsScene *cephScene = new QGraphicsScene();
 
+
+
     if(ui->PanoCheckBox->isChecked())
     {
+        CBCTRawImageViewer m_rawImageViewer;
+        m_rawImageViewer.PanoImageViewer();
         QString panoPath = "C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0001.raw";
         QFile panoFile(panoPath);
         if (!panoFile.open(QFile::ReadOnly))
@@ -339,15 +349,6 @@ void MainWindow::on_CaptureStartPushButton_clicked()
     }
 }
 
-void MainWindow::PanoImageViewer()
-{
-
-}
-
-void MainWindow::CephImageViewer()
-{
-
-}
 void MainWindow::on_MainPushButton_clicked()
 {
 
