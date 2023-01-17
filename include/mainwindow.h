@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 
@@ -28,6 +28,7 @@ private slots:
     void on_SubPushButton_clicked();
 
     void on_CaptureStartPushButton_clicked();
+    void on_CaptureStopPushButton_clicked();
 
     //    void on_AscendingPushButton_pressed();
 
@@ -46,5 +47,8 @@ private:
     CBCTRawImageViewer * m_rawImageViewer;
 
     Ui::MainWindow *ui;
+
+private slots:
+    void slot_panoImage(QImage* img);
 };
 #endif // MAINWINDOW_H

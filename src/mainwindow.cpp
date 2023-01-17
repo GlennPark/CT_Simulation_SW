@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "cbctfiletransfer.h"
 #include "cbctlogthread.h"
@@ -52,6 +52,7 @@
 #include <vtkRenderWindow.h>
 
 #include <InteractionContext.h>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -283,11 +284,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->openGLWidget_Main->interactor()->Start();
     ui->openGLWidget_Sub->interactor()->Start();
 
-    connect(ui->MainPushButton, SIGNAL(clicked()), this, SLOT(on_MainPushButton_Clicked()));
-    connect(ui->SubPushButton, SIGNAL(clicked()), this, SLOT(on_SubPushButton_Clicked()));
+    //connect(ui->MainPushButton, SIGNAL(clicked()), this, SLOT(on_MainPushButton_Clicked()));
+    //connect(ui->SubPushButton, SIGNAL(clicked()), this, SLOT(on_SubPushButton_Clicked()));
     //    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(CaptureStartPushButton_clicked()));
     //    connect(ui->pushButton_12,SIGNAL(clicked(bool)), this, SLOT(pushbutton_12(bool)));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
+    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
+
+
+    m_rawImageViewer = new CBCTRawImageViewer();
+    connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
 }
 
 MainWindow::~MainWindow()
@@ -311,10 +317,13 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
     if(ui->PanoCheckBox->isChecked())
     {
-        CBCTRawImageViewer m_rawImageViewer;
-        QPixmap panoPix = m_rawImageViewer.PanoImageViewer();
-        ui->PanoLabel->setPixmap(panoPix);
+        qDebug() << __FUNCTION__;
+        m_rawImageViewer->startPanoTimer();
+        //CBCTRawImageViewer m_rawImageViewer;
+        //QPixmap panoPix = m_rawImageViewer.PanoImageViewer();
+        //ui->PanoLabel->setPixmap(panoPix);
     }
+
     if(ui->CephCheckBox->isChecked())
     {
         CBCTRawImageViewer m_rawImageViewer;
@@ -323,6 +332,21 @@ void MainWindow::on_CaptureStartPushButton_clicked()
         ui->CephLabel->setPixmap(cephPix);
 
     }
+}
+
+void MainWindow::on_CaptureStopPushButton_clicked()
+{
+    m_rawImageViewer->stopPanoTimer();
+}
+
+void MainWindow::slot_panoImage(QImage* img)
+{
+    qDebug() << __FUNCTION__;
+
+    QImage pano_Image(*img);
+    QPixmap panoPix;
+    panoPix = QPixmap::fromImage(pano_Image,Qt::AutoColor);
+    ui->PanoLabel->setPixmap(panoPix);
 }
 
 void MainWindow::on_MainPushButton_clicked()

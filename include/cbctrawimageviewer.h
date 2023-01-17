@@ -17,8 +17,8 @@ public:
     QPixmap PanoImageViewer();
     QPixmap CephImageViewer();
 
-    QPixmap ShowNextPanoImage();
-    QPixmap ShowNextCephImage();
+    void startPanoTimer();
+    void stopPanoTimer();
 
 private:
     QDirIterator *panoImageIterator;
@@ -26,6 +26,11 @@ private:
     QTimer *panoImageTimer;
     QTimer *cephImageTimer;
 
+private slots:
+    void timeoutPanoTimer();
+
+signals:
+    void signals_panoImage(QImage*);
 
 
 };
