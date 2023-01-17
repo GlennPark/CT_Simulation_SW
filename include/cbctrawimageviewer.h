@@ -1,4 +1,4 @@
-    #ifndef CBCTRAWIMAGEVIEWER_H
+﻿#ifndef CBCTRAWIMAGEVIEWER_H
 #define CBCTRAWIMAGEVIEWER_H
 
 #include <QObject>
@@ -17,11 +17,14 @@ public:
     QPixmap PanoImageViewer();
     QPixmap CephImageViewer();
 
-    void showNextImage();
+    QPixmap ShowNextPanoImage();
+    QPixmap ShowNextCephImage();
 
 private:
-    QDirIterator *dirIterator;
-    QTimer *timer;
+    QDirIterator *panoImageIterator;
+    QDirIterator *cephImageIterator;
+    QTimer *panoImageTimer;
+    QTimer *cephImageTimer;
 
 
 
