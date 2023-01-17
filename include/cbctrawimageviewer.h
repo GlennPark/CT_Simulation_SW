@@ -1,4 +1,4 @@
-﻿#ifndef CBCTRAWIMAGEVIEWER_H
+    #ifndef CBCTRAWIMAGEVIEWER_H
 #define CBCTRAWIMAGEVIEWER_H
 
 #include <QObject>
