@@ -49,6 +49,8 @@ private:
     Ui::MainWindow *ui;
 
 private slots:
-    void slot_panoImage(QImage* img);
+    void slot_panoImage(QImage* pImg);
+    void slot_cephImage(QImage* cImg);
+
 };
 #endif // MAINWINDOW_H

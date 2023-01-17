@@ -20,6 +20,9 @@ public:
     void startPanoTimer();
     void stopPanoTimer();
 
+    void startCephTimer();
+    void stopCephTimer();
+
 private:
     QDirIterator *panoImageIterator;
     QDirIterator *cephImageIterator;
@@ -28,10 +31,11 @@ private:
 
 private slots:
     void timeoutPanoTimer();
+    void timeoutCephTimer();
 
 signals:
     void signals_panoImage(QImage*);
-
+    void signals_cephImage(QImage*);
 
 };
 

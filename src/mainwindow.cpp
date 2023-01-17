@@ -289,11 +289,14 @@ MainWindow::MainWindow(QWidget *parent)
     //    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(CaptureStartPushButton_clicked()));
     //    connect(ui->pushButton_12,SIGNAL(clicked(bool)), this, SLOT(pushbutton_12(bool)));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
-    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
+//    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
 
     m_rawImageViewer = new CBCTRawImageViewer();
     connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
+    connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
+
+
 }
 
 MainWindow::~MainWindow()
@@ -326,10 +329,12 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
     if(ui->CephCheckBox->isChecked())
     {
-        CBCTRawImageViewer m_rawImageViewer;
-        QPixmap cephPix = m_rawImageViewer.CephImageViewer();
-        m_rawImageViewer.CephImageViewer();
-        ui->CephLabel->setPixmap(cephPix);
+        qDebug() << __FUNCTION__;
+        m_rawImageViewer->startCephTimer();
+//        CBCTRawImageViewer m_rawImageViewer;
+//        QPixmap cephPix = m_rawImageViewer.CephImageViewer();
+//        m_rawImageViewer.CephImageViewer();
+//        ui->CephLabel->setPixmap(cephPix);
 
     }
 }
@@ -337,16 +342,27 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
     m_rawImageViewer->stopPanoTimer();
+    m_rawImageViewer->stopCephTimer();
 }
 
-void MainWindow::slot_panoImage(QImage* img)
+void MainWindow::slot_panoImage(QImage* pImg)
 {
     qDebug() << __FUNCTION__;
 
-    QImage pano_Image(*img);
+    QImage pano_Image(*pImg);
     QPixmap panoPix;
-    panoPix = QPixmap::fromImage(pano_Image,Qt::AutoColor);
+    panoPix = QPixmap::fromImage(pano_Image, Qt::AutoColor);
     ui->PanoLabel->setPixmap(panoPix);
+}
+
+void MainWindow::slot_cephImage(QImage* cImg)
+{
+    qDebug() << __FUNCTION__;
+
+    QImage ceph_Image(*cImg);
+    QPixmap cephPix;
+    cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
+    ui->CephLabel->setPixmap(cephPix);
 }
 
 void MainWindow::on_MainPushButton_clicked()
@@ -358,35 +374,6 @@ void MainWindow::on_SubPushButton_clicked()
 
 }
 
-//void MainWindow::pushbutton_12(bool a)
-//{
-//    Q_UNUSED(a);
-//}
-//void MainWindow::CaptureStartPushButton_clicked()
-//{
-//    vtkSmartPointer<vtkImageReader2Factory> panoImageFactory = vtkSmartPointer<vtkImageReader2Factory>::New();
-//    std::vector<vtkSmartPointer<vtkImageReader2>> panoImageReaders;
-//    int numImages = 1249;
-//        int numImages = 1749
-//    for(int i = 0; i < numImages; i++)
-//    {
-//        std::string fileName = "./images/pano frame/000" + std::to_string(i) + ".raw";
-//        vtkSmartPointer<vtkImageReader2> panoImageReader =
-//                panoImageFactory->CreateImageReader2(fileName.c_str());
-//        panoImageReaders.push_back(panoImageReader);
-//    }
-//    std::vector<vtkSmartPointer<vtkImageViewer2>>panoImageViewers;
-//    for(int i = 0; i < numImages; i++)
-//    {
-//        vtkSmartPointer<vtkImageViewer2> panoImageViewer = vtkSmartPointer<vtkImageViewer2>::New();
-//        panoImageViewer->SetInputConnection(panoImageReaders[i]->GetOutputPort());
-//        panoImageViewers.push_back(panoImageViewer);
-
-//        panoImageViewers[i]->Render();
-//        //        ui->CapturedGraphicsView->render(panoImageViewers[i]);
-//    }
-
-//}
 
 void loadObj()
 {
