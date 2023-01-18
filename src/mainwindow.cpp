@@ -357,21 +357,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
     connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
 
-    m_fileTransfer = new CBCTFileTransfer();
+    m_fileTransfer = new CBCTFileTransfer(this);
     connect(ui->READYPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_READYPushButton_clicked()));
     connect(ui->RESETPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_RESETPushButton_clicked()));
     connect(ui->STARTPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STARTPushButton_clicked()));
     connect(ui->STOPPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STOPPushButton_clicked()));
 
-    connect(m_fileTransfer, SIGNAL(READYSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
-    connect(m_fileTransfer, SIGNAL(RESETSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
-    connect(m_fileTransfer, SIGNAL(STARTSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
-    connect(m_fileTransfer, SIGNAL(STOPSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(READYSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(RESETSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(STARTSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(STOPSignal(ControlType)), this, SLOT(sendControl(ControlType)));
 
-    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
-    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
-    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
-    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendControl(ControlType)));
 
 
 

@@ -17,17 +17,17 @@ public:
     ~CBCTFileTransfer();
 
 private slots:
-    void sendButtonControl(int buttonIdx);
+    void sendControl(int buttonIdx);
     void receiveControl();
-
+    void goOnSend(qint64 numBytes);
 
 //    void sendCBCTProtocol();
 //    void sendRawImages();
 //    void disconnect();
 
 private:
-    Protocol * protocol;
-    QTcpSocket * CBCTSocket;
+    Protocol *protocol;
+    QTcpSocket *CBCTSocket;
 //    QTcpSocket * FileSocket;
 
 
