@@ -357,7 +357,7 @@
     <property name="title">
      <string/>
     </property>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="RESETPushButton">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -367,36 +367,10 @@
       </rect>
      </property>
      <property name="text">
-      <string>초기화</string>
+      <string>RESET</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
-     <property name="geometry">
-      <rect>
-       <x>163</x>
-       <y>10</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>장비정지</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_5">
-     <property name="geometry">
-      <rect>
-       <x>87</x>
-       <y>10</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>장비시작</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="STOPPushButton">
      <property name="geometry">
       <rect>
        <x>240</x>
@@ -406,7 +380,33 @@
       </rect>
      </property>
      <property name="text">
-      <string>장비종료</string>
+      <string>STOP</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="STARTPushButton">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>10</y>
+       <width>70</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>START</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="READYPushButton">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>10</y>
+       <width>70</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>READY</string>
      </property>
     </widget>
     <widget class="QPushButton" name="AscendingPushButton">

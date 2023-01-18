@@ -357,12 +357,50 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
     connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
 
+    m_fileTransfer = new CBCTFileTransfer();
+    connect(ui->READYPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_READYPushButton_clicked()));
+    connect(ui->RESETPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_RESETPushButton_clicked()));
+    connect(ui->STARTPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STARTPushButton_clicked()));
+    connect(ui->STOPPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STOPPushButton_clicked()));
 
+    connect(m_fileTransfer, SIGNAL(READYSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(RESETSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(STARTSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(STOPSignal(ControlType)), this, SLOT(sendButtonControl(ControlType)));
+
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
+    connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendButtonControl(ControlType)));
+
+
+
+    //    connect(CBCTFileTransfer, SIGNAL(sendButtonSignal()), this, SLOT(()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_READYPushButton_clicked()
+{
+    emit READYSignal(READY);
+}
+
+void MainWindow::on_RESETPushButton_clicked()
+{
+    emit RESETSignal(RESET);
+}
+
+void MainWindow::on_STARTPushButton_clicked()
+{
+    emit STARTSignal(START);
+}
+
+void MainWindow::on_STOPPushButton_clicked()
+{
+    emit STOPSignal(STOP);
 }
 
 void rotateMain()

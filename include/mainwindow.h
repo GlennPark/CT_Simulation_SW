@@ -10,6 +10,14 @@ class CBCTLogThread;
 class CBCTModelController;
 class CBCTRawImageViewer;
 
+
+typedef enum {
+    RESET,
+    READY,
+    START,
+    STOP
+} ControlType;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -30,6 +38,10 @@ private slots:
     void on_CaptureStartPushButton_clicked();
     void on_CaptureStopPushButton_clicked();
 
+    void on_READYPushButton_clicked();
+    void on_RESETPushButton_clicked();
+    void on_STARTPushButton_clicked();
+    void on_STOPPushButton_clicked();
     //    void on_AscendingPushButton_pressed();
 
     //    void on_AscendingPushButton_released();
@@ -51,6 +63,12 @@ private:
 private slots:
     void slot_panoImage(QImage* pImg);
     void slot_cephImage(QImage* cImg);
+
+signals:
+    void READYSignal(ControlType);
+    void RESETSignal(ControlType);
+    void STARTSignal(ControlType);
+    void STOPSignal(ControlType);
 
 };
 #endif // MAINWINDOW_H

@@ -17,13 +17,13 @@ public:
     ~CBCTFileTransfer();
 
 private slots:
-    void sendControl(int buttonIdx);
-    void receiveButtonControl();
+    void sendButtonControl(int buttonIdx);
+    void receiveControl();
 
 
-    void sendCBCTProtocol();
-    void sendRawImages();
-    void disconnect();
+//    void sendCBCTProtocol();
+//    void sendRawImages();
+//    void disconnect();
 
 private:
     Protocol * protocol;
@@ -32,7 +32,8 @@ private:
 
 
 
-
+signals:
+    void sendButtonSignal(int);
 };
 
 #endif // CBCTFILETRANSFER_H
