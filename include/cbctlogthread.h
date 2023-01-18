@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+class QFile;
 class CBCTLogThread : public QObject
 {
     Q_OBJECT
