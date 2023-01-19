@@ -67,20 +67,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     /* Load Source */
-    vtkSmartPointer<vtkOBJReader> readerObjAll = vtkSmartPointer<vtkOBJReader>::New();
-    //readerObjAll->SetFileName("CTObj.obj");
-    readerObjAll->SetFileName("cephmodule.obj");
-    readerObjAll->SetFileName("panomodule.obj");
-    readerObjAll->SetFileName("lowerbody.obj");
-    readerObjAll->SetFileName("upperbody.obj");
 
-    readerObjAll->Update();
-    vtkSmartPointer<vtkOBJReader> readerObjMain = vtkSmartPointer<vtkOBJReader>::New();
-    readerObjMain->SetFileName("CTObj.obj");
-    readerObjMain->Update();
-    vtkSmartPointer<vtkOBJReader> readerObjSub = vtkSmartPointer<vtkOBJReader>::New();
-    readerObjSub->SetFileName("CTObj.obj");
-    readerObjSub->Update();
+
+//    vtkSmartPointer<vtkOBJReader> readerObjAll = vtkSmartPointer<vtkOBJReader>::New();
+//    readerObjAll->SetFileName("CTObj.obj");
+//    readerObjAll->Update();
+//    vtkSmartPointer<vtkOBJReader> readerObjMain = vtkSmartPointer<vtkOBJReader>::New();
+//    readerObjMain->SetFileName("CTObj.obj");
+//    readerObjMain->Update();
+//    vtkSmartPointer<vtkOBJReader> readerObjSub = vtkSmartPointer<vtkOBJReader>::New();
+//    readerObjSub->SetFileName("CTObj.obj");
+//    readerObjSub->Update();
 
     vtkSmartPointer<vtkOBJReader> readerOBJLowerBody = vtkSmartPointer<vtkOBJReader>::New();
     readerOBJLowerBody->SetFileName("lowerbody.obj");
@@ -245,12 +242,24 @@ MainWindow::MainWindow(QWidget *parent)
 
     vtkSmartPointer<vtkRenderer> rendererLowerBody = vtkSmartPointer<vtkRenderer>::New();
     rendererLowerBody->AddActor(actorLowerBody);
-    vtkSmartPointer<vtkRenderer> rendererUpperBody = vtkSmartPointer<vtkRenderer>::New();
     rendererUpperBody->AddActor(actorUpperBody);
-    vtkSmartPointer<vtkRenderer> rendererCephModule = vtkSmartPointer<vtkRenderer>::New();
-    rendererCephModule->AddActor(actorCephModule);
-    vtkSmartPointer<vtkRenderer> rendererPanoModule = vtkSmartPointer<vtkRenderer>::New();
     rendererPanoModule->AddActor(actorPanoModule);
+    readerOBJCephModule->AddActor(actorCephModule);
+    vtkSmartPointer<vtkRenderer> rendererUpperBody = vtkSmartPointer<vtkRenderer>::New();
+    rendererLowerBody->AddActor(actorLowerBody);
+    rendererUpperBody->AddActor(actorUpperBody);
+    rendererPanoModule->AddActor(actorPanoModule);
+    readerOBJCephModule->AddActor(actorCephModule);
+    vtkSmartPointer<vtkRenderer> rendererCephModule = vtkSmartPointer<vtkRenderer>::New();
+    rendererLowerBody->AddActor(actorLowerBody);
+    rendererUpperBody->AddActor(actorUpperBody);
+    rendererPanoModule->AddActor(actorPanoModule);
+    readerOBJCephModule->AddActor(actorCephModule);
+    vtkSmartPointer<vtkRenderer> rendererPanoModule = vtkSmartPointer<vtkRenderer>::New();
+    rendererLowerBody->AddActor(actorLowerBody);
+    rendererUpperBody->AddActor(actorUpperBody);
+    rendererPanoModule->AddActor(actorPanoModule);
+    readerOBJCephModule->AddActor(actorCephModule);
 
 //    vtkSmartPointer<vtkTransform> transformAll = vtkSmartPointer<vtkTransform>::New();
 //    transformAll->Translate(0.0, -350.0, 10.0);
