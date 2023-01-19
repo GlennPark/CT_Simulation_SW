@@ -66,112 +66,47 @@ MainWindow::MainWindow(QWidget *parent)
     /* 상부, 하부, 파노라마, 세팔로좌+우 총 4개 모듈 */
 
 
-
-
-    //    vtkSmartPointer<vtkOBJReader> readerObjAll = vtkSmartPointer<vtkOBJReader>::New();
-    //    readerObjAll->SetFileName("CTObj.obj");
-    //    readerObjAll->Update();
-    //    vtkSmartPointer<vtkOBJReader> readerObjMain = vtkSmartPointer<vtkOBJReader>::New();
-    //    readerObjMain->SetFileName("CTObj.obj");
-    //    readerObjMain->Update();
-    //    vtkSmartPointer<vtkOBJReader> readerObjSub = vtkSmartPointer<vtkOBJReader>::New();
-    //    readerObjSub->SetFileName("CTObj.obj");
-    //    readerObjSub->Update();
-
-
-
-
-
-
-
-
-
-
-
-
-    //    vtkSmartPointer<vtkPolyDataMapper> mapperAll = vtkSmartPointer<vtkPolyDataMapper>::New();
-    //    mapperAll->SetInputConnection(readerObjAll->GetOutputPort());
-
-
-    //        mapperAll->SetInputData(readerOBJUpperBody->GetOutput());
-    //        mapperAll->SetInputData(readerOBJPanoModule->GetOutput());
-    //        mapperAll->SetInputData(readerOBJCephModule->GetOutput());
-    //    vtkSmartPointer<vtkPolyDataMapper> mapperMain = vtkSmartPointer<vtkPolyDataMapper>::New();
-    //    mapperMain->SetInputConnection(readerObjMain->GetOutputPort());
-
-    //        mapperMain->SetInputData(readerOBJLowerBody->GetOutput());
-
-    //        mapperMain->SetInputData(readerOBJPanoModule->GetOutput());
-    //        mapperMain->SetInputData(readerOBJCephModule->GetOutput());
-
-    //        vtkSmartPointer<vtkPolyDataMapper> mapperSub = vtkSmartPointer<vtkPolyDataMapper>::New();
-    //    mapperSub->SetInputConnection(readerObjSub->GetOutputPort());
-
-
-    //        mapperSub->SetInputData(readerOBJLowerBody->GetOutput());
-    //        mapperSub->SetInputData(readerOBJUpperBody->GetOutput());
-
-    //        mapperSub->SetInputData(readerOBJCephModule->GetOutput());
-
-
-
-
-
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowAll = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowAll->AddRenderer(rendererAll);
-    //    renderWindowAll->Render();
-
-    //    renderWindowAll->SetWindowName("readAll");
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowMain = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowMain->AddRenderer(rendererMain);
-    //    renderWindowMain->Render();
-    //    renderWindowMain->SetWindowName("readMain");
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowSub = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowSub->AddRenderer(rendererSub);
-    //    renderWindowSub->Render();
-    //    renderWindowSub->SetWindowName("readSub");
-
-
-
-
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowLowerBody = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowLowerBody->AddRenderer(rendererLowerBody);
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowUpperBody = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowUpperBody->AddRenderer(rendererUpperBody);
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowPanoModule = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowPanoModule->AddRenderer(rendererPanoModule);
-    //    vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindowCephModule = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-    //    renderWindowCephModule->AddRenderer(rendererCephModule);
-
-
-    //    ui->openGLWidget_All->setRenderWindow(renderWindowAll);
-    //    ui->openGLWidget_Main->setRenderWindow(renderWindowMain);
-    //    ui->openGLWidget_Sub->setRenderWindow(renderWindowSub);
-
-    //    ui->openGLWidget_All->interactor()->SetRenderWindow(renderWindowAll);
-    //    ui->openGLWidget_Main->interactor()->SetRenderWindow(renderWindowMain);
-    //    ui->openGLWidget_Sub->interactor()->SetRenderWindow(renderWindowSub);
-
-
-    //    ui->openGLWidget_All->setRenderWindow(renderWindowUpperBody);
-    //    ui->openGLWidget_All->setRenderWindow(renderWindowPanoModule);
-    //    ui->openGLWidget_All->setRenderWindow(renderWindowCephModule);
-
-
     /* Load Source */
-    vtkSmartPointer<vtkOBJReader> readerOBJLowerBody = vtkSmartPointer<vtkOBJReader>::New();
-    readerOBJLowerBody->SetFileName("lowerbody.obj");
-    readerOBJLowerBody->Update();
-    vtkSmartPointer<vtkOBJReader> readerOBJUpperBody = vtkSmartPointer<vtkOBJReader>::New();
-    readerOBJUpperBody->SetFileName("upperbody.obj");
-    readerOBJUpperBody->Update();
-    vtkSmartPointer<vtkOBJReader> readerOBJPanoModule = vtkSmartPointer<vtkOBJReader>::New();
-    readerOBJPanoModule->SetFileName("panomodule.obj");
-    readerOBJPanoModule->Update();
-    vtkSmartPointer<vtkOBJReader> readerOBJCephModule = vtkSmartPointer<vtkOBJReader>::New();
-    readerOBJCephModule->SetFileName("cephmodule.obj");
-    readerOBJCephModule->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJLowerBodyAll = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJLowerBodyAll->SetFileName("lowerbody.obj");
+    readerOBJLowerBodyAll->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJUpperBodyAll = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJUpperBodyAll->SetFileName("upperbody.obj");
+    readerOBJUpperBodyAll->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJPanoModuleAll = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJPanoModuleAll->SetFileName("panomodule.obj");
+    readerOBJPanoModuleAll->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJCephModuleAll = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJCephModuleAll->SetFileName("cephmodule.obj");
+    readerOBJCephModuleAll->Update();
 
+    vtkSmartPointer<vtkOBJReader> readerOBJLowerBodyMain = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJLowerBodyMain->SetFileName("lowerbody.obj");
+    readerOBJLowerBodyMain->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJUpperBodyMain = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJUpperBodyMain->SetFileName("upperbody.obj");
+    readerOBJUpperBodyMain->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJPanoModuleMain = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJPanoModuleMain->SetFileName("panomodule.obj");
+    readerOBJPanoModuleMain->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJCephModuleMain = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJCephModuleMain->SetFileName("cephmodule.obj");
+    readerOBJCephModuleMain->Update();
+
+    vtkSmartPointer<vtkOBJReader> readerOBJLowerBodySub = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJLowerBodySub->SetFileName("lowerbody.obj");
+    readerOBJLowerBodySub->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJUpperBodySub = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJUpperBodySub->SetFileName("upperbody.obj");
+    readerOBJUpperBodySub->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJPanoModuleSub = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJPanoModuleSub->SetFileName("panomodule.obj");
+    readerOBJPanoModuleSub->Update();
+    vtkSmartPointer<vtkOBJReader> readerOBJCephModuleSub = vtkSmartPointer<vtkOBJReader>::New();
+    readerOBJCephModuleSub->SetFileName("cephmodule.obj");
+    readerOBJCephModuleSub->Update();
+
+    //import 로 mtl  파일 읽기
     vtkSmartPointer<vtkNamedColors> colorsAll = vtkSmartPointer<vtkNamedColors>::New();
     vtkColor3d backgroundColorAll = colorsAll->GetColor3d("Black");
     vtkColor3d actorColorAll = colorsAll->GetColor3d("HoneyDew");
@@ -182,81 +117,165 @@ MainWindow::MainWindow(QWidget *parent)
     vtkColor3d backgroundColorSub = colorsSub->GetColor3d("Black");
     vtkColor3d actorColorSub = colorsSub->GetColor3d("HoneyDew");
 
-    vtkSmartPointer<vtkPointData> pointDataLowerBody = readerOBJLowerBody->GetOutput()->GetPointData();
-    vtkSmartPointer<vtkPointData> pointDataUpperBody = readerOBJUpperBody->GetOutput()->GetPointData();
-    vtkSmartPointer<vtkPointData> pointDataPanoModule = readerOBJPanoModule->GetOutput()->GetPointData();
-    vtkSmartPointer<vtkPointData> pointDataCephModule = readerOBJCephModule->GetOutput()->GetPointData();
+    //    vtkSmartPointer<vtkPointData> pointDataLowerBody = readerOBJLowerBodyAll->GetOutput()->GetPointData();
+    //    vtkSmartPointer<vtkPointData> pointDataUpperBody = readerOBJUpperBodyAll->GetOutput()->GetPointData();
+    //    vtkSmartPointer<vtkPointData> pointDataPanoModule = readerOBJPanoModuleAll->GetOutput()->GetPointData();
+    //    vtkSmartPointer<vtkPointData> pointDataCephModule = readerOBJCephModuleAll->GetOutput()->GetPointData();
 
-    vtkSmartPointer<vtkPolyDataNormals> normalsLowerBody = vtkSmartPointer<vtkPolyDataNormals>::New();
-    normalsLowerBody->SetInputData(readerOBJLowerBody->GetOutput());
-    normalsLowerBody->ComputePointNormalsOn();
-    normalsLowerBody->ComputeCellNormalsOn();
-    normalsLowerBody->Update();
+    //    vtkSmartPointer<vtkPolyDataNormals> normalsLowerBody = vtkSmartPointer<vtkPolyDataNormals>::New();
+    //    normalsLowerBody->SetInputData(readerOBJLowerBody->GetOutput());
+    //    normalsLowerBody->ComputePointNormalsOn();
+    //    normalsLowerBody->ComputeCellNormalsOn();
+    //    normalsLowerBody->Update();
 
-    vtkSmartPointer<vtkPolyDataNormals> normalsUpperBody = vtkSmartPointer<vtkPolyDataNormals>::New();
-    normalsLowerBody->SetInputData(readerOBJUpperBody->GetOutput());
-    normalsLowerBody->ComputePointNormalsOn();
-    normalsLowerBody->ComputeCellNormalsOn();
-    normalsLowerBody->Update();
+    //    vtkSmartPointer<vtkPolyDataNormals> normalsUpperBody = vtkSmartPointer<vtkPolyDataNormals>::New();
+    //    normalsLowerBody->SetInputData(readerOBJUpperBody->GetOutput());
+    //    normalsLowerBody->ComputePointNormalsOn();
+    //    normalsLowerBody->ComputeCellNormalsOn();
+    //    normalsLowerBody->Update();
 
-    vtkSmartPointer<vtkPolyDataNormals> normalsPanoModule = vtkSmartPointer<vtkPolyDataNormals>::New();
-    normalsPanoModule->SetInputData(readerOBJPanoModule->GetOutput());
-    normalsPanoModule->ComputePointNormalsOn();
-    normalsPanoModule->ComputeCellNormalsOn();
-    normalsPanoModule->Update();
+    //    vtkSmartPointer<vtkPolyDataNormals> normalsPanoModule = vtkSmartPointer<vtkPolyDataNormals>::New();
+    //    normalsPanoModule->SetInputData(readerOBJPanoModule->GetOutput());
+    //    normalsPanoModule->ComputePointNormalsOn();
+    //    normalsPanoModule->ComputeCellNormalsOn();
+    //    normalsPanoModule->Update();
 
-    vtkSmartPointer<vtkPolyDataNormals> normalsCephModule = vtkSmartPointer<vtkPolyDataNormals>::New();
-    normalsCephModule->SetInputData(readerOBJPanoModule->GetOutput());
-    normalsCephModule->ComputePointNormalsOn();
-    normalsCephModule->ComputeCellNormalsOn();
-    normalsCephModule->Update();
+    //    vtkSmartPointer<vtkPolyDataNormals> normalsCephModule = vtkSmartPointer<vtkPolyDataNormals>::New();
+    //    normalsCephModule->SetInputData(readerOBJPanoModule->GetOutput());
+    //    normalsCephModule->ComputePointNormalsOn();
+    //    normalsCephModule->ComputeCellNormalsOn();
+    //    normalsCephModule->Update();
 
     /* Create Mapper & Actor */
-    vtkSmartPointer<vtkPolyDataMapper> mapperLowerBody = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapperLowerBody->SetInputData(readerOBJLowerBody->GetOutput());
-    vtkSmartPointer<vtkPolyDataMapper> mapperUpperBody = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapperUpperBody->SetInputData(readerOBJUpperBody->GetOutput());
-    vtkSmartPointer<vtkPolyDataMapper> mapperPanoModule = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapperPanoModule->SetInputData(readerOBJPanoModule->GetOutput());
-    vtkSmartPointer<vtkPolyDataMapper> mapperCephModule = vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapperCephModule->SetInputData(readerOBJCephModule->GetOutput());
+    vtkSmartPointer<vtkPolyDataMapper> mapperLowerBodyAll = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperLowerBodyAll->SetInputData(readerOBJLowerBodyAll->GetOutput());
+    mapperLowerBodyAll->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperUpperBodyAll = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperUpperBodyAll->SetInputData(readerOBJUpperBodyAll->GetOutput());
+    mapperUpperBodyAll->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperPanoModuleAll = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperPanoModuleAll->SetInputData(readerOBJPanoModuleAll->GetOutput());
+    mapperPanoModuleAll->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperCephModuleAll = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperCephModuleAll->SetInputData(readerOBJCephModuleAll->GetOutput());
+    mapperCephModuleAll->Update();
 
-    vtkSmartPointer<vtkActor> actorLowerBody = vtkSmartPointer<vtkActor>::New();
-    actorLowerBody->SetMapper(mapperLowerBody);
-    actorLowerBody->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("LightGray").GetData());
-    actorLowerBody->GetProperty()->SetSpecular(5.0);
-    actorLowerBody->GetProperty()->SetSpecularPower(5.0);
-    vtkSmartPointer<vtkActor> actorUpperBody = vtkSmartPointer<vtkActor>::New();
-    actorUpperBody->SetMapper(mapperUpperBody);
-    actorLowerBody->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("LightGray").GetData());
-    actorLowerBody->GetProperty()->SetSpecular(5.0);
-    actorLowerBody->GetProperty()->SetSpecularPower(5.0);
-    vtkSmartPointer<vtkActor> actorPanoModule = vtkSmartPointer<vtkActor>::New();
-    actorPanoModule->SetMapper(mapperPanoModule);
-    actorLowerBody->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("LightGray").GetData());
-    actorLowerBody->GetProperty()->SetSpecular(5.0);
-    actorLowerBody->GetProperty()->SetSpecularPower(5.0);
-    vtkSmartPointer<vtkActor> actorCephModule = vtkSmartPointer<vtkActor>::New();
-    actorCephModule->SetMapper(mapperCephModule);
-    actorLowerBody->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("LightGray").GetData());
-    actorLowerBody->GetProperty()->SetSpecular(5.0);
-    actorLowerBody->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkPolyDataMapper> mapperLowerBodyMain = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperLowerBodyMain->SetInputData(readerOBJLowerBodyMain->GetOutput());
+    mapperLowerBodyMain->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperUpperBodyMain = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperUpperBodyMain->SetInputData(readerOBJUpperBodyMain->GetOutput());
+    mapperUpperBodyMain->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperPanoModuleMain = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperPanoModuleMain->SetInputData(readerOBJPanoModuleMain->GetOutput());
+    mapperPanoModuleMain->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperCephModuleMain = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperCephModuleMain->SetInputData(readerOBJCephModuleMain->GetOutput());
+    mapperCephModuleMain->Update();
+
+    vtkSmartPointer<vtkPolyDataMapper> mapperLowerBodySub = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperLowerBodySub->SetInputData(readerOBJLowerBodySub->GetOutput());
+    mapperLowerBodySub->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperUpperBodySub = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperUpperBodySub->SetInputData(readerOBJUpperBodySub->GetOutput());
+    mapperUpperBodySub->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperPanoModuleSub = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperPanoModuleSub->SetInputData(readerOBJPanoModuleSub->GetOutput());
+    mapperPanoModuleSub->Update();
+    vtkSmartPointer<vtkPolyDataMapper> mapperCephModuleSub = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapperCephModuleSub->SetInputData(readerOBJCephModuleSub->GetOutput());
+    mapperCephModuleSub->Update();
 
 
-    //    vtkSmartPointer<vtkTransform> transformAll = vtkSmartPointer<vtkTransform>::New();
-    //    transformAll->Translate(0.0, -350.0, 10.0);
-    //    transformAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
-    //    actorAll->SetUserTransform(transformAll);
+    vtkSmartPointer<vtkActor> actorLowerBodyAll = vtkSmartPointer<vtkActor>::New();
+    actorLowerBodyAll->SetMapper(mapperLowerBodyAll);
+    actorLowerBodyAll->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Light Gray").GetData());
+    actorLowerBodyAll->GetProperty()->SetSpecular(5.0);
+    actorLowerBodyAll->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorUpperBodyAll = vtkSmartPointer<vtkActor>::New();
+    actorUpperBodyAll->SetMapper(mapperUpperBodyAll);
+    actorUpperBodyAll->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("White").GetData());
+    actorUpperBodyAll->GetProperty()->SetSpecular(5.0);
+    actorUpperBodyAll->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorPanoModuleAll = vtkSmartPointer<vtkActor>::New();
+    actorPanoModuleAll->SetMapper(mapperPanoModuleAll);
+    actorPanoModuleAll->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Red").GetData());
+    actorPanoModuleAll->GetProperty()->SetSpecular(5.0);
+    actorPanoModuleAll->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorCephModuleAll = vtkSmartPointer<vtkActor>::New();
+    actorCephModuleAll->SetMapper(mapperCephModuleAll);
+    actorCephModuleAll->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Blue").GetData());
+    actorCephModuleAll->GetProperty()->SetSpecular(5.0);
+    actorCephModuleAll->GetProperty()->SetSpecularPower(5.0);
 
-    //    vtkSmartPointer<vtkTransform> transformMain = vtkSmartPointer<vtkTransform>::New();
-    //    transformMain->Translate(0.0, -200.0, 100.0);
-    //    transformMain->RotateWXYZ(10, 0.0, 1.0, 1.0);
-    //    actorMain->SetUserTransform(transformMain);
+    vtkSmartPointer<vtkActor> actorLowerBodyMain = vtkSmartPointer<vtkActor>::New();
+    actorLowerBodyMain->SetMapper(mapperLowerBodyMain);
+    actorLowerBodyMain->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Light Gray").GetData());
+    actorLowerBodyMain->GetProperty()->SetSpecular(5.0);
+    actorLowerBodyMain->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorUpperBodyMain = vtkSmartPointer<vtkActor>::New();
+    actorUpperBodyMain->SetMapper(mapperUpperBodyMain);
+    actorUpperBodyMain->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("White").GetData());
+    actorUpperBodyMain->GetProperty()->SetSpecular(5.0);
+    actorUpperBodyMain->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorPanoModuleMain = vtkSmartPointer<vtkActor>::New();
+    actorPanoModuleMain->SetMapper(mapperPanoModuleMain);
+    actorPanoModuleMain->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Red").GetData());
+    actorPanoModuleMain->GetProperty()->SetSpecular(5.0);
+    actorPanoModuleMain->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorCephModuleMain = vtkSmartPointer<vtkActor>::New();
+    actorCephModuleMain->SetMapper(mapperCephModuleMain);
+    actorCephModuleMain->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Blue").GetData());
+    actorCephModuleMain->GetProperty()->SetSpecular(5.0);
+    actorCephModuleMain->GetProperty()->SetSpecularPower(5.0);
 
-    //    vtkSmartPointer<vtkTransform> transformSub = vtkSmartPointer<vtkTransform>::New();
-    //    transformSub->Translate(100.0, -100.0, -300.0);
-    //    transformSub->RotateWXYZ(10, 5.0, 10.0, 5.0);
-    //    actorSub->SetUserTransform(transformSub);
+    vtkSmartPointer<vtkActor> actorLowerBodySub = vtkSmartPointer<vtkActor>::New();
+    actorLowerBodySub->SetMapper(mapperLowerBodySub);
+    actorLowerBodySub->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Light Gray").GetData());
+    actorLowerBodySub->GetProperty()->SetSpecular(5.0);
+    actorLowerBodySub->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorUpperBodySub = vtkSmartPointer<vtkActor>::New();
+    actorUpperBodySub->SetMapper(mapperUpperBodySub);
+    actorUpperBodySub->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("White").GetData());
+    actorUpperBodySub->GetProperty()->SetSpecular(5.0);
+    actorUpperBodySub->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorPanoModuleSub = vtkSmartPointer<vtkActor>::New();
+    actorPanoModuleSub->SetMapper(mapperPanoModuleSub);
+    actorPanoModuleSub->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Red").GetData());
+    actorPanoModuleSub->GetProperty()->SetSpecular(5.0);
+    actorPanoModuleSub->GetProperty()->SetSpecularPower(5.0);
+    vtkSmartPointer<vtkActor> actorCephModuleSub = vtkSmartPointer<vtkActor>::New();
+    actorCephModuleSub->SetMapper(mapperCephModuleSub);
+    actorCephModuleSub->GetProperty()->SetDiffuseColor(colorsMain->GetColor3d("Blue").GetData());
+    actorCephModuleSub->GetProperty()->SetSpecular(5.0);
+    actorCephModuleSub->GetProperty()->SetSpecularPower(5.0);
+
+    vtkSmartPointer<vtkTransform> transformAll = vtkSmartPointer<vtkTransform>::New();
+    transformAll->Translate(0.0, -1000.0, 10.0);
+    transformAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
+    actorLowerBodyAll->SetUserTransform(transformAll);
+    actorUpperBodyAll->SetUserTransform(transformAll);
+    actorPanoModuleAll->SetUserTransform(transformAll);
+    actorCephModuleAll->SetUserTransform(transformAll);
+    transformAll->Update();
+
+    vtkSmartPointer<vtkTransform> transformMain = vtkSmartPointer<vtkTransform>::New();
+    transformMain->Translate(0.0, -200.0, 100.0);
+    transformMain->RotateWXYZ(10, 0.0, 1.0, 1.0);
+    actorLowerBodyMain->SetUserTransform(transformMain);
+    actorUpperBodyMain->SetUserTransform(transformMain);
+    actorPanoModuleMain->SetUserTransform(transformMain);
+    actorCephModuleMain->SetUserTransform(transformMain);
+    transformMain->Update();
+
+    vtkSmartPointer<vtkTransform> transformSub = vtkSmartPointer<vtkTransform>::New();
+    transformSub->Translate(100.0, -100.0, -500.0);
+    transformSub->RotateWXYZ(10, 5.0, 10.0, 5.0);
+    actorLowerBodySub->SetUserTransform(transformSub);
+    actorUpperBodySub->SetUserTransform(transformSub);
+    actorPanoModuleSub->SetUserTransform(transformSub);
+    actorCephModuleSub->SetUserTransform(transformSub);
+    transformSub->Update();
 
     //    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilterAll = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
     //    transformFilterAll->SetInputConnection(readerObjAll->GetOutputPort());
@@ -291,10 +310,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* Visualize with Cam */
     vtkSmartPointer<vtkRenderer> rendererAll = vtkSmartPointer<vtkRenderer>::New();
-    rendererAll->AddActor(actorLowerBody);
-    rendererAll->AddActor(actorUpperBody);
-    rendererAll->AddActor(actorPanoModule);
-    rendererAll->AddActor(actorCephModule);
+    rendererAll->AddActor(actorLowerBodyAll);
+    rendererAll->AddActor(actorUpperBodyAll);
+    rendererAll->AddActor(actorPanoModuleAll);
+    rendererAll->AddActor(actorCephModuleAll);
     rendererAll->SetBackground(backgroundColorAll.GetData());
     rendererAll->ResetCamera();
     rendererAll->LightFollowCameraOn();
@@ -302,11 +321,12 @@ MainWindow::MainWindow(QWidget *parent)
     rendererAll->GetActiveCamera()->Elevation(20);
     rendererAll->GetActiveCamera()->Zoom(1.6);
     rendererAll->ResetCameraClippingRange();
+
     vtkSmartPointer<vtkRenderer> rendererMain = vtkSmartPointer<vtkRenderer>::New();
-    rendererMain->AddActor(actorLowerBody);
-    rendererMain->AddActor(actorUpperBody);
-    rendererMain->AddActor(actorPanoModule);
-    rendererMain->AddActor(actorCephModule);
+    rendererMain->AddActor(actorLowerBodyMain);
+    rendererMain->AddActor(actorUpperBodyMain);
+    rendererMain->AddActor(actorPanoModuleMain);
+    rendererMain->AddActor(actorCephModuleMain);
     rendererMain->SetBackground(backgroundColorAll.GetData());
     rendererMain->ResetCamera();
     rendererMain->LightFollowCameraOn();
@@ -315,10 +335,10 @@ MainWindow::MainWindow(QWidget *parent)
     rendererMain->GetActiveCamera()->Zoom(2.5);
     rendererMain->ResetCameraClippingRange();
     vtkSmartPointer<vtkRenderer> rendererSub = vtkSmartPointer<vtkRenderer>::New();
-    rendererSub->AddActor(actorLowerBody);
-    rendererSub->AddActor(actorUpperBody);
-    rendererSub->AddActor(actorPanoModule);
-    rendererSub->AddActor(actorCephModule);
+    rendererSub->AddActor(actorLowerBodySub);
+    rendererSub->AddActor(actorUpperBodySub);
+    rendererSub->AddActor(actorPanoModuleSub);
+    rendererSub->AddActor(actorCephModuleSub);
     rendererSub->SetBackground(backgroundColorAll.GetData());
     rendererSub->ResetCamera();
     rendererSub->LightFollowCameraOn();\
@@ -384,6 +404,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //    connect(CBCTFileTransfer, SIGNAL(sendButtonSignal()), this, SLOT(()));
+}
+
+
+void Load_OBJReader(std::vector<QString> filepaths, std::vector<vtkPolyData> &data)
+{
+
 }
 
 MainWindow::~MainWindow()

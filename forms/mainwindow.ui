@@ -109,7 +109,7 @@
     <widget class="QPushButton" name="CaptureReady">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>80</x>
        <y>50</y>
        <width>75</width>
        <height>41</height>
@@ -122,7 +122,7 @@
     <widget class="QPushButton" name="CaptureStartPushButton">
      <property name="geometry">
       <rect>
-       <x>87</x>
+       <x>160</x>
        <y>50</y>
        <width>75</width>
        <height>41</height>
@@ -135,7 +135,7 @@
     <widget class="QPushButton" name="pushButton_12">
      <property name="geometry">
       <rect>
-       <x>163</x>
+       <x>240</x>
        <y>50</y>
        <width>75</width>
        <height>41</height>
@@ -148,14 +148,14 @@
     <widget class="QPushButton" name="pushButton_13">
      <property name="geometry">
       <rect>
-       <x>240</x>
+       <x>0</x>
        <y>50</y>
        <width>75</width>
        <height>41</height>
       </rect>
      </property>
      <property name="text">
-      <string>촬영종료</string>
+      <string>초기화</string>
      </property>
     </widget>
     <widget class="QProgressBar" name="progressBar_2">
