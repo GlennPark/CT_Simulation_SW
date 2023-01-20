@@ -5,6 +5,7 @@
 #include <QMainWindow.h>
 #include <QObject.h>
 
+class QMessageBox;
 class CBCTFileTransfer;
 class CBCTLogThread;
 class CBCTModelController;
@@ -57,6 +58,9 @@ private:
     CBCTLogThread * m_logThread;
     CBCTModelController * m_modelController;
     CBCTRawImageViewer * m_rawImageViewer;
+
+    QMessageBox * m_panoErrorMessage;
+    QMessageBox * m_cephErrorMessage;
 
     Ui::MainWindow *ui;
 
