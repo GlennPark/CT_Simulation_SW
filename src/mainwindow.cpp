@@ -378,8 +378,10 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(ui->SubPushButton, SIGNAL(clicked()), this, SLOT(on_SubPushButton_Clicked()));
     //    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(CaptureStartPushButton_clicked()));
     //    connect(ui->pushButton_12,SIGNAL(clicked(bool)), this, SLOT(pushbutton_12(bool)));
+    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
+    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
-    //    connect(ui->pushButton_12, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
+    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
 
     m_rawImageViewer = new CBCTRawImageViewer();
@@ -496,8 +498,19 @@ void MainWindow::slot_panoImage(QImage* pImg)
 
     /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
     int panoValue = ui->PanoProgressBar->value();
-    panoValue = panoValue++;
+    panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
+    ui->PanoProgressBar->setStyleSheet("QProgressBar {"
+                                       "background-color: #74c8ff;"
+                                       "color: #0a9dff;"
+                                       "border-style: outset;"
+                                       "border-width: 2px;"
+                                       "border-color: #74c8ff;"
+                                       "border-radius: 7px;"
+                                       "text-align: left; }"
+
+                                       "QProgressBar::chunk {"
+                                       "background-color: #010327; }");
 
 
 }
@@ -513,8 +526,19 @@ void MainWindow::slot_cephImage(QImage* cImg)
 
     /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
     int cephValue = ui->CephProgressBar->value();
-    cephValue = cephValue++;
+    cephValue++;
     ui->CephProgressBar->setValue(cephValue);
+    ui->CephProgressBar->setStyleSheet("QProgressBar {"
+                                       "background-color: #74c8ff;"
+                                       "color: #0a9dff;"
+                                       "border-style: outset;"
+                                       "border-width: 2px;"
+                                       "border-color: #74c8ff;"
+                                       "border-radius: 7px;"
+                                       "text-align: left; }"
+
+                                       "QProgressBar::chunk {"
+                                       "background-color: #010327; }");
 }
 
 void MainWindow::on_MainPushButton_clicked()
