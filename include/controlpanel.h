@@ -3,11 +3,14 @@
 
 #include <QObject>
 
-class ControlPanel
+class ControlPanel : public QObject
 {
     Q_OBJECT
 public:
-    ControlPanel();
+    explicit ControlPanel(QObject *parent = nullptr);
+
+signals:
+
 };
 
 #endif // CONTROLPANEL_H

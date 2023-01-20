@@ -1,6 +1,7 @@
 #include "fileprotocol.h"
 
-FileProtocol::FileProtocol()
+FileProtocol::FileProtocol(QObject *parent)
+    : QObject{parent}
 {
 
 }

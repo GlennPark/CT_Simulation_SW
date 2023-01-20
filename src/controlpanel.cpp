@@ -1,6 +1,7 @@
 #include "controlpanel.h"
 
-ControlPanel::ControlPanel()
+ControlPanel::ControlPanel(QObject *parent)
+    : QObject{parent}
 {
 
 }

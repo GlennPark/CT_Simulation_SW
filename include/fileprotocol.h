@@ -3,11 +3,14 @@
 
 #include <QObject>
 
-class FileProtocol
+class FileProtocol : public QObject
 {
     Q_OBJECT
 public:
-    FileProtocol();
+    explicit FileProtocol(QObject *parent = nullptr);
+
+signals:
+
 };
 
 #endif // FILEPROTOCOL_H

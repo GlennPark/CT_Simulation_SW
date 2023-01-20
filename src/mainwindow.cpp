@@ -36,6 +36,7 @@
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
 
+
 #include <qvtkopenglstereowidget.h>
 #include <QVTKRenderWidget.h>
 #include <QVTKOpenGLWindow.h>
@@ -401,8 +402,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendControl(ControlType)));
     connect(this, SIGNAL(READYSignal(ControlType)),m_fileTransfer,SLOT(sendControl(ControlType)));
 
-
-
     //    connect(CBCTFileTransfer, SIGNAL(sendButtonSignal()), this, SLOT(()));
 }
 
@@ -455,6 +454,8 @@ void MainWindow::on_CaptureStartPushButton_clicked()
     {
         qDebug() << __FUNCTION__;
         m_rawImageViewer->startPanoTimer();
+
+
         //CBCTRawImageViewer m_rawImageViewer;
         //QPixmap panoPix = m_rawImageViewer.PanoImageViewer();
         //ui->PanoLabel->setPixmap(panoPix);
@@ -464,6 +465,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
     {
         qDebug() << __FUNCTION__;
         m_rawImageViewer->startCephTimer();
+
         //        CBCTRawImageViewer m_rawImageViewer;
         //        QPixmap cephPix = m_rawImageViewer.CephImageViewer();
         //        m_rawImageViewer.CephImageViewer();
@@ -476,6 +478,7 @@ void MainWindow::on_CaptureStopPushButton_clicked()
 {
     m_rawImageViewer->stopPanoTimer();
     m_rawImageViewer->stopCephTimer();
+
 }
 
 void MainWindow::slot_panoImage(QImage* pImg)
@@ -490,6 +493,13 @@ void MainWindow::slot_panoImage(QImage* pImg)
     QTransform panoTransform;
     panoTransform.rotate(90);
     ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
+
+    /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
+    int panoValue = ui->PanoProgressBar->value();
+    panoValue = panoValue++;
+    ui->PanoProgressBar->setValue(panoValue);
+
+
 }
 
 void MainWindow::slot_cephImage(QImage* cImg)
@@ -500,6 +510,11 @@ void MainWindow::slot_cephImage(QImage* cImg)
     QPixmap cephPix;
     cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
     ui->CephLabel->setPixmap(cephPix);
+
+    /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
+    int cephValue = ui->CephProgressBar->value();
+    cephValue = cephValue++;
+    ui->CephProgressBar->setValue(cephValue);
 }
 
 void MainWindow::on_MainPushButton_clicked()
