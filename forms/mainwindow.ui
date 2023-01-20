@@ -96,11 +96,24 @@
     <widget class="QProgressBar" name="PanoProgressBar">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>10</y>
-       <width>151</width>
-       <height>31</height>
+       <width>160</width>
+       <height>30</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar {
+	font: 14pt &quot;스웨거 TTF&quot;;
+    border: 2px solid grey;
+    border-radius: 5px;
+}
+
+QProgressBar::chunk {
+    background-color:#FF0000;
+    width: 10px;
+    margin: 0.5px;
+}</string>
      </property>
      <property name="maximum">
       <number>1750</number>
@@ -166,9 +179,22 @@
       <rect>
        <x>160</x>
        <y>10</y>
-       <width>151</width>
-       <height>31</height>
+       <width>160</width>
+       <height>30</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar {
+	font: 14pt &quot;스웨거 TTF&quot;;
+    border: 2px solid grey;
+    border-radius: 5px;
+}
+
+QProgressBar::chunk {
+    background-color:#0000FF;
+    width: 10px;
+    margin: 0.5px;
+}</string>
      </property>
      <property name="maximum">
       <number>1250</number>

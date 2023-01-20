@@ -292,14 +292,38 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* Starting Location */
 
-    vtkSmartPointer<vtkTransform> transformAll = vtkSmartPointer<vtkTransform>::New();
-    transformAll->Translate(0.0, -1000.0, 10.0);
-    transformAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
-    actorLowerBodyAll->SetUserTransform(transformAll);
-    actorUpperBodyAll->SetUserTransform(transformAll);
-    actorPanoModuleAll->SetUserTransform(transformAll);
-    actorCephModuleAll->SetUserTransform(transformAll);
-    transformAll->Update();
+//    vtkSmartPointer<vtkTransform> transformAll = vtkSmartPointer<vtkTransform>::New();
+//    transformAll->Translate(0.0, -1000.0, 10.0);
+//    transformAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
+//    actorLowerBodyAll->SetUserTransform(transformAll);
+//    actorUpperBodyAll->SetUserTransform(transformAll);
+//    actorPanoModuleAll->SetUserTransform(transformAll);
+//    actorCephModuleAll->SetUserTransform(transformAll);
+//    transformAll->Update();
+
+    vtkSmartPointer<vtkTransform> transformLowerBodyAll = vtkSmartPointer<vtkTransform>::New();
+    transformLowerBodyAll->Translate(0.0, -1000.0, 10.0);
+    transformLowerBodyAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
+    actorLowerBodyAll->SetUserTransform(transformLowerBodyAll);
+    transformLowerBodyAll->Update();
+
+    vtkSmartPointer<vtkTransform> transformUpperBodyAll = vtkSmartPointer<vtkTransform>::New();
+    transformUpperBodyAll->Translate(0.0, -1000.0, 10.0);
+    transformUpperBodyAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
+    actorUpperBodyAll->SetUserTransform(transformUpperBodyAll);
+    transformUpperBodyAll->Update();
+
+    vtkSmartPointer<vtkTransform> transformPanoModuleAll = vtkSmartPointer<vtkTransform>::New();
+    transformPanoModuleAll->Translate(0.0, -1000.0, 10.0);
+    transformPanoModuleAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
+    actorPanoModuleAll->SetUserTransform(transformPanoModuleAll);
+    transformPanoModuleAll->Update();
+
+    vtkSmartPointer<vtkTransform> transformCephModuleAll = vtkSmartPointer<vtkTransform>::New();
+    transformCephModuleAll->Translate(0.0, -1000.0, 10.0);
+    transformCephModuleAll->RotateWXYZ(5, 0.0, 1.0, 0.0);
+    actorCephModuleAll->SetUserTransform(transformCephModuleAll);
+    transformCephModuleAll->Update();
 
     vtkSmartPointer<vtkTransform> transformMain = vtkSmartPointer<vtkTransform>::New();
     transformMain->Translate(0.0, -200.0, 100.0);
@@ -319,15 +343,20 @@ MainWindow::MainWindow(QWidget *parent)
     actorCephModuleSub->SetUserTransform(transformSub);
     transformSub->Update();
 
-    //    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilterAll = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-    //    transformFilterAll->SetInputConnection(readerObjAll->GetOutputPort());
-    //    transformFilterAll->SetInputConnection(readerOBJLowBody->GetOutputPort());
-    //    transformFilterAll->SetInputConnection(readerOBJMainBody->GetOutputPort());
-    //    transformFilterAll->SetInputConnection(readerOBJPano->GetOutputPort());
-    //    transformFilterAll->SetInputConnection(readerOBJCeph->GetOutputPort());
+        vtkSmartPointer<vtkTransformPolyDataFilter> transformFilterLowerBodyAll = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+   //     transformFilterAll->SetInputConnection(readerObjAll->GetOutputPort());
+        transformFilterLowerBodyAll->SetInputConnection(readerOBJLowerBodyAll->GetOutputPort());
+        transformFilterLowerBodyAll->SetInputConnection(readerOBJUpperBodyAll->GetOutputPort());
+        transformFilterLowerBodyAll->SetInputConnection(readerOBJPanoModuleAll->GetOutputPort());
+        transformFilterLowerBodyAll->SetInputConnection(readerOBJCephModuleAll->GetOutputPort());
 
-    //    transformFilterAll->SetTransform(transformAll);
-    //    transformFilterAll->Update();
+        transformFilterLowerBodyAll->SetTransform(transformLowerBodyAll);
+        transformFilterLowerBodyAll->SetTransform(transformUpperBodyAll);
+        transformFilterLowerBodyAll->SetTransform(transformPanoModuleAll);
+        transformFilterLowerBodyAll->SetTransform(transformCephModuleAll);
+
+
+        transformFilterLowerBodyAll->Update();
 
     //    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilterMain = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
     //    transformFilterMain->SetInputConnection(readerObjMain->GetOutputPort());
@@ -506,7 +535,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
         if(ui->CephCheckBox->isChecked())
         {
             m_panoErrorMessage = new QMessageBox;
-            m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
+m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
         }
         else
         {
@@ -524,7 +553,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
         if(ui->PanoCheckBox->isChecked())
         {
             m_cephErrorMessage = new QMessageBox;
-            m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
+m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
         }
         else
         {
@@ -564,17 +593,7 @@ void MainWindow::slot_panoImage(QImage* pImg)
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
-    ui->PanoProgressBar->setStyleSheet("QProgressBar {"
-                                       "background-color: #74c8ff;"
-                                       "color: #ff0a0a;"
-                                       "border-style: outset;"
-                                       "border-width: 2px;"
-                                       "border-color: #74c8ff;"
-                                       "border-radius: 7px;"
-                                       "text-align: left; }"
 
-                                       "QProgressBar::chunk {"
-                                       "background-color: #010327; }");
 
 
 }
@@ -592,17 +611,6 @@ void MainWindow::slot_cephImage(QImage* cImg)
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
-    ui->CephProgressBar->setStyleSheet("QProgressBar {"
-                                       "background-color: #74c8ff;"
-                                       "color: #0a9dff;"
-                                       "border-style: outset;"
-                                       "border-width: 2px;"
-                                       "border-color: #74c8ff;"
-                                       "border-radius: 7px;"
-                                       "text-align: left; }"
-
-                                       "QProgressBar::chunk {"
-                                       "background-color: #010327; }");
 }
 
 void MainWindow::on_MainPushButton_clicked()
