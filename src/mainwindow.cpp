@@ -593,7 +593,8 @@ void MainWindow::slot_panoImage(QImage* pImg)
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
-
+    ui->PanoProgressBar->setTextVisible(true);
+    ui->PanoProgressBar->setAlignment(Qt::AlignCenter);
 
 
 }
@@ -611,6 +612,8 @@ void MainWindow::slot_cephImage(QImage* cImg)
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
+    ui->CephProgressBar->setTextVisible(true);
+    ui->CephProgressBar->setAlignment(Qt::AlignCenter);
 }
 
 void MainWindow::on_MainPushButton_clicked()
