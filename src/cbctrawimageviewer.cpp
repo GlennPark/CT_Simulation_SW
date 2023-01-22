@@ -122,7 +122,7 @@ void CBCTRawImageViewer::timeoutPanoTimer()
         QByteArray pBa = panoFile.readAll();
         const uchar* pData = (const uchar*) pBa.constData();;
         panoFile.close();
-        QImage* panoImage = new QImage(pData, 500, 150, QImage::Format_RGB555);
+        QImage* panoImage = new QImage(pData, 740, 100, QImage::Format_RGB555);
 
         emit signals_panoImage(panoImage);      // mainwindow 로 보내준다
     }
@@ -150,7 +150,7 @@ void CBCTRawImageViewer::timeoutCephTimer()
         const uchar* cData = (const uchar*) cBa.constData();;
         cephFile.close();
 //        QImage* cephImage = new QImage(cData, 150, 470, QImage::Format_Grayscale16);
-        QImage* cephImage = new QImage(cData, 150, 500, QImage::Format_RGB555);
+        QImage* cephImage = new QImage(cData, 100, 740, QImage::Format_RGB555);
 
         emit signals_cephImage(cephImage);      // mainwindow 로 보내준다
     }

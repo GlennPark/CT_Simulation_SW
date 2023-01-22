@@ -467,10 +467,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
 
     m_fileTransfer = new CBCTFileTransfer(this);
-    connect(ui->READYPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_READYPushButton_clicked()));
-    connect(ui->RESETPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_RESETPushButton_clicked()));
-    connect(ui->STARTPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STARTPushButton_clicked()));
-    connect(ui->STOPPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STOPPushButton_clicked()));
+    connect(ui->CaptureReadyPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_READYPushButton_clicked()));
+    connect(ui->CaptureResetPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_RESETPushButton_clicked()));
+    connect(ui->CaptureStartPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STARTPushButton_clicked()));
+    connect(ui->CaptureStartPushButton,SIGNAL(clicked),m_fileTransfer,SLOT(on_STOPPushButton_clicked()));
 
     connect(m_fileTransfer, SIGNAL(READYSignal(ControlType)), this, SLOT(sendControl(ControlType)));
     connect(m_fileTransfer, SIGNAL(RESETSignal(ControlType)), this, SLOT(sendControl(ControlType)));
@@ -593,8 +593,6 @@ void MainWindow::slot_panoImage(QImage* pImg)
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
-    ui->PanoProgressBar->setTextVisible(true);
-    ui->PanoProgressBar->setAlignment(Qt::AlignCenter);
 
 
 }
@@ -612,8 +610,7 @@ void MainWindow::slot_cephImage(QImage* cImg)
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
-    ui->CephProgressBar->setTextVisible(true);
-    ui->CephProgressBar->setAlignment(Qt::AlignCenter);
+
 }
 
 void MainWindow::on_MainPushButton_clicked()

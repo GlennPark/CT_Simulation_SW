@@ -10,17 +10,63 @@
     <height>800</height>
    </rect>
   </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>240</red>
+        <green>240</green>
+        <blue>240</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>255</red>
+        <green>255</green>
+        <blue>255</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="applications-graphics"/>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox_3">
+   <widget class="QGroupBox" name="vtkGroupBox">
     <property name="geometry">
      <rect>
       <x>620</x>
       <y>0</y>
       <width>650</width>
-      <height>761</height>
+      <height>771</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -81,136 +127,13 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="viewGroupBox">
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>120</y>
-      <width>321</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string/>
-    </property>
-    <widget class="QProgressBar" name="PanoProgressBar">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>10</y>
-       <width>160</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QProgressBar {
-	font: 14pt &quot;스웨거 TTF&quot;;
-    border: 2px solid grey;
-    border-radius: 5px;
-}
-
-QProgressBar::chunk {
-    background-color:#FF0000;
-    width: 10px;
-    margin: 0.5px;
-}</string>
-     </property>
-     <property name="maximum">
-      <number>1750</number>
-     </property>
-     <property name="value">
-      <number>0</number>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="CaptureReadyPushButton">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>50</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>촬영준비</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="CaptureStartPushButton">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>50</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>촬영시작</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="CaptureStopPushButton">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>50</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>촬영정지</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="CaptureResetPushButton">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>50</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>초기화</string>
-     </property>
-    </widget>
-    <widget class="QProgressBar" name="CephProgressBar">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>10</y>
-       <width>160</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QProgressBar {
-	font: 14pt &quot;스웨거 TTF&quot;;
-    border: 2px solid grey;
-    border-radius: 5px;
-}
-
-QProgressBar::chunk {
-    background-color:#0000FF;
-    width: 10px;
-    margin: 0.5px;
-}</string>
-     </property>
-     <property name="maximum">
-      <number>1250</number>
-     </property>
-     <property name="value">
-      <number>0</number>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_4">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>229</y>
+      <y>-1</y>
       <width>320</width>
-      <height>531</height>
+      <height>771</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -219,30 +142,45 @@ QProgressBar::chunk {
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string/>
     </property>
-    <widget class="QLabel" name="label_3">
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QLabel" name="cephTextLabel">
      <property name="geometry">
       <rect>
-       <x>200</x>
+       <x>170</x>
        <y>0</y>
        <width>81</width>
        <height>16</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">font: 14pt &quot;스웨거 TTF&quot;;</string>
+     </property>
      <property name="text">
       <string>Ceph RAW</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="panoTextLabel">
      <property name="geometry">
       <rect>
        <x>50</x>
        <y>0</y>
-       <width>91</width>
+       <width>101</width>
        <height>16</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font: 14pt &quot;스웨거 TTF&quot;;</string>
      </property>
      <property name="text">
       <string>Pano RAW(90°)</string>
@@ -251,36 +189,153 @@ QProgressBar::chunk {
     <widget class="QLabel" name="PanoLabel">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>50</x>
        <y>20</y>
-       <width>150</width>
-       <height>500</height>
+       <width>100</width>
+       <height>740</height>
       </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel
+{
+    border: 2px solid gray;
+    border-radius: 10px;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="CephLabel">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>170</x>
        <y>20</y>
-       <width>150</width>
-       <height>500</height>
+       <width>100</width>
+       <height>740</height>
       </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+    border: 2px solid gray;
+    border-radius: 10px;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="text">
       <string/>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="PanoProgressBar">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>21</width>
+       <height>740</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+
+QProgressBar::chunk {
+    background-color:#FF0000;
+	height : 4px;
+    margin: 0.5px;
+}
+
+QProgressBar {
+    border: 2px solid gray;
+    border-radius: 10px;
+}</string>
+     </property>
+     <property name="maximum">
+      <number>1750</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+     <property name="textDirection">
+      <enum>QProgressBar::TopToBottom</enum>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="CephProgressBar">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>20</y>
+       <width>21</width>
+       <height>740</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+QProgressBar::chunk {
+    background-color:#0000FF;
+	height : 4px;
+    margin: 0.5px;
+}
+QProgressBar {
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+</string>
+     </property>
+     <property name="maximum">
+      <number>1250</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>251</width>
+      <x>10</x>
+      <y>150</y>
+      <width>261</width>
       <height>32</height>
      </rect>
     </property>
@@ -291,10 +346,10 @@ QProgressBar::chunk {
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>15</x>
-      <y>90</y>
-      <width>261</width>
-      <height>661</height>
+      <x>10</x>
+      <y>189</y>
+      <width>260</width>
+      <height>581</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -377,77 +432,25 @@ QProgressBar::chunk {
      </property>
     </column>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="controlGroupBox">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>0</y>
-      <width>321</width>
-      <height>111</height>
+      <x>10</x>
+      <y>50</y>
+      <width>260</width>
+      <height>90</height>
      </rect>
     </property>
     <property name="title">
      <string/>
     </property>
-    <widget class="QPushButton" name="RESETPushButton">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>RESET</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="STOPPushButton">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>10</y>
-       <width>75</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>STOP</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="STARTPushButton">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>10</y>
-       <width>70</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>START</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="READYPushButton">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>10</y>
-       <width>70</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>READY</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="AscendingPushButton">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
-       <width>75</width>
-       <height>41</height>
+       <y>10</y>
+       <width>60</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -457,10 +460,10 @@ QProgressBar::chunk {
     <widget class="QPushButton" name="DescendingPushButton">
      <property name="geometry">
       <rect>
-       <x>87</x>
-       <y>60</y>
-       <width>75</width>
-       <height>41</height>
+       <x>70</x>
+       <y>10</y>
+       <width>60</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -470,10 +473,10 @@ QProgressBar::chunk {
     <widget class="QPushButton" name="MainPushButton">
      <property name="geometry">
       <rect>
-       <x>163</x>
-       <y>60</y>
-       <width>75</width>
-       <height>41</height>
+       <x>130</x>
+       <y>10</y>
+       <width>60</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
@@ -483,14 +486,66 @@ QProgressBar::chunk {
     <widget class="QPushButton" name="SubPushButton">
      <property name="geometry">
       <rect>
-       <x>240</x>
-       <y>60</y>
-       <width>75</width>
-       <height>41</height>
+       <x>190</x>
+       <y>10</y>
+       <width>60</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="text">
       <string>서브</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureResetPushButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>초기화</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureReadyPushButton">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>50</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>촬영준비</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureStartPushButton">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>50</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>촬영시작</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureStopPushButton">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>50</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>촬영정지</string>
      </property>
     </widget>
    </widget>
@@ -531,7 +586,45 @@ QProgressBar::chunk {
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="Dark">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="Dark">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>160</red>
+         <green>160</green>
+         <blue>160</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="Dark">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
