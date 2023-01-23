@@ -24,9 +24,6 @@ CBCTRawImageViewer::CBCTRawImageViewer()
     cephImageTimer = new QTimer(this);
     connect(cephImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutCephTimer);
 
-
-
-
 }
 
 
