@@ -186,10 +186,12 @@ public:
 		for (int i = 0; i <= 360; i++)
 		{
 			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-			transform->PostMultiply();
+
+            transform->PostMultiply();
 			transform->Translate(-m_PanoCenter[0], -m_PanoCenter[1], -m_PanoCenter[2]);
 			transform->RotateY(i);
 			transform->Translate(m_PanoCenter);
+            transform->Translate(0, m_curPositionY, 0);
 			m_actor_Main[2]->SetUserTransform(transform);
 			transform->Update();
 			m_renderwindow[1]->Render();
@@ -207,7 +209,7 @@ public:
 			m_curPositionZ = m_curPositionZ + 10;
 
 			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-			transform->Translate(0, 0, m_curPositionZ);
+            transform->Translate(0, m_curPositionY, m_curPositionZ);
 
 			// Sub
 			m_actor_Sub[3]->SetUserTransform(transform);
@@ -221,9 +223,11 @@ public:
 			m_curPositionZ = m_curPositionZ - 10;
 
 			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-			transform->Translate(0, 0, m_curPositionZ);
+            transform->Translate(0, m_curPositionY, m_curPositionZ);
 
 			// Sub
+
+
 			m_actor_Sub[3]->SetUserTransform(transform);
 
 			transform->Update();
@@ -235,9 +239,11 @@ public:
 			m_curPositionZ = m_curPositionZ - 10;
 
 			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-			transform->Translate(0, 0, m_curPositionZ);
+            transform->Translate(0, m_curPositionY, m_curPositionZ);
 
 			// Sub
+
+
 			m_actor_Sub[3]->SetUserTransform(transform);
 
 			transform->Update();
@@ -249,9 +255,10 @@ public:
 			m_curPositionZ = m_curPositionZ + 10;
 
 			vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-			transform->Translate(0, 0, m_curPositionZ);
+            transform->Translate(0, m_curPositionY, m_curPositionZ);
 
 			// Sub
+
 			m_actor_Sub[3]->SetUserTransform(transform);
 
 			transform->Update();
