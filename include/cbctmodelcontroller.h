@@ -103,6 +103,8 @@ private slots:
 	void on_DescendingPushButton_pressed();
 
 
+    void on_CaptureResetPushButton_clicked();
+
 public:
 	bool initialize();
 	void test();

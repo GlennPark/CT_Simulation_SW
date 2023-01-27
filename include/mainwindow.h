@@ -44,10 +44,11 @@ private slots:
 	void on_CaptureStartPushButton_clicked();
 	void on_CaptureStopPushButton_clicked();
 
-	void on_READYPushButton_clicked();
-	void on_RESETPushButton_clicked();
-	void on_STARTPushButton_clicked();
-	void on_STOPPushButton_clicked();
+    //Dummy buttons
+    void on_READYPushButton_clicked();
+    void on_RESETPushButton_clicked();
+    void on_STARTPushButton_clicked();
+    void on_STOPPushButton_clicked();
 
 private:
 	void resizeEvent(QResizeEvent* event) override;
