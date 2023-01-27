@@ -92,6 +92,222 @@
      <string>Ceph Ready</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="LogGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>300</width>
+      <height>630</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>300</width>
+      <height>630</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{
+	transform: scale(1.0, 1.0);
+}</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QTableWidget" name="ImageLogTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>280</width>
+       <height>310</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>280</width>
+       <height>310</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTableWidget
+{
+	transform: scale(1.0, 1.0);	
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>3</number>
+     </property>
+     <row>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>9</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>통신 로그</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>날짜</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>시간</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QTableWidget" name="MessageLogTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>310</y>
+       <width>280</width>
+       <height>310</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>280</width>
+       <height>310</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTableWidget
+{
+	transform: scale(1.0, 1.0);
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>3</number>
+     </property>
+     <row>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>9</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>10</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>이미지 번호</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>날짜</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>시간</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
    <widget class="QGroupBox" name="CBCTGroupBox">
     <property name="geometry">
      <rect>
@@ -501,204 +717,12 @@ QPushButton:default {
      </property>
     </widget>
    </widget>
-   <widget class="QTableWidget" name="MessageLogTableWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>449</y>
-      <width>300</width>
-      <height>310</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>300</width>
-      <height>310</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QTableWidget
-{
-	transform: scale(1.0, 1.0);
-}</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>3</number>
-    </property>
-    <row>
-     <property name="text">
-      <string>1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>2</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>3</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>4</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>5</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>6</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>7</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>8</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>9</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>10</string>
-     </property>
-    </row>
-    <column>
-     <property name="text">
-      <string>이미지 번호</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>날짜</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>시간</string>
-     </property>
-    </column>
-   </widget>
-   <widget class="QTableWidget" name="ImageLogTableWidget">
-    <property name="geometry">
-     <rect>
-      <x>11</x>
-      <y>141</y>
-      <width>300</width>
-      <height>310</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>300</width>
-      <height>310</height>
-     </size>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QTableWidget
-{
-	transform: scale(1.0, 1.0);	
-}</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>3</number>
-    </property>
-    <row>
-     <property name="text">
-      <string>1</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>2</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>3</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>4</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>5</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>6</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>7</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>8</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>9</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>0</string>
-     </property>
-    </row>
-    <column>
-     <property name="text">
-      <string>통신 로그</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>날짜</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>시간</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QGroupBox" name="VTKGroupBox">
     <property name="geometry">
      <rect>
       <x>601</x>
       <y>1</y>
-      <width>649</width>
+      <width>650</width>
       <height>770</height>
      </rect>
     </property>
@@ -707,6 +731,17 @@ QPushButton:default {
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>650</width>
+      <height>770</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{
+	transform: scale(1.0, 1.0);
+}</string>
     </property>
     <property name="title">
      <string/>
@@ -726,6 +761,19 @@ QPushButton:default {
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>630</width>
+       <height>400</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QOpenGLStereoWidget{
+	margin: 1px;
+	padding: 10px;
+	transform: scale(1.0, 1.0);
+}</string>
+     </property>
     </widget>
     <widget class="QVTKOpenGLStereoWidget" name="openGLWidget_Main">
      <property name="geometry">
@@ -741,6 +789,19 @@ QPushButton:default {
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>310</width>
+       <height>340</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QOpenGLStereoWidget{
+	margin: 1px;
+	padding: 10px;
+	transform: scale(1.0, 1.0);
+}</string>
      </property>
     </widget>
     <widget class="QVTKOpenGLStereoWidget" name="openGLWidget_Sub">
@@ -758,6 +819,19 @@ QPushButton:default {
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>310</width>
+       <height>340</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QOpenGLStereoWidget{
+	margin: 1px;
+	padding: 10px;
+	transform: scale(1.0, 1.0);
+}</string>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="RawGroupBox">
@@ -765,7 +839,7 @@ QPushButton:default {
      <rect>
       <x>311</x>
       <y>1</y>
-      <width>289</width>
+      <width>290</width>
       <height>770</height>
      </rect>
     </property>
@@ -775,8 +849,19 @@ QPushButton:default {
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>290</width>
+      <height>770</height>
+     </size>
+    </property>
     <property name="autoFillBackground">
      <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{
+	transform: scale(1.0, 1.0);
+}</string>
     </property>
     <property name="title">
      <string/>
@@ -859,6 +944,12 @@ transform: scale(1.0, 1.0);</string>
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>740</height>
+      </size>
      </property>
      <property name="palette">
       <palette>
@@ -965,6 +1056,12 @@ transform: scale(1.0, 1.0);</string>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>740</height>
+      </size>
+     </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
@@ -998,6 +1095,12 @@ transform: scale(1.0, 1.0);</string>
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>20</width>
+       <height>740</height>
+      </size>
      </property>
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
@@ -1058,6 +1161,12 @@ QProgressBar {
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>20</width>
+       <height>740</height>
+      </size>
+     </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
@@ -1100,7 +1209,7 @@ QProgressBar {
      <x>0</x>
      <y>0</y>
      <width>1248</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCBCT_Simulator">
