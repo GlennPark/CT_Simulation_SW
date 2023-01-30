@@ -530,6 +530,8 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
     }
 
 
+
+
     void CBCTModelController::reset_VTK_Function()
     {
         PData->_reset_VTK_Function();
@@ -540,6 +542,17 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
         PData->_ready_VTK_Function();
     }
 
+    void CBCTModelController::pano_VTK_Function()
+    {
+        PData->_on_MainPushButton_clicked();
+    }
+
+    void CBCTModelController::ceph_VTK_Function()
+    {
+        PData->_on_SubPushButton_clicked();
+    }
+
+    //촬영 SW 에서 시그널 받았을때, modality 조건 포함 VTK motions 동작
     void CBCTModelController::start_VTK_Function()
     {
         PData->_start_VTK_Function();

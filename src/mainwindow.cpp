@@ -120,12 +120,15 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
     qDebug() << "RESET control received";
+    m_modelController->reset_VTK_Function();
     //    emit RESETSignal(RESET);
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
 {
+
     qDebug() << "READY control received";
+    m_modelController->ready_VTK_Fucntion();
     //    emit READYSignal(READY);
 }
 
@@ -143,6 +146,7 @@ m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
         {
             qDebug() << __FUNCTION__;
             m_rawImageViewer->startPanoTimer();
+            m_modelController->pano_VTK_Function();
 
         }
 
@@ -162,8 +166,8 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
         {
             qDebug() << __FUNCTION__;
             m_rawImageViewer->startCephTimer();
+            m_modelController->ceph_VTK_Function();
         }
-
         //        CBCTRawImageViewer m_rawImageViewer;
         //        QPixmap cephPix = m_rawImageViewer.CephImageViewer();
         //        m_rawImageViewer.CephImageViewer();
@@ -180,9 +184,9 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     qDebug() << " control received";
     m_rawImageViewer->stopPanoTimer();
     m_rawImageViewer->stopCephTimer();
+    m_modelController->stop_VTK_Function();
+
     emit STOPSignal(STOP);
-
-
 }
 
 void MainWindow::slot_panoImage(QImage* pImg)

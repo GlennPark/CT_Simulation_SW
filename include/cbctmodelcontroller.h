@@ -92,6 +92,13 @@ public:
 	CBCTModelController(Ui::MainWindow* parentUI = nullptr);
 	~CBCTModelController();
 
+    void reset_VTK_Function();
+    void ready_VTK_Fucntion();
+    void start_VTK_Function();
+    void stop_VTK_Function();
+    void pano_VTK_Function();
+    void ceph_VTK_Function();
+
 private slots:
 	// MainPush Btn : Pano Obj File이 Y Axis 기준으로 360 회전을 한다. 
 	void on_MainPushButton_clicked();
@@ -103,10 +110,7 @@ private slots:
 	void on_DescendingPushButton_pressed();
 
 
-    void reset_VTK_Function();
-    void ready_VTK_Fucntion();
-    void start_VTK_Function();
-    void stop_VTK_Function();
+
 
 public:
 	bool initialize();
