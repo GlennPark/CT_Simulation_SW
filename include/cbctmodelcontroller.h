@@ -1,12 +1,14 @@
 ﻿#ifndef CBCTMODELCONTROLLER_H
 #define CBCTMODELCONTROLLER_H
 
+#include "cbctrawimageviewer.h"
 #include <QObject>
 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
 
 class GeometryDataType {
 public:
@@ -99,6 +101,7 @@ public:
     void pano_VTK_Function();
     void ceph_VTK_Function();
 
+
 private slots:
 	// MainPush Btn : Pano Obj File이 Y Axis 기준으로 360 회전을 한다. 
 	void on_MainPushButton_clicked();
@@ -116,6 +119,7 @@ public:
 	bool initialize();
 	void test();
 private:
+    CBCTRawImageViewer* m_imageViewer;
 	class Internal;
 	Internal* PData;
 };

@@ -31,7 +31,7 @@ class CBCTModelController::Internal {
 public:
     Ui::MainWindow* m_parentUI = nullptr;
     CBCTModelController* m_Owner = nullptr;
-
+    CBCTRawImageViewer* m_imageViewer = nullptr;
     // Member Variable Concealment.
 private:
     QMap<QString, vtkSmartPointer<vtkPolyData>> m_dataMap;
@@ -317,6 +317,7 @@ m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             else
             {
                 qDebug() << __FUNCTION__;
+                m_imageViewer->startPanoTimer();
                 _on_MainPushButton_clicked();
             }
 
@@ -335,230 +336,231 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             else
             {
                 qDebug() << __FUNCTION__;
-               _on_SubPushButton_clicked();
+                m_imageViewer->stopCephTimer();
+                _on_SubPushButton_clicked();
             }
         }
     }
-        void _stop_VTK_Function()
-        {
+    void _stop_VTK_Function()
+    {
 
+    }
+
+
+    // Internal Methods must be used in the Internal.
+private:
+    void _load_objfile(QStringList paths, QStringList mtls, std::vector<vtkSmartPointer<vtkPolyData>>& objs)
+    {
+        for (int i = 0; i < paths.size(); i++)
+        {
+            vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
+            reader->SetFileName(paths[i].toStdString().c_str());
+            //reader->SetFileNameMTL(mtls[i].toStdString().c_str());
+            reader->Update();
+
+            objs.push_back(reader->GetOutput());
         }
-
-
-        // Internal Methods must be used in the Internal.
-        private:
-        void _load_objfile(QStringList paths, QStringList mtls, std::vector<vtkSmartPointer<vtkPolyData>>& objs)
-        {
-            for (int i = 0; i < paths.size(); i++)
-            {
-                vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
-                reader->SetFileName(paths[i].toStdString().c_str());
-                //reader->SetFileNameMTL(mtls[i].toStdString().c_str());
-                reader->Update();
-
-                objs.push_back(reader->GetOutput());
-            }
 
 #if USE_VTKOBJIMPORT
-            for (int i = 0; i < paths.size(); i++)
+        for (int i = 0; i < paths.size(); i++)
+        {
+            vtkSmartPointer<vtkOBJImporter> reader = vtkSmartPointer<vtkOBJImporter>::New();
+            reader->SetFileName(paths[i].toStdString().c_str());
+            reader->SetFileNameMTL(mtls[i].toStdString().c_str());
+            reader->Update();
+
+            vtkNew<vtkNamedColors> colors;
+
+            vtkNew<vtkRenderer> renderer;
+            vtkNew<vtkRenderWindow> renWin;
+            vtkNew<vtkRenderWindowInteractor> iren;
+
+            renderer->SetBackground2(colors->GetColor3d("Silver").GetData());
+            renderer->SetBackground(colors->GetColor3d("Gold").GetData());
+            renderer->GradientBackgroundOn();
+            renWin->AddRenderer(renderer);
+            renderer->UseHiddenLineRemovalOn();
+            renWin->AddRenderer(renderer);
+            renWin->SetSize(640, 480);
+            renWin->SetWindowName("OBJImporter");
+
+            iren->SetRenderWindow(renWin);
+            reader->SetRenderWindow(renWin);
+            reader->Update();
+
+            auto actors = renderer->GetActors();
+            actors->InitTraversal();
+            std::cout << "There are " << actors->GetNumberOfItems() << " actors"
+                      << std::endl;
+
+            for (vtkIdType a = 0; a < actors->GetNumberOfItems(); ++a)
             {
-                vtkSmartPointer<vtkOBJImporter> reader = vtkSmartPointer<vtkOBJImporter>::New();
-                reader->SetFileName(paths[i].toStdString().c_str());
-                reader->SetFileNameMTL(mtls[i].toStdString().c_str());
-                reader->Update();
+                std::cout << reader->GetOutputDescription(a) << std::endl;
 
-                vtkNew<vtkNamedColors> colors;
+                vtkActor* actor = actors->GetNextActor();
 
-                vtkNew<vtkRenderer> renderer;
-                vtkNew<vtkRenderWindow> renWin;
-                vtkNew<vtkRenderWindowInteractor> iren;
-
-                renderer->SetBackground2(colors->GetColor3d("Silver").GetData());
-                renderer->SetBackground(colors->GetColor3d("Gold").GetData());
-                renderer->GradientBackgroundOn();
-                renWin->AddRenderer(renderer);
-                renderer->UseHiddenLineRemovalOn();
-                renWin->AddRenderer(renderer);
-                renWin->SetSize(640, 480);
-                renWin->SetWindowName("OBJImporter");
-
-                iren->SetRenderWindow(renWin);
-                reader->SetRenderWindow(renWin);
-                reader->Update();
-
-                auto actors = renderer->GetActors();
-                actors->InitTraversal();
-                std::cout << "There are " << actors->GetNumberOfItems() << " actors"
-                          << std::endl;
-
-                for (vtkIdType a = 0; a < actors->GetNumberOfItems(); ++a)
+                // OBJImporter turns texture interpolation off
+                if (actor->GetTexture())
                 {
-                    std::cout << reader->GetOutputDescription(a) << std::endl;
-
-                    vtkActor* actor = actors->GetNextActor();
-
-                    // OBJImporter turns texture interpolation off
-                    if (actor->GetTexture())
-                    {
-                        std::cout << "Has texture\n";
-                        //actor->GetTexture()->InterpolateOn();
-                    }
-
-                    vtkPolyData* pd =
-                            dynamic_cast<vtkPolyData*>(actor->GetMapper()->GetInput());
-
-                    vtkPolyDataMapper* mapper =
-                            dynamic_cast<vtkPolyDataMapper*>(actor->GetMapper());
-                    mapper->SetInputData(pd);
-                    objs.push_back(pd);
+                    std::cout << "Has texture\n";
+                    //actor->GetTexture()->InterpolateOn();
                 }
 
+                vtkPolyData* pd =
+                        dynamic_cast<vtkPolyData*>(actor->GetMapper()->GetInput());
 
-
+                vtkPolyDataMapper* mapper =
+                        dynamic_cast<vtkPolyDataMapper*>(actor->GetMapper());
+                mapper->SetInputData(pd);
+                objs.push_back(pd);
             }
+
+
+
+        }
 #endif
-        }
+    }
 
-        void _create_mapper(const std::vector<vtkSmartPointer<vtkPolyData>>& objs, std::vector<vtkSmartPointer<vtkMapper>>& mapper)
+    void _create_mapper(const std::vector<vtkSmartPointer<vtkPolyData>>& objs, std::vector<vtkSmartPointer<vtkMapper>>& mapper)
+    {
+        for (auto data : objs)
         {
-            for (auto data : objs)
-            {
-                vtkSmartPointer<vtkPolyDataMapper> map = vtkSmartPointer<vtkPolyDataMapper>::New();
-                map->SetInputData(data);
-                map->Update();
-                mapper.push_back(map);
-            }
+            vtkSmartPointer<vtkPolyDataMapper> map = vtkSmartPointer<vtkPolyDataMapper>::New();
+            map->SetInputData(data);
+            map->Update();
+            mapper.push_back(map);
         }
+    }
 
-        void _create_actor(const std::vector<vtkSmartPointer<vtkMapper>>& mappers, const QString& Color, std::vector<vtkSmartPointer<vtkActor>>& actors)
+    void _create_actor(const std::vector<vtkSmartPointer<vtkMapper>>& mappers, const QString& Color, std::vector<vtkSmartPointer<vtkActor>>& actors)
+    {
+        for (auto map : mappers)
         {
-            for (auto map : mappers)
-            {
-                vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-                actor->SetMapper(map);
-                actors.push_back(actor);
-            }
+            vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+            actor->SetMapper(map);
+            actors.push_back(actor);
         }
+    }
 
-        vtkSmartPointer<vtkGenericOpenGLRenderWindow> _create_render(const std::vector<vtkSmartPointer<vtkActor>>& Actors)
-        {
-            vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
-            vtkSmartPointer<vtkRenderer> Renderer = vtkSmartPointer<vtkRenderer>::New();
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow> _create_render(const std::vector<vtkSmartPointer<vtkActor>>& Actors)
+    {
+        vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
+        vtkSmartPointer<vtkRenderer> Renderer = vtkSmartPointer<vtkRenderer>::New();
 
-            for (auto actor : Actors)
-                Renderer->AddActor(actor);
+        for (auto actor : Actors)
+            Renderer->AddActor(actor);
 
 #ifdef USE_DISPLAY_GLOBALAXIS
-            vtkSmartPointer<vtkAxesActor> axes = vtkSmartPointer<vtkAxesActor>::New();
-            axes->SetTotalLength(700, 700, 700);
-            auto cen = axes->GetCenter();
-            qDebug() << "Axis Center : " << cen[0] << cen[1] << cen[2];
-            Renderer->AddActor(axes);
+        vtkSmartPointer<vtkAxesActor> axes = vtkSmartPointer<vtkAxesActor>::New();
+        axes->SetTotalLength(700, 700, 700);
+        auto cen = axes->GetCenter();
+        qDebug() << "Axis Center : " << cen[0] << cen[1] << cen[2];
+        Renderer->AddActor(axes);
 #endif
 
-            Renderer->SetBackground(colors->GetColor3d("Black").GetData());
-            Renderer->ResetCamera();
-            /*Renderer->LightFollowCameraOn();
+        Renderer->SetBackground(colors->GetColor3d("Black").GetData());
+        Renderer->ResetCamera();
+        /*Renderer->LightFollowCameraOn();
         Renderer->ResetCameraClippingRange();*/
-            Renderer->ResetCamera();
-            vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
-            renderWindow->AddRenderer(Renderer);
-            return renderWindow;
-        }
-
-        void _register_window()
-        {
-            m_parentUI->openGLWidget_All->setRenderWindow(m_renderwindow[GeometryViewType::All]);
-            m_parentUI->openGLWidget_Main->setRenderWindow(m_renderwindow[GeometryViewType::Main]);
-            m_parentUI->openGLWidget_Sub->setRenderWindow(m_renderwindow[GeometryViewType::Sub]);
-
-            m_parentUI->openGLWidget_All->interactor()->ProcessEvents();
-            m_parentUI->openGLWidget_Main->interactor()->ProcessEvents();
-            m_parentUI->openGLWidget_Sub->interactor()->ProcessEvents();
-        }
-
-        void _update_render()
-        {
-            for (auto win : m_renderwindow)
-                win->Render();
-            QApplication::processEvents();
-        }
-
-    };
-
-    CBCTModelController::CBCTModelController(Ui::MainWindow* parentUI)
-        : PData(new Internal(this))
-    {
-        PData->m_parentUI = parentUI;
+        Renderer->ResetCamera();
+        vtkSmartPointer<vtkGenericOpenGLRenderWindow> renderWindow = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
+        renderWindow->AddRenderer(Renderer);
+        return renderWindow;
     }
 
-    CBCTModelController::~CBCTModelController()
+    void _register_window()
     {
+        m_parentUI->openGLWidget_All->setRenderWindow(m_renderwindow[GeometryViewType::All]);
+        m_parentUI->openGLWidget_Main->setRenderWindow(m_renderwindow[GeometryViewType::Main]);
+        m_parentUI->openGLWidget_Sub->setRenderWindow(m_renderwindow[GeometryViewType::Sub]);
+
+        m_parentUI->openGLWidget_All->interactor()->ProcessEvents();
+        m_parentUI->openGLWidget_Main->interactor()->ProcessEvents();
+        m_parentUI->openGLWidget_Sub->interactor()->ProcessEvents();
     }
 
-    bool CBCTModelController::initialize()
+    void _update_render()
     {
-        return PData->_initialize();
-    }
-    void CBCTModelController::test()
-    {
-        PData->_on_SubPushButton_clicked();
+        for (auto win : m_renderwindow)
+            win->Render();
+        QApplication::processEvents();
     }
 
-    void CBCTModelController::on_MainPushButton_clicked()
-    {
-        qDebug() << "Main Push Btn!!";
-        PData->_on_MainPushButton_clicked();
-    }
+};
 
-    void CBCTModelController::on_SubPushButton_clicked()
-    {
-        //PData->myThread.start();
+CBCTModelController::CBCTModelController(Ui::MainWindow* parentUI)
+    : PData(new Internal(this))
+{
+    PData->m_parentUI = parentUI;
+}
 
-        qDebug() << "Sub Push Btn!!";
-        PData->_on_SubPushButton_clicked();
-    }
+CBCTModelController::~CBCTModelController()
+{
+}
 
-    void CBCTModelController::on_AscendingPushButton_pressed()
-    {
-        PData->_on_AscendingPushButton_pressed();
-    }
+bool CBCTModelController::initialize()
+{
+    return PData->_initialize();
+}
+void CBCTModelController::test()
+{
+    PData->_on_SubPushButton_clicked();
+}
 
-    void CBCTModelController::on_DescendingPushButton_pressed()
-    {
-        PData->_on_DescendingPushButton_pressed();
-    }
+void CBCTModelController::on_MainPushButton_clicked()
+{
+    qDebug() << "Main Push Btn!!";
+    PData->_on_MainPushButton_clicked();
+}
+
+void CBCTModelController::on_SubPushButton_clicked()
+{
+    //PData->myThread.start();
+
+    qDebug() << "Sub Push Btn!!";
+    PData->_on_SubPushButton_clicked();
+}
+
+void CBCTModelController::on_AscendingPushButton_pressed()
+{
+    PData->_on_AscendingPushButton_pressed();
+}
+
+void CBCTModelController::on_DescendingPushButton_pressed()
+{
+    PData->_on_DescendingPushButton_pressed();
+}
 
 
 
 
-    void CBCTModelController::reset_VTK_Function()
-    {
-        PData->_reset_VTK_Function();
-    }
+void CBCTModelController::reset_VTK_Function()
+{
+    PData->_reset_VTK_Function();
+}
 
-    void CBCTModelController::ready_VTK_Fucntion()
-    {
-        PData->_ready_VTK_Function();
-    }
+void CBCTModelController::ready_VTK_Fucntion()
+{
+    PData->_ready_VTK_Function();
+}
 
-    void CBCTModelController::pano_VTK_Function()
-    {
-        PData->_on_MainPushButton_clicked();
-    }
+void CBCTModelController::pano_VTK_Function()
+{
+    PData->_on_MainPushButton_clicked();
+}
 
-    void CBCTModelController::ceph_VTK_Function()
-    {
-        PData->_on_SubPushButton_clicked();
-    }
+void CBCTModelController::ceph_VTK_Function()
+{
+    PData->_on_SubPushButton_clicked();
+}
 
-    //촬영 SW 에서 시그널 받았을때, modality 조건 포함 VTK motions 동작
-    void CBCTModelController::start_VTK_Function()
-    {
-        PData->_start_VTK_Function();
-    }
+//촬영 SW 에서 시그널 받았을때, modality 조건 포함 VTK motions 동작
+void CBCTModelController::start_VTK_Function()
+{
+    PData->_start_VTK_Function();
+}
 
-    void CBCTModelController::stop_VTK_Function()
-    {
-        PData->_stop_VTK_Function();
-    }
+void CBCTModelController::stop_VTK_Function()
+{
+    PData->_stop_VTK_Function();
+}
