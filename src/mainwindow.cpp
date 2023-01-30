@@ -86,15 +86,20 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
     connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
 
-	connect(m_fileTransfer, SIGNAL(READYSignal(ControlType)), this, SLOT(sendControl(ControlType)));
-	connect(m_fileTransfer, SIGNAL(RESETSignal(ControlType)), this, SLOT(sendControl(ControlType)));
-	connect(m_fileTransfer, SIGNAL(STARTSignal(ControlType)), this, SLOT(sendControl(ControlType)));
-	connect(m_fileTransfer, SIGNAL(STOPSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+//	connect(m_fileTransfer, SIGNAL(READYSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+//	connect(m_fileTransfer, SIGNAL(RESETSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+//	connect(m_fileTransfer, SIGNAL(STARTSignal(ControlType)), this, SLOT(sendControl(ControlType)));
+//	connect(m_fileTransfer, SIGNAL(STOPSignal(ControlType)), this, SLOT(sendControl(ControlType)));
 
-	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
-	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
-	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
-	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
+    connect(m_fileTransfer, SIGNAL(resetSignal()), m_modelController, SLOT(_on_CaptureResetPushButton_VTK_clicked()));
+    connect(m_fileTransfer, SIGNAL(readySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
+    connect(m_fileTransfer, SIGNAL(startSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
+    connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
+
+//	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
+//    connect(this, SIGNAL(RESETSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
+//    connect(this, SIGNAL(STARTSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
+//    connect(this, SIGNAL(STOPSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
 
 }
 
@@ -114,19 +119,19 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
-    emit RESETSignal(RESET);
-
+    qDebug() << "RESET control received";
+//    emit RESETSignal(RESET);
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
 {
-    emit READYSignal(READY);
-
+    qDebug() << "READY control received";
+//    emit READYSignal(READY);
 }
 
 void MainWindow::on_CaptureStartPushButton_clicked()
 {
-
+    qDebug() << "START control received";
 	if (ui->PanoCheckBox->isChecked())
 	{
 		if (ui->CephCheckBox->isChecked())
@@ -170,6 +175,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
+    qDebug() << "STOP control received";
 	m_rawImageViewer->stopPanoTimer();
 	m_rawImageViewer->stopCephTimer();
     emit STOPSignal(STOP);
