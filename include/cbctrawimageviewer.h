@@ -20,8 +20,8 @@ public:
     QPixmap PanoImageViewer();
     QPixmap CephImageViewer();
 
-    QImage timeoutPanoTimer();
-    QImage timeoutCephTimer();
+//    QImage timeoutPanoTimer();
+//    QImage timeoutCephTimer();
 
     void resetPanoTimer();
     void resetCephTimer();
@@ -40,13 +40,15 @@ private:
     QTimer *cephImageTimer;
 
 private slots:
+        void timeoutPanoTimer();
+        void timeoutCephTimer();
 
-    void slot_panoImage(QImage* panoImage);
-    void slot_cephImage(QImage* cephImage);
+//    void slot_panoImage(QImage* panoImage);
+//    void slot_cephImage(QImage* cephImage);
 
-//signals:
-//    void signals_panoImage(QImage*);
-//    void signals_cephImage(QImage*);
+signals:
+    void signals_panoImage(QImage*);
+    void signals_cephImage(QImage*);
 
 };
 

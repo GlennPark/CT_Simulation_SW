@@ -98,11 +98,11 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
     /* Raw Image Viewer 기능을 Mainwindow Ui 에 구현하기 위해 연결 */
-//    connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
-//    connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
+    connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
+    connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
 
-    connect(ui->PanoGraphicsView, SIGNAL(activa), m_rawImageViewer, SLOT(slot_panoImage(QImage*)));
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_rawImageViewer, SLOT(slot_cephImage(QImage*)));
+//    connect(ui->PanoGraphicsView, SIGNAL(rubberBandChanged()), m_rawImageViewer, SLOT(slot_panoImage(QImage* panoImage)));
+//    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_rawImageViewer, SLOT(slot_cephImage(QImage* cephImage)));
 
 
 }
@@ -127,7 +127,7 @@ void MainWindow::on_CaptureResetPushButton_clicked()
     qDebug() << "RESET control received";
     m_modelController->reset_VTK_Function();
     m_rawImageViewer->resetPanoTimer();
-
+    m_rawImageViewer->resetCephTimer();
     if(true)
     {
 
@@ -225,46 +225,46 @@ void MainWindow::on_CaptureStopPushButton_clicked()
 }
 
 
-//void MainWindow::slot_panoImage(QImage* pImg)
-//{
-//    qDebug() << __FUNCTION__;
-//    QGraphicsScene* panoScene = new QGraphicsScene();
+void MainWindow::slot_panoImage(QImage* pImg)
+{
+    qDebug() << __FUNCTION__;
+    QGraphicsScene* panoScene = new QGraphicsScene();
 
 
-//    QImage pano_Image(*pImg);
-//    QPixmap panoPix;
-//    panoPix = QPixmap::fromImage(pano_Image, Qt::AutoColor);
+    QImage pano_Image(*pImg);
+    QPixmap panoPix;
+    panoPix = QPixmap::fromImage(pano_Image, Qt::AutoColor);
 
-//    /* 파노라마 이미지가 90도 회전되어 있으므로, 출력시 원상복구한다 */
-//    QTransform panoTransform;
-//    panoTransform.rotate(90);
-//    panoScene->addPixmap(panoPix.transformed(panoTransform));
-//    ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
-//    ui->PanoGraphicsView->setScene(panoScene);
-//    /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
-//    int panoValue = ui->PanoProgressBar->value();
-//    panoValue++;
-//    ui->PanoProgressBar->setValue(panoValue);
-//}
+    /* 파노라마 이미지가 90도 회전되어 있으므로, 출력시 원상복구한다 */
+    QTransform panoTransform;
+    panoTransform.rotate(90);
+    panoScene->addPixmap(panoPix.transformed(panoTransform));
+    ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
+    ui->PanoGraphicsView->setScene(panoScene);
+    /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
+    int panoValue = ui->PanoProgressBar->value();
+    panoValue++;
+    ui->PanoProgressBar->setValue(panoValue);
+}
 
-//void MainWindow::slot_cephImage(QImage* cImg)
-//{
-//    qDebug() << __FUNCTION__;
-//    QGraphicsScene* cephScene = new QGraphicsScene();
+void MainWindow::slot_cephImage(QImage* cImg)
+{
+    qDebug() << __FUNCTION__;
+    QGraphicsScene* cephScene = new QGraphicsScene();
 
 
-//    QImage ceph_Image(*cImg);
-//    QPixmap cephPix;
-//    cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
-//    cephScene->addPixmap(cephPix);
-//    ui->CephLabel->setPixmap(cephPix);
-//    ui->CephGraphicsView->setScene(cephScene);
-//    /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
-//    int cephValue = ui->CephProgressBar->value();
-//    cephValue++;
-//    ui->CephProgressBar->setValue(cephValue);
+    QImage ceph_Image(*cImg);
+    QPixmap cephPix;
+    cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
+    cephScene->addPixmap(cephPix);
+    ui->CephLabel->setPixmap(cephPix);
+    ui->CephGraphicsView->setScene(cephScene);
+    /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
+    int cephValue = ui->CephProgressBar->value();
+    cephValue++;
+    ui->CephProgressBar->setValue(cephValue);
 
-//}
+}
 
 
 

@@ -62,8 +62,8 @@ private:
 	Ui::MainWindow* ui;
 	
 private slots:
-//	void slot_panoImage(QImage* pImg);
-//	void slot_cephImage(QImage* cImg);
+    void slot_panoImage(QImage* pImg);
+    void slot_cephImage(QImage* cImg);
 
 //	void on_openGLWidget_All_resized();
 
