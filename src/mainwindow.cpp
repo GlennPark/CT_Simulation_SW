@@ -54,6 +54,7 @@
 
 //#define USE_DISPLAY_GLOBALAXIS
 
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -66,36 +67,37 @@ MainWindow::MainWindow(QWidget* parent)
     if (!m_modelController->initialize())
         qDebug() << "CBCTModelController initialize Fail ! ";
 
-    connect(ui->AscendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_AscendingPushButton_pressed()));
-    connect(ui->DescendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_DescendingPushButton_pressed()));
-    connect(ui->MainPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_MainPushButton_clicked()));
-    connect(ui->SubPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_SubPushButton_clicked()));
+    /* 상승, 하강, 메인, 서브 버튼 클릭시 VTK model 기능 동작 */
+    connect(ui->AscendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(ascending_Function()));
+    connect(ui->DescendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(descending_Function()));
+    connect(ui->MainPushButton, SIGNAL(clicked()), m_modelController, SLOT(panorama_Module_Function()));
+    connect(ui->SubPushButton, SIGNAL(clicked()), m_modelController, SLOT(cephalo_Module_Function()));
 
-    //메인윈도우 클릭시 vtk 기능 동작
-
+    /* 촬영 리셋, 준비, 시작, 정지 버튼 클릭시 VTK model 기능 동작 */
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(reset_VTK_Function()));
     connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(ready_VTK_Function()));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_modelController, SLOT(start_VTK_Function()));
     connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_modelController, SLOT(stop_VTK_Function()));
 
-    //메인윈도우 클릭시 viewer 기능 동작
+    /* 촬영 리셋, 준비, 시작, 정지 버튼 클릭시 Raw Image Viewer 기능 동작 */
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
     connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
     connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
-    //촬영 SW에서 Signal 받았을 시 vtk 기능 동작
+    /* 촬영 SW에서 Signal 받았을 시 VTK model 기능 동작 */
     connect(m_fileTransfer, SIGNAL(resetSignal()), m_modelController, SLOT(reset_VTK_Function()));
     connect(m_fileTransfer, SIGNAL(readySignal()), m_modelController, SLOT(ready_VTK_Function()));
     connect(m_fileTransfer, SIGNAL(startSignal()), m_modelController, SLOT(start_VTK_Function()));
     connect(m_fileTransfer, SIGNAL(stopSignal()), m_modelController, SLOT(stop_VTK_Function()));
 
-    //촬영 SW에서 Signal 받았을 시 viewer 기능 동작
+    /* 촬영 SW에서 Signal 받았을 시 Raw Image Viewer 기능 동작 */
     connect(m_fileTransfer, SIGNAL(resetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(readySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(startSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
+    /* Raw Image Viewer 기능을 Mainwindow Ui 에 구현하기 위해 연결 */
     connect(m_rawImageViewer, SIGNAL(signals_panoImage(QImage*)), this, SLOT(slot_panoImage(QImage*)));
     connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
 
@@ -116,6 +118,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     //ui->openGLWidget_All->resize(Size);
     QMainWindow::resizeEvent(event);
 }
+
 
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
@@ -177,8 +180,6 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
     emit STARTSignal(START);
 }
 
-
-
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
     qDebug() << " control received";
@@ -188,6 +189,7 @@ void MainWindow::on_CaptureStopPushButton_clicked()
 
     emit STOPSignal(STOP);
 }
+
 
 void MainWindow::slot_panoImage(QImage* pImg)
 {

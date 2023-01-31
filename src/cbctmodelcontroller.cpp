@@ -27,11 +27,11 @@
 
 
 
-class CBCTModelController::Internal {
+class CBCTModelController::VTKInternal {
 public:
-    Ui::MainWindow* m_parentUI = nullptr;
-    CBCTModelController* m_Owner = nullptr;
-    CBCTRawImageViewer* m_imageViewer = nullptr;
+    Ui::MainWindow* m_mainwindowUi = nullptr;
+    CBCTModelController* m_modelController= nullptr;
+    CBCTRawImageViewer* m_rawImageViewer = nullptr;
     // Member Variable Concealment.
 private:
     QMap<QString, vtkSmartPointer<vtkPolyData>> m_dataMap;
@@ -55,15 +55,14 @@ private:
 
 
 public:
-    Internal(CBCTModelController* owner)
-        : m_Owner(owner)
+    VTKInternal(CBCTModelController* modelController)
+        : m_modelController(modelController)
     {
-
 
     }
 
     // CBCTModelController Reset method.
-    bool _initialize() {
+    bool internal_Initialize() {
         ///* Load Source */
         QStringList FilePath;
         FilePath << "lowerbody.obj";
@@ -112,8 +111,8 @@ public:
         return true;
     }
 
-
-    void _on_AscendingPushButton_pressed() {
+    /* 상승 버튼 클릭시 Y 좌표 +, 높이 제한 있음 */
+    void internal_Ascending_Function() {
         if (m_curPositionY >= 0)
         {
             m_curPositionY = 0;
@@ -148,7 +147,8 @@ public:
 
     }
 
-    void _on_DescendingPushButton_pressed() {
+    /* 하강 버튼 클릭시 Y 좌표 -, 높이 제한 있음 */
+    void internal_Descending_Function() {
         if (m_curPositionY < -580)
         {
             m_curPositionY = -580;
@@ -182,7 +182,8 @@ public:
         }
     }
 
-    void _on_MainPushButton_clicked() {
+    /* Main 버튼 클릭시 PanoModule 회전 및 원위치 */
+    void internal_Panorama_Module_Function() {
 
         for (int i = 0; i <= 360; i++)
         {
@@ -196,14 +197,14 @@ public:
             m_actor_Main[2]->SetUserTransform(transform);
             transform->Update();
             m_renderwindow[1]->Render();
-            m_parentUI->openGLWidget_Main->update();
+            m_mainwindowUi->openGLWidget_Main->update();
             qDebug() << i;
             _update_render();
         }
     }
 
-
-    void _on_SubPushButton_clicked()
+    /* Sub 버튼 클릭시 CephModule 앞뒤 움직임 및 원위치 */
+    void internal_Cephalo_Module_Function()
     {
         // max 260;
         // min 270;
@@ -270,7 +271,7 @@ public:
         }
     }
 
-    void _reset_VTK_Function()
+    void internal_Reset_Function()
     {
         vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
         m_curPositionX = 0;
@@ -300,16 +301,16 @@ public:
 
     }
 
-    void _ready_VTK_Function()
+    void internal_Ready_Function()
     {
 
     }
 
-    void _start_VTK_Function()
+    void internal_Start_Function()
     {
-        if (m_parentUI->PanoCheckBox->isChecked())
+        if (m_mainwindowUi->PanoCheckBox->isChecked())
         {
-            if (m_parentUI->CephCheckBox->isChecked())
+            if (m_mainwindowUi->CephCheckBox->isChecked())
             {
 
 m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
@@ -317,8 +318,8 @@ m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             else
             {
                 qDebug() << __FUNCTION__;
-                m_imageViewer->startPanoTimer();
-                _on_MainPushButton_clicked();
+                m_rawImageViewer->startPanoTimer();
+                internal_Panorama_Module_Function();
             }
 
             //CBCTRawImageViewer m_rawImageViewer;
@@ -326,9 +327,9 @@ m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             //ui->PanoLabel->setPixmap(panoPix);
         }
 
-        if (m_parentUI->CephCheckBox->isChecked())
+        if (m_mainwindowUi->CephCheckBox->isChecked())
         {
-            if (m_parentUI->PanoCheckBox->isChecked())
+            if (m_mainwindowUi->PanoCheckBox->isChecked())
             {
 
 m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
@@ -336,18 +337,18 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             else
             {
                 qDebug() << __FUNCTION__;
-                m_imageViewer->stopCephTimer();
-                _on_SubPushButton_clicked();
+                m_rawImageViewer->stopCephTimer();
+                internal_Cephalo_Module_Function();
             }
         }
     }
-    void _stop_VTK_Function()
+    void internal_Stop_Function()
     {
 
     }
 
 
-    // Internal Methods must be used in the Internal.
+    // Internal Methods must be used in the VTKInternal.
 private:
     void _load_objfile(QStringList paths, QStringList mtls, std::vector<vtkSmartPointer<vtkPolyData>>& objs)
     {
@@ -470,13 +471,13 @@ private:
 
     void _register_window()
     {
-        m_parentUI->openGLWidget_All->setRenderWindow(m_renderwindow[GeometryViewType::All]);
-        m_parentUI->openGLWidget_Main->setRenderWindow(m_renderwindow[GeometryViewType::Main]);
-        m_parentUI->openGLWidget_Sub->setRenderWindow(m_renderwindow[GeometryViewType::Sub]);
+        m_mainwindowUi->openGLWidget_All->setRenderWindow(m_renderwindow[GeometryViewType::All]);
+        m_mainwindowUi->openGLWidget_Main->setRenderWindow(m_renderwindow[GeometryViewType::Main]);
+        m_mainwindowUi->openGLWidget_Sub->setRenderWindow(m_renderwindow[GeometryViewType::Sub]);
 
-        m_parentUI->openGLWidget_All->interactor()->ProcessEvents();
-        m_parentUI->openGLWidget_Main->interactor()->ProcessEvents();
-        m_parentUI->openGLWidget_Sub->interactor()->ProcessEvents();
+        m_mainwindowUi->openGLWidget_All->interactor()->ProcessEvents();
+        m_mainwindowUi->openGLWidget_Main->interactor()->ProcessEvents();
+        m_mainwindowUi->openGLWidget_Sub->interactor()->ProcessEvents();
     }
 
     void _update_render()
@@ -488,10 +489,10 @@ private:
 
 };
 
-CBCTModelController::CBCTModelController(Ui::MainWindow* parentUI)
-    : PData(new Internal(this))
+CBCTModelController::CBCTModelController(Ui::MainWindow* mainwindowUi)
+    : Internal(new VTKInternal(this))
 {
-    PData->m_parentUI = parentUI;
+    Internal->m_mainwindowUi = mainwindowUi;
 }
 
 CBCTModelController::~CBCTModelController()
@@ -500,67 +501,66 @@ CBCTModelController::~CBCTModelController()
 
 bool CBCTModelController::initialize()
 {
-    return PData->_initialize();
+    return Internal->internal_Initialize();
 }
 void CBCTModelController::test()
 {
-    PData->_on_SubPushButton_clicked();
 }
 
-void CBCTModelController::on_MainPushButton_clicked()
+
+
+void CBCTModelController::ascending_Function()
+{
+    Internal->internal_Ascending_Function();
+}
+
+void CBCTModelController::descending_Function()
+{
+    Internal->internal_Descending_Function();
+}
+
+void CBCTModelController::panorama_Module_Function()
 {
     qDebug() << "Main Push Btn!!";
-    PData->_on_MainPushButton_clicked();
+    Internal->internal_Panorama_Module_Function();
 }
 
-void CBCTModelController::on_SubPushButton_clicked()
+void CBCTModelController::cephalo_Module_Function()
 {
-    //PData->myThread.start();
-
+    //Internal->myThread.start();
     qDebug() << "Sub Push Btn!!";
-    PData->_on_SubPushButton_clicked();
-}
-
-void CBCTModelController::on_AscendingPushButton_pressed()
-{
-    PData->_on_AscendingPushButton_pressed();
-}
-
-void CBCTModelController::on_DescendingPushButton_pressed()
-{
-    PData->_on_DescendingPushButton_pressed();
+    Internal->internal_Cephalo_Module_Function();
 }
 
 
-
+/* Internal method 를 외부 클래스에서 호출하기 위해 담아주는 함수들 */
 
 void CBCTModelController::reset_VTK_Function()
 {
-    PData->_reset_VTK_Function();
+    Internal->internal_Reset_Function();
 }
 
 void CBCTModelController::ready_VTK_Fucntion()
 {
-    PData->_ready_VTK_Function();
+    Internal->internal_Ready_Function();
 }
 
-void CBCTModelController::pano_VTK_Function()
-{
-    PData->_on_MainPushButton_clicked();
-}
-
-void CBCTModelController::ceph_VTK_Function()
-{
-    PData->_on_SubPushButton_clicked();
-}
-
-//촬영 SW 에서 시그널 받았을때, modality 조건 포함 VTK motions 동작
+/* 촬영 SW 에서 시그널 받았을때, modality 조건 포함 VTK motions 동작 */
 void CBCTModelController::start_VTK_Function()
 {
-    PData->_start_VTK_Function();
+    Internal->internal_Start_Function();
 }
 
 void CBCTModelController::stop_VTK_Function()
 {
-    PData->_stop_VTK_Function();
+    Internal->internal_Stop_Function();
+}
+
+void  CBCTModelController::pano_VTK_Function()
+{
+    Internal->internal_Panorama_Module_Function();
+}
+void  CBCTModelController::ceph_VTK_Function()
+{
+    Internal->internal_Cephalo_Module_Function();
 }

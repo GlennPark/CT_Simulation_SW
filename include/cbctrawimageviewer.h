@@ -2,6 +2,8 @@
 #define CBCTRAWIMAGEVIEWER_H
 
 #include <QObject>
+#include <qdebug.h>
+#include "ui_mainwindow.h"
 
 class QDir;
 class QDirIterator;
@@ -13,6 +15,7 @@ class CBCTRawImageViewer : public QObject
 public:
     explicit CBCTRawImageViewer();
     ~CBCTRawImageViewer();
+    Ui::MainWindow* m_mainwindowUi = nullptr;
 
     QPixmap PanoImageViewer();
     QPixmap CephImageViewer();
