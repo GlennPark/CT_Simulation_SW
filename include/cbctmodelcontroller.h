@@ -94,6 +94,8 @@ public:
     CBCTModelController(Ui::MainWindow* mainwindowUi = nullptr);
     ~CBCTModelController();
 
+    //bool 멤버변수로 emit 여부를 판단
+
     /* Internal method 를 외부 클래스에서 호출하기 위해 담아주는 함수들 */
     void reset_VTK_Function();
     void ready_VTK_Fucntion();
@@ -101,9 +103,11 @@ public:
     void stop_VTK_Function();
 
     /* Viewer 와 동시 실행을 위해 생성한 메소드 */
-    void pano_VTK_Function();
-    void ceph_VTK_Function();
-    \
+    void ascending_VTK_Function();
+    void descending_VTK_Function();
+    void panorama_Module_VTK_Function();
+    void cephalo_Module_VTK_Function();
+
     bool initialize();
     void test();
 

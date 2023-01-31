@@ -45,8 +45,8 @@ public:
 private slots:
     void on_CaptureReadyPushButton_clicked();
     void on_CaptureResetPushButton_clicked();
-	void on_CaptureStartPushButton_clicked();
-	void on_CaptureStopPushButton_clicked();
+    void on_CaptureStartPushButton_clicked();
+    void on_CaptureStopPushButton_clicked();
 
 private:
 	void resizeEvent(QResizeEvent* event) override;
@@ -62,10 +62,10 @@ private:
 	Ui::MainWindow* ui;
 	
 private slots:
-	void slot_panoImage(QImage* pImg);
-	void slot_cephImage(QImage* cImg);
+//	void slot_panoImage(QImage* pImg);
+//	void slot_cephImage(QImage* cImg);
 
-	void on_openGLWidget_All_resized();
+//	void on_openGLWidget_All_resized();
 
 signals:
 	void READYSignal(ControlType);

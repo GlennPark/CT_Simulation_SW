@@ -308,39 +308,39 @@ public:
 
     void internal_Start_Function()
     {
-        if (m_mainwindowUi->PanoCheckBox->isChecked())
-        {
-            if (m_mainwindowUi->CephCheckBox->isChecked())
-            {
+//        if (m_mainwindowUi->PanoCheckBox->isChecked())
+//        {
+//            if (m_mainwindowUi->CephCheckBox->isChecked())
+//            {
 
-m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
-            }
-            else
-            {
-                qDebug() << __FUNCTION__;
-                m_rawImageViewer->startPanoTimer();
-                internal_Panorama_Module_Function();
-            }
+//m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
+//            }
+//            else
+//            {
+//                qDebug() << __FUNCTION__;
+//                m_rawImageViewer->startPanoTimer();
+//                internal_Panorama_Module_Function();
+//            }
 
-            //CBCTRawImageViewer m_rawImageViewer;
-            //QPixmap panoPix = m_rawImageViewer.PanoImageViewer();
-            //ui->PanoLabel->setPixmap(panoPix);
-        }
+//            //CBCTRawImageViewer m_rawImageViewer;
+//            //QPixmap panoPix = m_rawImageViewer.PanoImageViewer();
+//            //ui->PanoLabel->setPixmap(panoPix);
+//        }
 
-        if (m_mainwindowUi->CephCheckBox->isChecked())
-        {
-            if (m_mainwindowUi->PanoCheckBox->isChecked())
-            {
+//        if (m_mainwindowUi->CephCheckBox->isChecked())
+//        {
+//            if (m_mainwindowUi->PanoCheckBox->isChecked())
+//            {
 
-m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
-            }
-            else
-            {
-                qDebug() << __FUNCTION__;
-                m_rawImageViewer->stopCephTimer();
-                internal_Cephalo_Module_Function();
-            }
-        }
+//m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
+//            }
+//            else
+//            {
+//                qDebug() << __FUNCTION__;
+//                m_rawImageViewer->stopCephTimer();
+//                internal_Cephalo_Module_Function();
+//            }
+//        }
     }
     void internal_Stop_Function()
     {
@@ -539,28 +539,33 @@ void CBCTModelController::reset_VTK_Function()
 {
     Internal->internal_Reset_Function();
 }
-
 void CBCTModelController::ready_VTK_Fucntion()
 {
     Internal->internal_Ready_Function();
 }
-
 /* 촬영 SW 에서 시그널 받았을때, modality 조건 포함 VTK motions 동작 */
 void CBCTModelController::start_VTK_Function()
 {
     Internal->internal_Start_Function();
 }
-
 void CBCTModelController::stop_VTK_Function()
 {
     Internal->internal_Stop_Function();
 }
 
-void  CBCTModelController::pano_VTK_Function()
+void CBCTModelController::ascending_VTK_Function()
+{
+    Internal->internal_Ascending_Function();
+}
+void CBCTModelController::descending_VTK_Function()
+{
+    Internal->internal_Descending_Function();
+}
+void  CBCTModelController::panorama_Module_VTK_Function()
 {
     Internal->internal_Panorama_Module_Function();
 }
-void  CBCTModelController::ceph_VTK_Function()
+void  CBCTModelController::cephalo_Module_VTK_Function()
 {
     Internal->internal_Cephalo_Module_Function();
 }
