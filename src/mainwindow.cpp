@@ -51,7 +51,7 @@
 #include <InteractionContext.h>
 #include <QDebug>
 
-
+#include <QtNetwork>
 //#define USE_DISPLAY_GLOBALAXIS
 
 MainWindow::MainWindow(QWidget* parent)
@@ -72,10 +72,17 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureResetPushButton_VTK_clicked()));
 	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureReadyPushButton_VTK_clicked()));
 
+	/* 버튼 클릭시 network slot 함수를 연결*/
 	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
 	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
 	connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
 	connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+	/* 버튼 클릭시 에밋을 위한 함수를 동작*/
+	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(emitResetSignal()));
+	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(emitReadySignal()));
+	connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(emitStartSignal()));
+	connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(emitStopSignal()));
+
 
 	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
 	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
@@ -97,6 +104,23 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(m_fileTransfer, SIGNAL(readySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
 	connect(m_fileTransfer, SIGNAL(startSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
 	connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
+
+	//connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
+	//	{
+	//		m_fileTransfer->sendButtonControl(0, "RESET");
+	//	});
+	//connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
+	//	{
+	//		m_fileTransfer->sendButtonControl(1, "READY");
+	//	});
+	//connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
+	//	{
+	//		m_fileTransfer->sendButtonControl(2, "START");
+	//	});
+	//connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
+	//	{
+	//		m_fileTransfer->sendButtonControl(3, "STOP");
+	//	});
 
 	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
 	connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
@@ -145,6 +169,32 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 	QMainWindow::resizeEvent(event);
 }
 
+void MainWindow::emitResetSignal()
+{
+	m_fileTransfer->sendButtonControl(RESET, "PANO");
+	emit RESETSignal(ControlType::RESET);
+}
+
+void MainWindow::emitReadySignal()
+{
+	m_fileTransfer->sendButtonControl(READY, "PANO");
+	emit READYSignal(ControlType::READY);
+
+}
+
+void MainWindow::emitStartSignal()
+{
+	m_fileTransfer->sendButtonControl(START, "PANO");
+	emit STARTSignal(ControlType::START);
+}
+
+void MainWindow::emitStopSignal()
+{
+	m_fileTransfer->sendButtonControl(STOP, "PANO");
+	emit STOPSignal(ControlType::STOP);
+
+
+}
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
 
@@ -158,13 +208,11 @@ void MainWindow::on_CaptureResetPushButton_clicked()
 	ui->CephLabel->clear();
 
 	
-	emit RESETSignal(ControlType::RESET);
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
 {
-	emit READYSignal(ControlType::READY);
-
+	
 }
 
 void MainWindow::on_CaptureStartPushButton_clicked()
@@ -181,6 +229,8 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 		{
 			qDebug() << __FUNCTION__;
 			m_rawImageViewer->startPanoTimer();
+		
+
 		}
 
 		//CBCTRawImageViewer m_rawImageViewer;
@@ -194,6 +244,8 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 		{
 			m_cephErrorMessage = new QMessageBox;
 		m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
+			m_fileTransfer->sendButtonControl(START, "CEPH");
+
 		}
 		else
 		{
@@ -207,7 +259,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 		//        ui->CephLabel->setPixmap(cephPix);
 
 	}
-	emit STARTSignal(ControlType::START);
+	
 
 }
 
@@ -215,7 +267,6 @@ void MainWindow::on_CaptureStopPushButton_clicked()
 {
 	m_rawImageViewer->stopPanoTimer();
 	m_rawImageViewer->stopCephTimer();
-	emit STOPSignal(ControlType::STOP);
 
 
 }

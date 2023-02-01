@@ -23,6 +23,15 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 //    FileSocket->waitForConnected();
 }
 
+void CBCTFileTransfer::sendButtonControl(int buttonIdx, QString data)
+{
+    if (buttonIdx == 1 || buttonIdx == 2) {   // 1: RESET , 2: START
+        currentPID = data.split("|")[0];
+        currentType.split("|")[1];
+    }
+
+    protocol->sendProtocol(subSocket, "CTL", buttonIdx, QString());
+}
 
 void CBCTFileTransfer::sendControl(int buttonIdx)
 {

@@ -13,6 +13,8 @@ class CBCTFileTransfer : public QObject
 {
     Q_OBJECT
 public:
+    void sendButtonControl(int buttonIdx, QString msg);
+
     explicit CBCTFileTransfer(QObject * parent = nullptr);
     ~CBCTFileTransfer();
 
@@ -25,7 +27,6 @@ private slots:
     //    void sendCBCTProtocol();
     //    void sendRawImages();
     //    void disconnect();
-   void sendButtonControl(int buttonIdx, QString data);
 private:
     Protocol *protocol;
     QTcpSocket *CBCTSocket;

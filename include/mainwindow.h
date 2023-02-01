@@ -48,6 +48,11 @@ private slots:
 	void on_CaptureStartPushButton_clicked();
 	void on_CaptureStopPushButton_clicked();
 
+	void emitResetSignal();
+	void emitReadySignal();
+	void emitStartSignal();
+	void emitStopSignal();
+
 private:
 	void resizeEvent(QResizeEvent* event) override;
 
