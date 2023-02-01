@@ -33,6 +33,11 @@ void CBCTFileTransfer::sendButtonControl(int buttonIdx, QString data)
     protocol->sendProtocol(subSocket, "CTL", buttonIdx, QString());
 }
 
+void CBCTFileTransfer::sendingControl(int buttonIdx, QString msg)
+{
+    protocol->sendProtocol(CBCTSocket, "CTL", buttonIdx, msg);
+}
+
 void CBCTFileTransfer::sendControl(int buttonIdx)
 {
 

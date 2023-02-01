@@ -17,6 +17,7 @@ public:
 
     explicit CBCTFileTransfer(QObject * parent = nullptr);
     ~CBCTFileTransfer();
+    void sendingControl(int buttonIdx, QString msg);
 
 private slots:
     void sendFile();

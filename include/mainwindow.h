@@ -60,6 +60,7 @@ private:
 	CBCTLogThread* m_logThread;
 	CBCTModelController* m_modelController;
 	CBCTRawImageViewer* m_rawImageViewer;
+    MainWindow* m_mainWindow;
     ControlPanel* m_controlPanel;
 	QMessageBox* m_panoErrorMessage;
 	QMessageBox* m_cephErrorMessage;
