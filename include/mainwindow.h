@@ -73,5 +73,8 @@ signals:
 	void STARTSignal(ControlType);
 	void STOPSignal(ControlType);
 
+private:
+	QGraphicsScene* panoScene;
+	QGraphicsScene* cephScene;
 };
 #endif // MAINWINDOW_H

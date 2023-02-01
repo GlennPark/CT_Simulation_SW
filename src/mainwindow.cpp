@@ -58,7 +58,8 @@ MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent), ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
-
+	panoScene = new QGraphicsScene();
+	cephScene = new QGraphicsScene();
 	// Model Controller 생성. 
 	m_modelController = new CBCTModelController(ui);
 	if (!m_modelController->initialize())
@@ -142,8 +143,14 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
 	emit RESETSignal(RESET);
-	m_rawImageViewer->resetPanoTimer();
-	m_rawImageViewer->resetCephTimer();
+	ui->PanoGraphicsView->resetTransform();
+	ui->CephGraphicsView->resetTransform();
+	panoScene->clear();
+	cephScene->clear();
+	ui->PanoProgressBar->reset();
+	ui->CephProgressBar->reset();
+	ui->PanoLabel->clear();
+	ui->CephLabel->clear();
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
@@ -208,9 +215,6 @@ void MainWindow::on_CaptureStopPushButton_clicked()
 void MainWindow::slot_panoImage(QImage* pImg)
 {
 	qDebug() << __FUNCTION__;
-	QGraphicsScene* panoScene = new QGraphicsScene();
-
-
 	QImage pano_Image(*pImg);
 	QPixmap panoPix;
 	panoPix = QPixmap::fromImage(pano_Image, Qt::AutoColor);
@@ -230,9 +234,6 @@ void MainWindow::slot_panoImage(QImage* pImg)
 void MainWindow::slot_cephImage(QImage* cImg)
 {
 	qDebug() << __FUNCTION__;
-	QGraphicsScene* cephScene = new QGraphicsScene();
-
-
 	QImage ceph_Image(*cImg);
 	QPixmap cephPix;
 	cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
