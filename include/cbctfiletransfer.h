@@ -25,7 +25,7 @@ private slots:
     //    void sendCBCTProtocol();
     //    void sendRawImages();
     //    void disconnect();
-
+   void sendButtonControl(int buttonIdx, QString data);
 private:
     Protocol *protocol;
     QTcpSocket *CBCTSocket;

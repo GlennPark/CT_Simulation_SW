@@ -72,6 +72,11 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureResetPushButton_VTK_clicked()));
 	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureReadyPushButton_VTK_clicked()));
 
+	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+	connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+	connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+
 	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
 	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
 	connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
@@ -142,7 +147,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
-	emit RESETSignal(RESET);
+
 	ui->PanoGraphicsView->resetTransform();
 	ui->CephGraphicsView->resetTransform();
 	panoScene->clear();
@@ -151,11 +156,14 @@ void MainWindow::on_CaptureResetPushButton_clicked()
 	ui->CephProgressBar->reset();
 	ui->PanoLabel->clear();
 	ui->CephLabel->clear();
+
+	
+	emit RESETSignal(ControlType::RESET);
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
 {
-	emit READYSignal(READY);
+	emit READYSignal(ControlType::READY);
 
 }
 
@@ -199,7 +207,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 		//        ui->CephLabel->setPixmap(cephPix);
 
 	}
-	emit STARTSignal(START);
+	emit STARTSignal(ControlType::START);
 
 }
 
@@ -207,7 +215,7 @@ void MainWindow::on_CaptureStopPushButton_clicked()
 {
 	m_rawImageViewer->stopPanoTimer();
 	m_rawImageViewer->stopCephTimer();
-	emit STOPSignal(STOP);
+	emit STOPSignal(ControlType::STOP);
 
 
 }
