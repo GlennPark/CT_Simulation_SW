@@ -933,7 +933,7 @@ transform: scale(1.0, 1.0);</string>
     border: 6px solid white;
     border-radius: 35px;
 	margin: 1px;
-	padding: 10px;
+	padding: 5px;
 	transform: scale(1.0, 1.0);
 }</string>
      </property>
@@ -973,7 +973,7 @@ transform: scale(1.0, 1.0);</string>
     border: 6px solid white;
     border-radius: 35px;
 	margin: 1px;
-	padding: 10px;
+	padding: 5px;
 	transform: scale(1.0, 1.0);
 }</string>
      </property>
@@ -1120,7 +1120,7 @@ QProgressBar {
      <x>0</x>
      <y>0</y>
      <width>1248</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCBCT_Simulator">
