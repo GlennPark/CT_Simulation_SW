@@ -73,14 +73,15 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->DescendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_DescendingPushButton_pressed()));
     connect(ui->MainPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_MainPushButton_clicked()));
     connect(ui->SubPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_SubPushButton_clicked()));
-    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureResetPushButton_VTK_clicked()));
-    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureReadyPushButton_VTK_clicked()));
+
+    //    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureResetPushButton_VTK_clicked()));
+    //    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureReadyPushButton_VTK_clicked()));
 
     /* 버튼 클릭시 network slot 함수를 연결*/
-    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
-    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
-    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+    //    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+    //    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+    //    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
+    //    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
 
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int, QString)));
     connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int, QString)));
@@ -89,10 +90,10 @@ MainWindow::MainWindow(QWidget* parent)
 
 
     /* 버튼 클릭시 에밋을 위한 함수를 동작*/
-        connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(emitResetSignal()));
-        connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(emitReadySignal()));
-        connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(emitStartSignal()));
-        connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(emitStopSignal()));
+    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(emitResetSignal()));
+    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(emitReadySignal()));
+    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(emitStartSignal()));
+    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(emitStopSignal()));
 
 
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
@@ -116,27 +117,6 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_fileTransfer, SIGNAL(startSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
-    //connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
-    //	{
-    //		m_fileTransfer->sendButtonControl(0, "RESET");
-    //	});
-    //connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
-    //	{
-    //		m_fileTransfer->sendButtonControl(1, "READY");
-    //	});
-    //connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
-    //	{
-    //		m_fileTransfer->sendButtonControl(2, "START");
-    //	});
-    //connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, [&](bool state)
-    //	{
-    //		m_fileTransfer->sendButtonControl(3, "STOP");
-    //	});
-
-    connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
-    connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
-    connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
-    connect(this, SIGNAL(READYSignal(ControlType)), m_fileTransfer, SLOT(sendControl(ControlType)));
 
 
     // ui check box Update
@@ -158,6 +138,8 @@ MainWindow::MainWindow(QWidget* parent)
             }
         }
     });
+
+    //ProgressBar 동작을 모션과 연결시켜 준다
     connect(ui->PanoProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
         m_modelController->on_Rotate_PanoObject(value);
     });
@@ -183,36 +165,65 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 void MainWindow::emitResetSignal()
 {
     //   m_mainWindow->on_CaptureResetPushButton_clicked();
-    m_fileTransfer->sendingControl(RESET, "Pano");
+    if(ui->PanoCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::RESET, "PANO");
+    }
+    else if(ui->CephCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::RESET, "CEPH");
+    }
     emit RESETSignal(ControlType::RESET);
 }
 
 void MainWindow::emitReadySignal()
 {
     //   m_mainWindow->on_CaptureReadyPushButton_clicked();
-    m_fileTransfer->sendingControl(READY, "Pano");
+    if(ui->PanoCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::READY, "PANO");
+    }
+    else if(ui->CephCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::READY, "CEPH");
+    }
     emit READYSignal(ControlType::READY);
 
 }
-
+//current type QString,
 void MainWindow::emitStartSignal()
 {
     //   m_mainWindow->on_CaptureStartPushButton_clicked();
-    m_fileTransfer->sendingControl(START, "Pano");
+    if(ui->PanoCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::START, "PANO");
+    }
+    else if(ui->CephCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::START, "CEPH");
+    }
+
     emit STARTSignal(ControlType::START);
 }
 
 void MainWindow::emitStopSignal()
 {
     //    m_mainWindow->on_CaptureStopPushButton_clicked();
-    m_fileTransfer->sendingControl(STOP, "Ceph");
+    if(ui->PanoCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::STOP, "PANO");
+    }
+    else if(ui->CephCheckBox->isChecked())
+    {
+        m_fileTransfer->sendingControl(ControlType::STOP, "CEPH");
+    }
     emit STOPSignal(ControlType::STOP);
 
 
 }
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
-
+    m_modelController->on_CaptureResetPushButton_VTK_clicked();
     m_rawImageViewer->resetPanoTimer();
     m_rawImageViewer->resetCephTimer();
     ui->PanoGraphicsView->resetTransform();
@@ -225,11 +236,23 @@ void MainWindow::on_CaptureResetPushButton_clicked()
     ui->CephLabel->clear();
 
 
+    if(ui->PanoCheckBox->isChecked())
+    {
+        m_fileTransfer->sendPanoFile();
+    }
+    else if(ui->CephCheckBox->isChecked())
+    {
+        m_fileTransfer->sendCephFile();
+    }
 
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
 {
+    m_modelController->on_CaptureReadyPushButton_VTK_clicked();
+    m_rawImageViewer->readyPanoTimer();
+    m_rawImageViewer->readyCephTimer();
+
 
 }
 
@@ -260,7 +283,6 @@ m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
         {
             m_cephErrorMessage = new QMessageBox;
 m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
-            m_fileTransfer->sendButtonControl(START, "CEPH");
 
         }
         else

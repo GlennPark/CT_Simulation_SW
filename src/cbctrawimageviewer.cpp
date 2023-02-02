@@ -38,6 +38,8 @@ QPixmap CBCTRawImageViewer::CephImageViewer()
 }
 void CBCTRawImageViewer::resetPanoTimer()
 {
+
+
     panoImageTimer->start();
     panoImageTimer->stop();
 
@@ -51,6 +53,7 @@ void CBCTRawImageViewer::resetPanoTimer()
 
 void CBCTRawImageViewer::resetCephTimer()
 {
+    QString cephPath = panoImageIterator->filePath();
     cephImageTimer->start();
     cephImageTimer->stop();
   /*  QGraphicsScene* cephScene = new QGraphicsScene();
