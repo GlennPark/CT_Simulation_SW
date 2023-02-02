@@ -91,6 +91,7 @@ void CBCTRawImageViewer::stopPanoTimer()
     // 타이머 종료
     qDebug() << __FUNCTION__;
     panoImageTimer->stop();
+//
 }
 
 void CBCTRawImageViewer::stopCephTimer()

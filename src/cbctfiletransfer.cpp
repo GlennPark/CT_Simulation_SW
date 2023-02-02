@@ -11,6 +11,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     {
         qDebug("CBCT Connected");
         connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
+//        connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveModality()));
         protocol->sendProtocol(CBCTSocket, "NEW", ConnectType::MODALITY, "NEW CBCT CONNECTED");
     }
     else
@@ -23,8 +24,8 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     if(fileSocket->waitForConnected())
     {
         qDebug("File Transfer Ready");
-        connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
-        protocol->sendProtocol(fileSocket, "NEW", ConnectType::MODALITY, "NEW CBCT CONNECTED");
+//        connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
+//        protocol->sendProtocol(fileSocket, "NEW", ConnectType::MODALITY, "NEW CBCT CONNECTED");
     }
     else
     {
@@ -109,16 +110,41 @@ void CBCTFileTransfer::sendingControl(int buttonIdx, QString msg)
     protocol->sendProtocol(CBCTSocket, "CTL", buttonIdx, msg);
 }
 
+void CBCTFileTransfer::receiveModality()
+{
+//    qDebug("modality test");
+//    CBCTSocket = dynamic_cast<QTcpSocket*>(sender());
+//    protocol->receiveProtocol(CBCTSocket);
+//    qDebug()<<protocol->packetData()->event();
+//    if(protocol->packetData()->event() == "CTL")
+//    {
+
+//        QString modality = protocol->packetData()->msg();
+//        if(modality == "PANO"){
+//            qDebug("Pano Modality Received");
+//            emit panoSignal();
+//        }
+//        else if (modality == "CEPH"){
+//            qDebug("Ceph Modlality Received");
+//            emit cephSignal();
+//        }
+//        else{
+//            qDebug("WRONG MODAL STATE");
+//        }
+//    }
+}
 /* 촬영 SW 에서 받은 신호를 동작을 위한 시그널로 변환 */
 void CBCTFileTransfer::receiveControl()
 {
-
+    qDebug("control receive test");
     CBCTSocket = dynamic_cast<QTcpSocket*>(sender());
     protocol->receiveProtocol(CBCTSocket);
 
     if(protocol->packetData()->event() == "CTL")
     {
+
         int control = protocol->packetData()->type();
+        QString modality = protocol->packetData()->msg();
         switch (control) {
         case 0:
             qDebug("RESET Received");
@@ -126,6 +152,18 @@ void CBCTFileTransfer::receiveControl()
             break;
         case 1:
             qDebug("READY Received");
+
+            if(modality == "PANO"){
+                qDebug("Pano Modality Received");
+                emit panoSignal();
+            }
+            else if (modality == "CEPH"){
+                qDebug("Ceph Modlality Received");
+                emit cephSignal();
+            }
+            else{
+                qDebug("WRONG MODAL STATE");
+            }
             emit readySignal();
             break;
         case 2:

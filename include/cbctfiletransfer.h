@@ -23,6 +23,7 @@ public:
     void sendCephFile();
 
 private slots:
+    void receiveModality();
     void receiveControl();
  //   void goOnSend(qint64 numBytes);
 
@@ -31,6 +32,7 @@ private slots:
     //    void disconnect();
 private:
     Protocol *protocol;
+
     QTcpSocket *CBCTSocket;
     QTcpSocket *fileSocket;
 
@@ -56,6 +58,8 @@ signals:
     void readySignal();
     void startSignal();
     void stopSignal();
+    void panoSignal();
+    void cephSignal();
 };
 
 #endif // CBCTFILETRANSFER_H

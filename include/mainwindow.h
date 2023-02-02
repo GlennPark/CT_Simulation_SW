@@ -53,6 +53,9 @@ private slots:
 	void emitStartSignal();
 	void emitStopSignal();
 
+    void receive_Pano_Modality();
+    void receive_Ceph_Modality();
+
 private:
 	void resizeEvent(QResizeEvent* event) override;
 

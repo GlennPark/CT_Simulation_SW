@@ -83,10 +83,10 @@ MainWindow::MainWindow(QWidget* parent)
     //    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
     //    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
 
-    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int, QString)));
-    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int, QString)));
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int, QString)));
-    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int, QString)));
+    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int,QString)));
+    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int,QString)));
+    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int,QString)));
+    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendingControl(int,QString)));
 
 
     /* 버튼 클릭시 에밋을 위한 함수를 동작*/
@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(emitStartSignal()));
     connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(emitStopSignal()));
 
-
+    /* 버튼 클릭시 기본 기능 동작*/
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
     connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
@@ -106,18 +106,20 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_rawImageViewer, SIGNAL(signals_cephImage(QImage*)), this, SLOT(slot_cephImage(QImage*)));
 
 
-    connect(ui->CaptureReadyPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
-    connect(ui->CaptureResetPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
+//    connect(ui->CaptureReadyPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
+//    connect(ui->CaptureResetPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
+//    connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
+//    connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
 
-    /* 촬영 SW에서 Signal 받았을 시 Raw Image Viewer 기능 동작 */
+    /* 촬영 SW에서 Signal 받았을 시 Emit Signal 제외한 기능 동작 */
     connect(m_fileTransfer, SIGNAL(resetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(readySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(startSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
-
+    /* 촬영 SW에서 Signal 받았을 시 Modality CheckBox 기능 동작 */
+    connect(m_fileTransfer, SIGNAL(panoSignal()), this, SLOT(receive_Pano_Modality()));
+    connect(m_fileTransfer, SIGNAL(cephSignal()), this, SLOT(receive_Ceph_Modality()));
 
     // ui check box Update
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
@@ -162,32 +164,47 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event);
 }
 
+void MainWindow::receive_Pano_Modality()
+{
+    ui->PanoCheckBox->setCheckState(Qt::Unchecked);
+    ui->CephCheckBox->setCheckState(Qt::Unchecked);
+    ui->PanoCheckBox->setChecked(true);
+}
+
+
+void MainWindow::receive_Ceph_Modality()
+{
+    ui->PanoCheckBox->setCheckState(Qt::Unchecked);
+    ui->CephCheckBox->setCheckState(Qt::Unchecked);
+    ui->CephCheckBox->setChecked(true);
+}
+
 void MainWindow::emitResetSignal()
 {
     //   m_mainWindow->on_CaptureResetPushButton_clicked();
-    if(ui->PanoCheckBox->isChecked())
-    {
-        m_fileTransfer->sendingControl(ControlType::RESET, "PANO");
-    }
-    else if(ui->CephCheckBox->isChecked())
-    {
-        m_fileTransfer->sendingControl(ControlType::RESET, "CEPH");
-    }
-    emit RESETSignal(ControlType::RESET);
+//    if(ui->PanoCheckBox->isChecked())
+//    {
+//        m_fileTransfer->sendingControl(ControlType::RESET, "PANO");
+//    }
+//    else if(ui->CephCheckBox->isChecked())
+//    {
+        m_fileTransfer->sendingControl(ControlType::RESET, "RESET");
+//    }
+//    emit RESETSignal(ControlType::RESET);
 }
 
 void MainWindow::emitReadySignal()
 {
     //   m_mainWindow->on_CaptureReadyPushButton_clicked();
-    if(ui->PanoCheckBox->isChecked())
-    {
-        m_fileTransfer->sendingControl(ControlType::READY, "PANO");
-    }
-    else if(ui->CephCheckBox->isChecked())
-    {
-        m_fileTransfer->sendingControl(ControlType::READY, "CEPH");
-    }
-    emit READYSignal(ControlType::READY);
+//    if(ui->PanoCheckBox->isChecked())
+//    {
+//        m_fileTransfer->sendingControl(ControlType::READY, "PANO");
+//    }
+//    else if(ui->CephCheckBox->isChecked())
+//    {
+        m_fileTransfer->sendingControl(ControlType::READY, "READY");
+//    }
+//    emit READYSignal(ControlType::READY);
 
 }
 //current type QString,
@@ -200,7 +217,7 @@ void MainWindow::emitStartSignal()
     }
     else if(ui->CephCheckBox->isChecked())
     {
-        m_fileTransfer->sendingControl(ControlType::START, "CEPH");
+        m_fileTransfer->sendingControl(ControlType::START, "CEPH ");
     }
 
     emit STARTSignal(ControlType::START);
@@ -209,20 +226,27 @@ void MainWindow::emitStartSignal()
 void MainWindow::emitStopSignal()
 {
     //    m_mainWindow->on_CaptureStopPushButton_clicked();
-    if(ui->PanoCheckBox->isChecked())
-    {
-        m_fileTransfer->sendingControl(ControlType::STOP, "PANO");
-    }
-    else if(ui->CephCheckBox->isChecked())
-    {
-        m_fileTransfer->sendingControl(ControlType::STOP, "CEPH");
-    }
-    emit STOPSignal(ControlType::STOP);
+//    if(ui->PanoCheckBox->isChecked())
+//    {
+//        m_fileTransfer->sendingControl(ControlType::STOP, "PANO");
+//    }
+//    else if(ui->CephCheckBox->isChecked())
+//    {
+        m_fileTransfer->sendingControl(ControlType::STOP, "STOP");
+//    }
+//    emit STOPSignal(ControlType::STOP);
 
 
 }
 void MainWindow::on_CaptureResetPushButton_clicked()
 {
+
+    /* reset 버튼 클릭시 start, stop 버튼 비활성화 */
+    ui->CaptureResetPushButton->setEnabled(true);
+    ui->CaptureReadyPushButton->setEnabled(true);
+    ui->CaptureStartPushButton->setEnabled(false);
+    ui->CaptureStopPushButton->setEnabled(false);
+
     m_modelController->on_CaptureResetPushButton_VTK_clicked();
     m_rawImageViewer->resetPanoTimer();
     m_rawImageViewer->resetCephTimer();
@@ -234,6 +258,7 @@ void MainWindow::on_CaptureResetPushButton_clicked()
     ui->CephProgressBar->reset();
     ui->PanoLabel->clear();
     ui->CephLabel->clear();
+
 
 
     if(ui->PanoCheckBox->isChecked())
@@ -249,15 +274,24 @@ void MainWindow::on_CaptureResetPushButton_clicked()
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
 {
+    /* ready 버튼 클릭시 pressed 상태로 고정 후 start 버튼 활성화 */
+    ui->CaptureReadyPushButton->setEnabled(false);
+    ui->CaptureStartPushButton->setEnabled(true);
+
     m_modelController->on_CaptureReadyPushButton_VTK_clicked();
     m_rawImageViewer->readyPanoTimer();
     m_rawImageViewer->readyCephTimer();
+
 
 
 }
 
 void MainWindow::on_CaptureStartPushButton_clicked()
 {
+    /* start 버튼 클릭시 Stop 버튼만 활성화 */
+    ui->CaptureResetPushButton->setEnabled(false);
+    ui->CaptureStartPushButton->setEnabled(false);
+    ui->CaptureStopPushButton->setEnabled(true);
 
     if (ui->PanoCheckBox->isChecked())
     {
@@ -303,6 +337,15 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
 
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
+    /* stop 버튼 클릭시 reset 버튼만 활성화 */
+    ui->CaptureResetPushButton->setEnabled(true);
+    ui->CaptureReadyPushButton->setEnabled(false);
+    ui->CaptureStartPushButton->setEnabled(false);
+    ui->CaptureStopPushButton->setEnabled(false);
+
+    ui->PanoCheckBox->setCheckState(Qt::Unchecked);
+    ui->CephCheckBox->setCheckState(Qt::Unchecked);
+
     m_rawImageViewer->stopPanoTimer();
     m_rawImageViewer->stopCephTimer();
 
