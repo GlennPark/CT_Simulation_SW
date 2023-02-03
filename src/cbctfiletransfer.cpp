@@ -40,12 +40,9 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 void CBCTFileTransfer::sendPanoFile(int panoValue)
 {
     QString modality = protocol->packetData()->msg();
-    int countMax = 0;
+    int countMax = 1750;
+    qDebug() << protocol->packetData()->msg();
 
-    if (modality == "PANO")
-    {
-        countMax = 1750;
-    }
     // CEPH MODE
     for (int i = 0; i < countMax; i++) {
         if (i >= 1000)
@@ -78,11 +75,10 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 void CBCTFileTransfer::sendCephFile(int cephValue)
 {
     QString modality = protocol->packetData()->msg();
-        int countMax = 0;
-    if (modality == "CEPH")
-    {
-        countMax = 1250;
-    }
+    qDebug() << protocol->packetData()->msg();
+
+    int countMax = 1250;
+
     for (int i = 0; i < countMax; i++) {
         if (i >= 1000)
         {
