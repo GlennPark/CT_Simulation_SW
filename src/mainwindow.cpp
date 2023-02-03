@@ -149,10 +149,19 @@ MainWindow::MainWindow(QWidget* parent)
         m_modelController->on_Translate_CephObject(value);
     });
 
+    /* 프로그램 시작 시 초기화 및 준비 버튼만 활성화 */
     ui->CaptureResetPushButton->setEnabled(true);
     ui->CaptureReadyPushButton->setEnabled(true);
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(false);
+
+    ui->AscendingPushButton->setAutoRepeat(true);
+    ui->AscendingPushButton->setAutoRepeatDelay(100);
+    ui->AscendingPushButton->setAutoRepeatInterval(100);
+
+    ui->DescendingPushButton->setAutoRepeat(true);
+    ui->DescendingPushButton->setAutoRepeatDelay(100);
+    ui->DescendingPushButton->setAutoRepeatInterval(100);
 }
 
 MainWindow::~MainWindow()
@@ -266,15 +275,6 @@ void MainWindow::on_CaptureResetPushButton_clicked()
 
 
 
-    if(ui->PanoCheckBox->isChecked())
-    {
-        m_fileTransfer->sendPanoFile();
-    }
-    else if(ui->CephCheckBox->isChecked())
-    {
-        m_fileTransfer->sendCephFile();
-    }
-
 }
 
 void MainWindow::on_CaptureReadyPushButton_clicked()
@@ -374,7 +374,6 @@ void MainWindow::slot_panoImage(QImage* pImg)
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
-
     m_fileTransfer->sendPanoFile(panoValue);
 }
 
@@ -391,8 +390,7 @@ void MainWindow::slot_cephImage(QImage* cImg)
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
-
-    m_fileTransfer->sendCephFile();
+    m_fileTransfer->sendCephFile(cephValue);
 
 }
 

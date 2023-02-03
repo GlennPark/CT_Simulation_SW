@@ -37,10 +37,8 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 //    FileSocket->waitForConnected();
 }
 
-void CBCTFileTransfer::sendPanoFile(int)
+void CBCTFileTransfer::sendPanoFile(int panoValue)
 {
-
-
     QString modality = protocol->packetData()->msg();
     int countMax = 0;
 
@@ -51,14 +49,25 @@ void CBCTFileTransfer::sendPanoFile(int)
     // CEPH MODE
     for (int i = 0; i < countMax; i++) {
         if (i >= 1000)
+        {
+            qDebug() << i;
             fileName = QString("./Pano_Frame(1152x64)/%1.raw").arg(modality).arg(i);
-        else if (i < 1000 && i >= 100)
+        }
+            else if (i < 1000 && i >= 100)
+        {
+            qDebug() << i;
             fileName = QString("./Pano_Frame(1152x64)/0%1.raw").arg(modality).arg(i);
-        else if (i < 100 && i >= 10)
+        }
+            else if (i < 100 && i >= 10)
+        {
+            qDebug() << i;
             fileName = QString("./Pano_Frame(1152x64)/00%1.raw").arg(modality).arg(i);
-        else
+        }
+            else
+        {
+            qDebug() << i;
             fileName = QString("./Pano_Frame(1152x64)/000%1.raw").arg(modality).arg(i);
-
+        }
         file->setFileName(fileName);
         file->open(QIODevice::ReadOnly);
         fileSocket->write(file->readAll());
@@ -66,10 +75,8 @@ void CBCTFileTransfer::sendPanoFile(int)
     }
 }
 
-void CBCTFileTransfer::sendCephFile()
+void CBCTFileTransfer::sendCephFile(int cephValue)
 {
-
-
     QString modality = protocol->packetData()->msg();
         int countMax = 0;
     if (modality == "CEPH")
@@ -78,14 +85,25 @@ void CBCTFileTransfer::sendCephFile()
     }
     for (int i = 0; i < countMax; i++) {
         if (i >= 1000)
+        {
+            qDebug() << i;
             fileName = QString("./Ceph_Frame(48x2400)/%1.raw").arg(modality).arg(i);
-        else if (i < 1000 && i >= 100)
+        }
+            else if (i < 1000 && i >= 100)
+        {
+            qDebug() << i;
             fileName = QString("./Ceph_Frame(48x2400)/0%1.raw").arg(modality).arg(i);
-        else if (i < 100 && i >= 10)
+        }
+            else if (i < 100 && i >= 10)
+        {
+            qDebug() << i;
             fileName = QString("./Ceph_Frame(48x2400)/00%1.raw").arg(modality).arg(i);
+       }
         else
+        {
+            qDebug() << i;
             fileName = QString("./Ceph_Frame(48x2400)/000%1.raw").arg(modality).arg(i);
-
+}
         file->setFileName(fileName);
         file->open(QIODevice::ReadOnly);
         fileSocket->write(file->readAll());
@@ -93,105 +111,11 @@ void CBCTFileTransfer::sendCephFile()
     }
 }
 
-//void CBCTFileTransfer::sendPanoFile()
-//{
-//    QFile file;
-//    QString fileName;
-//    QString fileInfo;
-
-//    for (int i = 10; i < 1750; i++) {
-//        if (i >= 100)
-//            fileName = QString("./Pano_Frame/0%1.raw").arg(i);
-//        else
-//            fileName = QString("./Pano_Frame/00%1.raw").arg(i);
-
-
-//        file.setFileName(fileName);
-//        file.open(QIODevice::ReadOnly);
-//        panoData.append(file.readAll());
-//        file.close();
-//    }
-//    qDebug("TOTAL SIZE : %d", panoData.size());
-//    fileInfo = "<CR>" + QString::number(panoData.size()) + "<CR>" + QString::number(48*2400);
-//    //    totalData.append(fileInfo.toStdString());
-//    fileSocket->write(panoData);                                       // 영상 파일 전송
-//    fileSocket->flush();
-//    panoData.clear();
-
-//    fileSocket->write(fileInfo.toStdString().data());                   // 영상 파일 정보 전송
-
-
-//}
-
-//void CBCTFileTransfer::sendCephFile()
-//{
-//    QFile file;
-//    QString fileName;
-//    QString fileInfo;
-
-//    for (int i = 10; i < 1250; i++) {
-//        if (i >= 100)
-//            fileName = QString("./Ceph_Frame/0%1.raw").arg(i);
-//        else
-//            fileName = QString("./Ceph_Frame/00%1.raw").arg(i);
-
-
-//        file.setFileName(fileName);
-//        file.open(QIODevice::ReadOnly);
-//        cephData.append(file.readAll());
-//        file.close();
-//    }
-//    qDebug("TOTAL SIZE : %d", cephData.size());
-//    fileInfo = "<CR>" + QString::number(cephData.size()) + "<CR>" + QString::number(48*2400);
-//    //    totalData.append(fileInfo.toStdString());
-//    fileSocket->write(cephData);                                       // 영상 파일 전송
-//    fileSocket->flush();
-//    cephData.clear();
-
-//    fileSocket->write(fileInfo.toStdString().data());                   // 영상 파일 정보 전송
-//}
-
-
-
-//void CBCTFileTransfer::sendButtonControl(int buttonIdx, QString data)
-//{
-//    if (buttonIdx == 1 || buttonIdx == 2) {   // 1: RESET , 2: START
-//        currentPID = data.split("|")[0];
-//        currentType.split("|")[1];
-//    }
-
-//    protocol->sendProtocol(CBCTSocket, "CTL", buttonIdx, QString());
-//}
-
 void CBCTFileTransfer::sendingControl(int buttonIdx, QString msg)
 {
     protocol->sendProtocol(CBCTSocket, "CTL", buttonIdx, msg);
 }
 
-void CBCTFileTransfer::receiveModality()
-{
-//    qDebug("modality test");
-//    CBCTSocket = dynamic_cast<QTcpSocket*>(sender());
-//    protocol->receiveProtocol(CBCTSocket);
-//    qDebug()<<protocol->packetData()->event();
-//    if(protocol->packetData()->event() == "CTL")
-//    {
-
-//        QString modality = protocol->packetData()->msg();
-//        if(modality == "PANO"){
-//            qDebug("Pano Modality Received");
-//            emit panoSignal();
-//        }
-//        else if (modality == "CEPH"){
-//            qDebug("Ceph Modlality Received");
-//            emit cephSignal();
-//        }
-//        else{
-//            qDebug("WRONG MODAL STATE");
-//        }
-//    }
-}
-/* 촬영 SW 에서 받은 신호를 동작을 위한 시그널로 변환 */
 void CBCTFileTransfer::receiveControl()
 {
     qDebug("control receive test");
@@ -236,18 +160,6 @@ void CBCTFileTransfer::receiveControl()
     }
 }
 
-//void CBCTFileTransfer::goOnSend(qint64 numBytes)
-//{
-//    QTcpSocket *socket = dynamic_cast<QTcpSocket*>(sender());
-//    byteToWrite -= numBytes; // Remaining data size
-//    outBlock = file->read(qMin(byteToWrite, numBytes));
-//    socket->write(outBlock);
-
-//    if (byteToWrite == 0) { // Send completed
-//        qDebug("File sending completed!");
-//    }
-//}
-
 
 CBCTFileTransfer::~CBCTFileTransfer()
 {
@@ -257,7 +169,3 @@ CBCTFileTransfer::~CBCTFileTransfer()
     delete fileSocket;
     delete protocol;
 }
-//void CBCTFileTransfer::sendCTProtocol()
-//{
-
-//}
