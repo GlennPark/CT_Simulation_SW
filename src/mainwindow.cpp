@@ -362,9 +362,9 @@ void MainWindow::slot_panoImage(QImage* pImg)
     /* 파노라마 이미지가 90도 회전되어 있으므로, 출력시 원상복구한다 */
     QTransform panoTransform;
     panoTransform.rotate(90);
-    panoScene->addPixmap(panoPix.transformed(panoTransform));
+ //   panoScene->addPixmap(panoPix.transformed(panoTransform));
     ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
-    ui->PanoGraphicsView->setScene(panoScene);
+//    ui->PanoGraphicsView->setScene(panoScene);
     /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
@@ -377,9 +377,9 @@ void MainWindow::slot_cephImage(QImage* cImg)
     QImage ceph_Image(*cImg);
     QPixmap cephPix;
     cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
-    cephScene->addPixmap(cephPix);
+  //  cephScene->addPixmap(cephPix);
     ui->CephLabel->setPixmap(cephPix);
-    ui->CephGraphicsView->setScene(cephScene);
+  //  ui->CephGraphicsView->setScene(cephScene);
     /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
