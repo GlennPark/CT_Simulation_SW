@@ -56,7 +56,7 @@ void CBCTRawImageViewer::resetPanoTimer()
 
 void CBCTRawImageViewer::resetCephTimer()
 {
-
+    qDebug() << __FUNCTION__;
     QString cephFolder = "C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)";
     cephImageIterator = new QDirIterator(cephFolder, QDirIterator::Subdirectories);
 
@@ -70,12 +70,12 @@ void CBCTRawImageViewer::resetCephTimer()
 
 void CBCTRawImageViewer::readyPanoTimer()
 {
-
+    qDebug() << __FUNCTION__;
 }
 
 void CBCTRawImageViewer::readyCephTimer()
 {
-
+    qDebug() << __FUNCTION__;
 
 }
 void CBCTRawImageViewer::startPanoTimer()

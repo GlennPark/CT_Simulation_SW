@@ -148,6 +148,11 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->CephProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
         m_modelController->on_Translate_CephObject(value);
     });
+
+    ui->CaptureResetPushButton->setEnabled(true);
+    ui->CaptureReadyPushButton->setEnabled(true);
+    ui->CaptureStartPushButton->setEnabled(false);
+    ui->CaptureStopPushButton->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -369,6 +374,8 @@ void MainWindow::slot_panoImage(QImage* pImg)
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
+
+    m_fileTransfer->sendPanoFile(panoValue);
 }
 
 void MainWindow::slot_cephImage(QImage* cImg)
@@ -384,6 +391,8 @@ void MainWindow::slot_cephImage(QImage* cImg)
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
+
+    m_fileTransfer->sendCephFile();
 
 }
 

@@ -19,8 +19,11 @@ public:
     ~CBCTFileTransfer();
     void sendingControl(int buttonIdx, QString msg);
 
-    void sendPanoFile();
+    void sendPanoFile(int);
     void sendCephFile();
+
+public slots:
+    void sendFile();
 
 private slots:
     void receiveModality();
