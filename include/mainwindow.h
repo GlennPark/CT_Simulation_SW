@@ -74,7 +74,6 @@ private slots:
 	void slot_panoImage(QImage* pImg);
 	void slot_cephImage(QImage* cImg);
 
-	void on_openGLWidget_All_resized();
 
 signals:
 	void READYSignal(ControlType);

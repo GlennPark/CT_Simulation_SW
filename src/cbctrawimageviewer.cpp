@@ -38,20 +38,14 @@ QPixmap CBCTRawImageViewer::CephImageViewer()
 {
     return QPixmap();
 }
+
 void CBCTRawImageViewer::resetPanoTimer()
 {
-
+    qDebug() << __FUNCTION__;
     QString panoFolder = "C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)";
     panoImageIterator = new QDirIterator(panoFolder, QDirIterator::Subdirectories);
-    panoImageTimer->start();
+    panoImageTimer->start(1);
     panoImageTimer->stop();
-
-
-    //QGraphicsScene* panoScene = new QGraphicsScene();
-    //m_mainwindowUi->PanoGraphicsView->resetTransform();
-    //panoScene->clear();
- //   m_mainwindowUi->PanoGraphicsView->setScene(panoScene);
-    
 }
 
 void CBCTRawImageViewer::resetCephTimer()
@@ -59,13 +53,8 @@ void CBCTRawImageViewer::resetCephTimer()
     qDebug() << __FUNCTION__;
     QString cephFolder = "C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)";
     cephImageIterator = new QDirIterator(cephFolder, QDirIterator::Subdirectories);
-
-    cephImageTimer->start();
+    cephImageTimer->start(1);
     cephImageTimer->stop();
-  /*  QGraphicsScene* cephScene = new QGraphicsScene();
-
-    m_mainwindowUi->CephGraphicsView->setScene(cephScene);
-    cephScene->clear();*/
 }
 
 void CBCTRawImageViewer::readyPanoTimer()
@@ -82,14 +71,14 @@ void CBCTRawImageViewer::startPanoTimer()
 {
     qDebug() << __FUNCTION__;
     // 타이머 시작
-    panoImageTimer->start();
+    panoImageTimer->start(1);
 }
 
 void CBCTRawImageViewer::startCephTimer()
 {
     qDebug() << __FUNCTION__;
     // 타이머 시작
-    cephImageTimer->start();
+    cephImageTimer->start(1);
 }
 
 void CBCTRawImageViewer::stopPanoTimer()
@@ -174,8 +163,6 @@ void CBCTRawImageViewer::timeoutPanoTimer()
     {
         //imageIterator->rewind();
     }
-
-
 //return QImage();
 
 }
@@ -199,7 +186,6 @@ void CBCTRawImageViewer::timeoutCephTimer()
         QByteArray cBa = cephFile.readAll();
         const uchar* cData = (const uchar*) cBa.constData();;
         cephFile.close();
-//        QImage* cephImage = new QImage(cData, 150, 470, QImage::Format_Grayscale16);
         QImage* cephImage = new QImage(cData, 100, 740, QImage::Format_RGB555);
         emit signals_cephImage(cephImage);
     }

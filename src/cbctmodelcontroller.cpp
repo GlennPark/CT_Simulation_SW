@@ -12,7 +12,7 @@
 #include "vtkTransform.h"
 #include "vtkAxesActor.h"
 #include "vtkCamera.h"
-#include "vtkCylinderSource.h"
+
 #include "vtkRendererCollection.h"
 #include <vtkQuaternion.h>
 #include <vtkMatrix4x4.h>
@@ -371,10 +371,10 @@ public:
         actorMain->SetUserTransform(transform);
 		transform->Update();
 
-        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
-        auto actorAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
-        actorAll->SetUserTransform(transform);
-        transform->Update();
+//        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
+//        auto actorAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
+//        actorAll->SetUserTransform(transform);
+//        transform->Update();
 
 		qDebug() << angle;
 		_update_render();
@@ -544,7 +544,7 @@ private:
 #ifdef USE_DISPLAY_GLOBALAXIS
 		vtkSmartPointer<vtkAxesActor> axes = vtkSmartPointer<vtkAxesActor>::New();
 		axes->SetTotalLength(700, 700, 700);
-		auto cen = axes->GetCenter();
+        axes->GetCenter();
 		Renderer->AddActor(axes);
 #endif
 		switch (GeometryViewType::toEnum(viewType))
