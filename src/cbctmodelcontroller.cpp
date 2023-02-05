@@ -5,6 +5,8 @@
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkOBJReader.h"
+//#include "vtk3DSReader.h"
+
 #include "vtkGenericOpenGLRenderWindow.h"
 #include "vtkProperty.h"
 #include "vtkNamedColors.h"
@@ -12,6 +14,7 @@
 #include "vtkTransform.h"
 #include "vtkAxesActor.h"
 #include "vtkCamera.h"
+
 
 #include "vtkRendererCollection.h"
 #include <vtkQuaternion.h>
@@ -426,6 +429,8 @@ private:
 		}
 		reader->Update();
 		objs.insert(type, reader->GetOutput());
+
+	
 	}
 
 	void _create_Mapper(const QString& viewType, QMap<QString, vtkSmartPointer<vtkPolyData>>& objs, QMap<QString, MapperItem>& mapperMap)

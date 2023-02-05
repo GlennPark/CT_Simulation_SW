@@ -47,6 +47,11 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
         countMax = 1750;
  //   }
     // PANO MODE
+        QFile *panoFile;
+        panoFile = new QFile;
+        QString panoFileName;
+   
+
     if(panoValue >= countMax)
     {
         return;
@@ -54,31 +59,34 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
     if (panoValue >= 1000)
     {
         qDebug() << panoValue;
-        fileName = QString(".C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
+        panoFileName = QString(".C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
     }
     else if (panoValue < 1000 && panoValue >= 100)
     {
         qDebug() << panoValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
+        panoFileName = QString("C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
     }
     else if (panoValue < 100 && panoValue >= 10)
     {
         qDebug() << panoValue;
-        fileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/00%1.raw").arg(panoValue);
+        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/00%1.raw").arg(panoValue);
     }
     else
     {
         qDebug() << panoValue;
-        fileName = QString("./resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
+        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
     }
-    file->setFileName(fileName);
-    if(!file->exists())
+    panoFile->setFileName(panoFileName);
+    qDebug() << panoFileName;
+    if(!panoFile->exists())
     {
+
         return;
     }
-    file->open(QIODevice::ReadOnly);
-    fileSocket->write(file->readAll());
-    file->close();
+    panoFile->open(QIODevice::ReadOnly);
+    fileSocket->write(panoFile->readAll());
+    panoFile->close();
+    panoFile->deleteLater();
 }
 
 void CBCTFileTransfer::sendCephFile(int cephValue)
@@ -87,7 +95,6 @@ void CBCTFileTransfer::sendCephFile(int cephValue)
 
     qDebug() << protocol->packetData()->msg();
 
-    int cValue = cephValue;
 int countMax = 0;
 
  //   if(modality == "CEPH")
@@ -97,38 +104,43 @@ int countMax = 0;
 
 
     // CEPH MODE
-    if(cValue >= countMax)
+        QFile* cephFile;
+        cephFile = new QFile;
+        QString cephFileName;
+
+    if(cephValue >= countMax)
     {
         return;
     }
-    if (cValue >= 1000)
+    if (cephValue >= 1000)
     {
-        qDebug() << cValue;
-        fileName = QString("./Debug/Ceph_Frame(48x2400)/%1.raw").arg(cValue);
+        qDebug() << cephValue;
+        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/%1.raw").arg(cephValue);
     }
-    else if (cValue < 1000 && cephValue >= 100)
+    else if (cephValue < 1000 && cephValue >= 100)
     {
-        qDebug() << cValue;
-        fileName = QString("./Debug/Ceph_Frame(48x2400)/0%1.raw").arg(cValue);
+        qDebug() << cephValue;
+        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/0%1.raw").arg(cephValue);
     }
-    else if (cValue < 100 && cValue >= 10)
+    else if (cephValue < 100 && cephValue >= 10)
     {
-        qDebug() << cValue;
-        fileName = QString("./Debug/Ceph_Frame(48x2400)/00%1.raw").arg(cValue);
+        qDebug() << cephValue;
+        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/00%1.raw").arg(cephValue);
     }
     else
     {
-        qDebug() << cValue;
-        fileName = QString("./Debug/Ceph_Frame(48x2400)/000%1.raw").arg(cValue);
+        qDebug() << cephValue;
+        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/000%1.raw").arg(cephValue);
     }
-    file->setFileName(fileName);
-    if(!file->exists())
+    cephFile->setFileName(cephFileName);
+    if(!cephFile->exists())
     {
         return;
     }
-    file->open(QIODevice::ReadOnly);
-    fileSocket->write(file->readAll());
-    file->close();
+    cephFile->open(QIODevice::ReadOnly);
+    fileSocket->write(cephFile->readAll());
+    cephFile->close();
+    cephFile->deleteLater();
 }
 
 void CBCTFileTransfer::sendingControl(int buttonIdx, QString msg)
