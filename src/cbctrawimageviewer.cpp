@@ -161,6 +161,7 @@ void CBCTRawImageViewer::timeoutPanoTimer()
         QByteArray pBa = panoFile.readAll();
         const uchar* pData = (const uchar*) pBa.constData();;
         panoFile.close();
+        panoFile.deleteLater();
         QImage* panoImage = new QImage(pData, 740, 100, QImage::Format_RGB555);
         emit signals_panoImage(panoImage);
 
@@ -193,6 +194,7 @@ void CBCTRawImageViewer::timeoutCephTimer()
         QByteArray cBa = cephFile.readAll();
         const uchar* cData = (const uchar*) cBa.constData();;
         cephFile.close();
+        cephFile.deleteLater();
         QImage* cephImage = new QImage(cData, 100, 740, QImage::Format_RGB555);
         emit signals_cephImage(cephImage);
     }
