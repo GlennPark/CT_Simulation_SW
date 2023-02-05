@@ -150,6 +150,8 @@ MainWindow::MainWindow(QWidget* parent)
     });
 
     /* 프로그램 시작 시 초기화 및 준비 버튼만 활성화 */
+    ui->PanoCheckBox->setChecked(true);
+
     ui->CaptureResetPushButton->setEnabled(true);
     ui->CaptureReadyPushButton->setEnabled(true);
     ui->CaptureStartPushButton->setEnabled(false);
@@ -284,10 +286,6 @@ void MainWindow::on_CaptureReadyPushButton_clicked()
         m_rawImageViewer->readyCephTimer();
     }
 
-
-
-
-
 }
 
 void MainWindow::on_CaptureStartPushButton_clicked()
@@ -309,10 +307,6 @@ m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             qDebug() << __FUNCTION__;
             m_rawImageViewer->startPanoTimer();
         }
-
-        //CBCTRawImageViewer m_rawImageViewer;
-        //QPixmap panoPix = m_rawImageViewer.PanoImageViewer();
-        //ui->PanoLabel->setPixmap(panoPix);
     }
 
     if (ui->CephCheckBox->isChecked())
@@ -328,15 +322,7 @@ m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
             qDebug() << __FUNCTION__;
             m_rawImageViewer->startCephTimer();
         }
-
-        //        CBCTRawImageViewer m_rawImageViewer;
-        //        QPixmap cephPix = m_rawImageViewer.CephImageViewer();
-        //        m_rawImageViewer.CephImageViewer();
-        //        ui->CephLabel->setPixmap(cephPix);
-
     }
-
-
 }
 
 void MainWindow::on_CaptureStopPushButton_clicked()
@@ -350,7 +336,6 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     ui->PanoCheckBox->setCheckState(Qt::Unchecked);
     ui->CephCheckBox->setCheckState(Qt::Unchecked);
 
-
     m_modelController->on_CaptureResetPushButton_VTK_clicked();
     if(ui->PanoCheckBox->isChecked())
     {
@@ -360,10 +345,6 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     {
         m_rawImageViewer->stopCephTimer();
     }
-
-
-
-
 }
 
 void MainWindow::slot_panoImage(QImage* pImg)
@@ -383,7 +364,7 @@ void MainWindow::slot_panoImage(QImage* pImg)
     int panoValue = ui->PanoProgressBar->value();
     panoValue++;
     ui->PanoProgressBar->setValue(panoValue);
-//    m_fileTransfer->sendPanoFile(panoValue);
+    m_fileTransfer->sendPanoFile(panoValue);
 }
 
 void MainWindow::slot_cephImage(QImage* cImg)
@@ -400,15 +381,6 @@ void MainWindow::slot_cephImage(QImage* cImg)
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
-//    m_fileTransfer->sendCephFile(cephValue);
+    m_fileTransfer->sendCephFile(cephValue);
 
 }
-
-
-
-//void MainWindow::on_openGLWidget_All_resized()
-//{
-//    auto size = this->size();
-//    ui->openGLWidget_All->resize(size);
-//}
-

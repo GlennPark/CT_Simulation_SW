@@ -14,16 +14,18 @@
 
 CBCTRawImageViewer::CBCTRawImageViewer()
 {
-    QString panoFolder = "C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)";
-    panoImageIterator = new QDirIterator(panoFolder, QDirIterator::Subdirectories);
+    QDir panoDir("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)");
+
+    panoImageIterator = new QDirIterator(panoDir, QDirIterator::Subdirectories);
     panoImageTimer = new QTimer(this);
-    panoImageTimer->setInterval(1);
+    panoImageTimer->setInterval(10);
     connect(panoImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutPanoTimer);
 
-    QString cephFolder = "C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)";
-    cephImageIterator = new QDirIterator(cephFolder, QDirIterator::Subdirectories);
+    QDir cephDir("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)");
+
+    cephImageIterator = new QDirIterator(cephDir, QDirIterator::Subdirectories);
     cephImageTimer = new QTimer(this);
-    cephImageTimer->setInterval(1);
+    cephImageTimer->setInterval(10);
     connect(cephImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutCephTimer);
 }
 
@@ -42,18 +44,20 @@ QPixmap CBCTRawImageViewer::CephImageViewer()
 void CBCTRawImageViewer::resetPanoTimer()
 {
     qDebug() << __FUNCTION__;
-    QString panoFolder = "C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)";
-    panoImageIterator = new QDirIterator(panoFolder, QDirIterator::Subdirectories);
-    panoImageTimer->start(1);
+    QDir panoDir("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)");
+
+    panoImageIterator = new QDirIterator(panoDir, QDirIterator::Subdirectories);
+    panoImageTimer->start();
     panoImageTimer->stop();
 }
 
 void CBCTRawImageViewer::resetCephTimer()
 {
     qDebug() << __FUNCTION__;
-    QString cephFolder = "C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)";
-    cephImageIterator = new QDirIterator(cephFolder, QDirIterator::Subdirectories);
-    cephImageTimer->start(1);
+    QDir cephDir("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)");
+
+    cephImageIterator = new QDirIterator(cephDir, QDirIterator::Subdirectories);
+    cephImageTimer->start();
     cephImageTimer->stop();
 }
 
@@ -71,14 +75,14 @@ void CBCTRawImageViewer::startPanoTimer()
 {
     qDebug() << __FUNCTION__;
     // 타이머 시작
-    panoImageTimer->start(1);
+    panoImageTimer->start();
 }
 
 void CBCTRawImageViewer::startCephTimer()
 {
     qDebug() << __FUNCTION__;
     // 타이머 시작
-    cephImageTimer->start(1);
+    cephImageTimer->start();
 }
 
 void CBCTRawImageViewer::stopPanoTimer()
@@ -140,7 +144,7 @@ void CBCTRawImageViewer::stopCephTimer()
 void CBCTRawImageViewer::timeoutPanoTimer()
 {
 
-
+    qDebug("find bug test 0");
     // 타이머 함수 -> mainwindow로 이미지 파일 하나씩 읽어 보내주도록 한다.
     if (panoImageIterator->hasNext())
     {
@@ -148,6 +152,7 @@ void CBCTRawImageViewer::timeoutPanoTimer()
 
         QString panoPath = panoImageIterator->filePath();
 
+        qDebug("find bug test 1");
         qDebug() << __FUNCTION__ << panoPath;
 
         QFile panoFile(panoPath);
@@ -158,6 +163,8 @@ void CBCTRawImageViewer::timeoutPanoTimer()
         panoFile.close();
         QImage* panoImage = new QImage(pData, 740, 100, QImage::Format_RGB555);
         emit signals_panoImage(panoImage);
+
+        qDebug("find bug test 2");
     }
     else
     {

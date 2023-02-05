@@ -26,14 +26,12 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
         qDebug("File Transfer Ready");
         connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
         //        connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveModality()));
-        protocol->sendProtocol(fileSocket, "NEW", ConnectType::MODALITY, "CBCT FILE TRANSFER CONNECTED");
+        protocol->sendProtocol(fileSocket, "NEW", ConnectType::MODALITY, "CBCT FILE TRANSFER READY");
     }
     else
     {
         qDebug("File Transfer Not Ready");
     }
-
-
 }
 
 void CBCTFileTransfer::sendPanoFile(int panoValue)
@@ -44,12 +42,10 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 
      int countMax = 0;
 
-    if(modality == "PANO")
-    {
+    //if(modality == "PANO")
+    //{
         countMax = 1750;
-    }
-
-
+ //   }
     // PANO MODE
     if(panoValue >= countMax)
     {
@@ -58,22 +54,22 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
     if (panoValue >= 1000)
     {
         qDebug() << panoValue;
-        fileName = QString(".C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/%1.raw").arg(modality);
+        fileName = QString(".C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
     }
     else if (panoValue < 1000 && panoValue >= 100)
     {
         qDebug() << panoValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0%1.raw").arg(modality);
+        fileName = QString("C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
     }
     else if (panoValue < 100 && panoValue >= 10)
     {
         qDebug() << panoValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/00%1.raw").arg(modality);
+        fileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/00%1.raw").arg(panoValue);
     }
     else
     {
         qDebug() << panoValue;
-        fileName = QString("./Pano_Frame(1152x64)/000%1.raw").arg(modality);
+        fileName = QString("./resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
     }
     file->setFileName(fileName);
     if(!file->exists())
@@ -91,38 +87,39 @@ void CBCTFileTransfer::sendCephFile(int cephValue)
 
     qDebug() << protocol->packetData()->msg();
 
+    int cValue = cephValue;
 int countMax = 0;
 
-    if(modality == "CEPH")
-    {
+ //   if(modality == "CEPH")
+ //   {
         countMax = 1250;
-    }
+ //   }
 
 
     // CEPH MODE
-    if(cephValue >= countMax)
+    if(cValue >= countMax)
     {
         return;
     }
-    if (cephValue >= 1000)
+    if (cValue >= 1000)
     {
-        qDebug() << cephValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)/%1.raw").arg(modality);
+        qDebug() << cValue;
+        fileName = QString("./Debug/Ceph_Frame(48x2400)/%1.raw").arg(cValue);
     }
-    else if (cephValue < 1000 && cephValue >= 100)
+    else if (cValue < 1000 && cephValue >= 100)
     {
-        qDebug() << cephValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)/0%1.raw").arg(modality);
+        qDebug() << cValue;
+        fileName = QString("./Debug/Ceph_Frame(48x2400)/0%1.raw").arg(cValue);
     }
-    else if (cephValue < 100 && cephValue >= 10)
+    else if (cValue < 100 && cValue >= 10)
     {
-        qDebug() << cephValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)/00%1.raw").arg(modality);
+        qDebug() << cValue;
+        fileName = QString("./Debug/Ceph_Frame(48x2400)/00%1.raw").arg(cValue);
     }
     else
     {
-        qDebug() << cephValue;
-        fileName = QString("C:/Qt_VTK_CT/build/Debug/Ceph_Frame(48x2400)/000%1.raw").arg(modality);
+        qDebug() << cValue;
+        fileName = QString("./Debug/Ceph_Frame(48x2400)/000%1.raw").arg(cValue);
     }
     file->setFileName(fileName);
     if(!file->exists())
