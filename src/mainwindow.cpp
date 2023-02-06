@@ -333,18 +333,12 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(false);
 
-    ui->PanoCheckBox->setCheckState(Qt::Unchecked);
+    ui->PanoCheckBox->setCheckState(Qt::Checked);
     ui->CephCheckBox->setCheckState(Qt::Unchecked);
 
-    m_modelController->on_CaptureResetPushButton_VTK_clicked();
-    if(ui->PanoCheckBox->isChecked())
-    {
+
         m_rawImageViewer->stopPanoTimer();
-    }
-    else if(ui->CephCheckBox->isChecked())
-    {
         m_rawImageViewer->stopCephTimer();
-    }
 }
 
 void MainWindow::slot_panoImage(QImage* pImg)

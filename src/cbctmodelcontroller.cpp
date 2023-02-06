@@ -374,10 +374,10 @@ public:
         actorMain->SetUserTransform(transform);
 		transform->Update();
 
-//        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
-//        auto actorAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
-//        actorAll->SetUserTransform(transform);
-//        transform->Update();
+        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
+        auto actorAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
+        actorAll->SetUserTransform(transform);
+        transform->Update();
 
 		qDebug() << angle;
 		_update_render();
@@ -411,20 +411,20 @@ private:
 		{
 		case GeometryDataType::Lower:
 		{
-			reader->SetFileName("lowerbody.obj");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.obj");
 
 		}break;
 		case GeometryDataType::Upper:
 		{
-			reader->SetFileName("upperbody.obj");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.obj");
 		}break;
 		case GeometryDataType::Panorama:
 		{
-			reader->SetFileName("panomodule.obj");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.obj");
 		}break;
 		case GeometryDataType::Cephalo:
 		{
-			reader->SetFileName("cephmodule.obj");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.obj");
 		}break;
 		}
 		reader->Update();
@@ -548,9 +548,14 @@ private:
 
 #ifdef USE_DISPLAY_GLOBALAXIS
 		vtkSmartPointer<vtkAxesActor> axes = vtkSmartPointer<vtkAxesActor>::New();
-		axes->SetTotalLength(700, 700, 700);
+        vtkSmartPointer<vtkTransform> axesTransform = vtkSmartPointer<vtkTransform>::New();
+
+        axes->SetTotalLength(700, 700, 700);
         axes->GetCenter();
+        axes->SetUserTransform(axesTransform);
+        axesTransform->Translate(-1000,0,0);
 		Renderer->AddActor(axes);
+
 #endif
 		switch (GeometryViewType::toEnum(viewType))
 		{
