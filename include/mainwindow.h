@@ -71,13 +71,13 @@ private:
 private slots:
 	void slot_panoImage(QImage* pImg);
 	void slot_cephImage(QImage* cImg);
-
+    void fileLogSlot();
 
 signals:
-	void READYSignal(ControlType);
-	void RESETSignal(ControlType);
-	void STARTSignal(ControlType);
-	void STOPSignal(ControlType);
+//    void sendReadySignal(ControlType);
+//    void sendResetSignal(ControlType);
+//    void sendStartSignal(ControlType);
+//    void sendStopSignal(ControlType);
 
 private:
 	QGraphicsScene* panoScene;

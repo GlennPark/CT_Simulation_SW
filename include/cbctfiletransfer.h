@@ -49,12 +49,12 @@ private:
 
 
 signals:
-    void resetSignal();
-    void readySignal();
-    void startSignal();
-    void stopSignal();
-    void panoSignal();
-    void cephSignal();
+    void receiveResetSignal();
+    void receiveReadySignal();
+    void receiveStartSignal();
+    void receiveStopSignal();
+    void receivePanoSignal();
+    void receiveCephSignal();
 };
 
 #endif // CBCTFILETRANSFER_H

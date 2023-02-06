@@ -5,7 +5,7 @@
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkOBJReader.h"
-//#include "vtk3DSReader.h"
+#include "vtkOBJImporter.h"
 
 #include "vtkGenericOpenGLRenderWindow.h"
 #include "vtkProperty.h"
@@ -406,29 +406,34 @@ public:
 private:
 	void _load_objfile(const QString& type, QMap<QString, vtkSmartPointer<vtkPolyData>>& objs)
 	{
-		vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
-		switch (GeometryDataType::toEnum(type))
+        vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
+ //       vtkSmartPointer<vtkOBJImporter> reader = vtkSmartPointer<vtkOBJImporter>::New();
+        switch (GeometryDataType::toEnum(type))
 		{
 		case GeometryDataType::Lower:
 		{
             reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.obj");
+   //         reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.mtl");
 
 		}break;
 		case GeometryDataType::Upper:
 		{
             reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.obj");
-		}break;
+   // reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.mtl");
+        }break;
 		case GeometryDataType::Panorama:
 		{
             reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.obj");
-		}break;
+     //       reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.mtl");
+        }break;
 		case GeometryDataType::Cephalo:
 		{
             reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.obj");
+       //     reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.mtl");
 		}break;
 		}
 		reader->Update();
-		objs.insert(type, reader->GetOutput());
+        objs.insert(type, reader->GetOutput());
 
 	
 	}

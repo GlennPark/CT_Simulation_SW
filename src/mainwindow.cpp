@@ -20,6 +20,7 @@
 #include <vtkPlaneSource.h>
 #include <vtkAxesActor.h>
 #include <vtkOBJImporter.h>
+
 #include <vtkObject.h>
 #include <vtkOBJReader.h>
 
@@ -67,7 +68,7 @@ MainWindow::MainWindow(QWidget* parent)
     m_fileTransfer = new CBCTFileTransfer(this);
 
     if (!m_modelController->initialize())
-    qDebug() << "CBCTModelController initialize Fail ! ";
+        qDebug() << "CBCTModelController initialize Fail ! ";
 
     connect(ui->AscendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_AscendingPushButton_pressed()));
     connect(ui->DescendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_DescendingPushButton_pressed()));
@@ -111,14 +112,14 @@ MainWindow::MainWindow(QWidget* parent)
     //    connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
 
     /* 촬영 SW에서 Signal 받았을 시 Emit Signal 제외한 기능 동작 */
-    connect(m_fileTransfer, SIGNAL(resetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
-    connect(m_fileTransfer, SIGNAL(readySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
-    connect(m_fileTransfer, SIGNAL(startSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
-    connect(m_fileTransfer, SIGNAL(stopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
+    connect(m_fileTransfer, SIGNAL(receiveResetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
+    connect(m_fileTransfer, SIGNAL(receiveReadySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
+    connect(m_fileTransfer, SIGNAL(receiveStartSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
+    connect(m_fileTransfer, SIGNAL(receiveStopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
     /* 촬영 SW에서 Signal 받았을 시 Modality CheckBox 기능 동작 */
-    connect(m_fileTransfer, SIGNAL(panoSignal()), this, SLOT(receive_Pano_Modality()));
-    connect(m_fileTransfer, SIGNAL(cephSignal()), this, SLOT(receive_Ceph_Modality()));
+    connect(m_fileTransfer, SIGNAL(receivePanoSignal()), this, SLOT(receive_Pano_Modality()));
+    connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
 
     // ui check box Update
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
@@ -193,6 +194,10 @@ void MainWindow::receive_Ceph_Modality()
     ui->CephCheckBox->setChecked(true);
 }
 
+void MainWindow::fileLogSlot()
+{
+
+}
 void MainWindow::emitResetSignal()
 {
 
@@ -222,7 +227,7 @@ void MainWindow::emitStartSignal()
         m_fileTransfer->sendingControl(ControlType::START, "CEPH");
     }
 
-    emit STARTSignal(ControlType::START);
+    //    emit sendStartSignal(ControlType::START);
 }
 
 void MainWindow::emitStopSignal()
@@ -337,8 +342,8 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     ui->CephCheckBox->setCheckState(Qt::Unchecked);
 
 
-        m_rawImageViewer->stopPanoTimer();
-        m_rawImageViewer->stopCephTimer();
+    m_rawImageViewer->stopPanoTimer();
+    m_rawImageViewer->stopCephTimer();
 }
 
 void MainWindow::slot_panoImage(QImage* pImg)

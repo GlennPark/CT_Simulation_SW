@@ -162,31 +162,31 @@ void CBCTFileTransfer::receiveControl()
         switch (control) {
         case 0:
             qDebug("RESET Received");
-            emit resetSignal();
+            emit receiveResetSignal();
             break;
         case 1:
             qDebug("READY Received");
 
             if(modality == "PANO"){
                 qDebug("Pano Modality Received");
-                emit panoSignal();
+                emit receivePanoSignal();
             }
             else if (modality == "CEPH"){
                 qDebug("Ceph Modlality Received");
-                emit cephSignal();
+                emit receiveCephSignal();
             }
             else{
                 qDebug("WRONG MODAL STATE");
             }
-            emit readySignal();
+            emit receiveReadySignal();
             break;
         case 2:
             qDebug("START Received");
-            emit startSignal();
+            emit receiveStartSignal();
             break;
         case 3:
             qDebug("STOP Received");
-            emit stopSignal();
+            emit receiveStopSignal();
             break;
         }
     }
