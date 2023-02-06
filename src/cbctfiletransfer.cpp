@@ -58,31 +58,33 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
     }
     if (panoValue >= 1000)
     {
-        qDebug() << panoValue;
-        panoFileName = QString(".C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
+    //    qDebug() << panoValue;
+        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
     }
     else if (panoValue < 1000 && panoValue >= 100)
     {
-        qDebug() << panoValue;
-        panoFileName = QString("C:/Qt_VTK_CT/build/Debug/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
+   //     qDebug() << panoValue;
+        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
     }
     else if (panoValue < 100 && panoValue >= 10)
     {
-        qDebug() << panoValue;
+   //     qDebug() << panoValue;
         panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/00%1.raw").arg(panoValue);
     }
     else
     {
-        qDebug() << panoValue;
+   //     qDebug() << panoValue;
         panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
     }
     panoFile->setFileName(panoFileName);
-    qDebug() << panoFileName;
+  //  qDebug() << panoFileName;
     if(!panoFile->exists())
     {
-
         return;
     }
+    qDebug() << panoFileName;
+    qDebug() <<panoValue;
+
     panoFile->open(QIODevice::ReadOnly);
     fileSocket->write(panoFile->readAll());
     panoFile->close();

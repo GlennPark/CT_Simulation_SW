@@ -8,6 +8,7 @@
 class QDir;
 class QDirIterator;
 class QTimer;
+class QElapsedTimer;
 
 class CBCTRawImageViewer : public QObject
 {
@@ -36,10 +37,10 @@ public:
 private:
 
 
-    QDirIterator *panoImageIterator;
-    QDirIterator *cephImageIterator;
-    QTimer *panoImageTimer;
-    QTimer *cephImageTimer;
+    QDirIterator* panoImageIterator;
+    QDirIterator* cephImageIterator;
+    QTimer* panoImageTimer;
+    QTimer* cephImageTimer;
 
 private slots:
         void timeoutPanoTimer();
