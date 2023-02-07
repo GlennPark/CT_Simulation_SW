@@ -18,14 +18,14 @@ CBCTRawImageViewer::CBCTRawImageViewer()
 
     panoImageIterator = new QDirIterator(panoDir, QDirIterator::Subdirectories);
     panoImageTimer = new QTimer(this);
-    panoImageTimer->setInterval(1);
+    panoImageTimer->setInterval(7);
     connect(panoImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutPanoTimer);
 
     QDir cephDir("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)");
 
     cephImageIterator = new QDirIterator(cephDir, QDirIterator::Subdirectories);
     cephImageTimer = new QTimer(this);
-    cephImageTimer->setInterval(1);
+    cephImageTimer->setInterval(7);
     connect(cephImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutCephTimer);
 }
 
@@ -99,47 +99,6 @@ void CBCTRawImageViewer::stopCephTimer()
     qDebug() << __FUNCTION__;
     cephImageTimer->stop();
 }
-
-//void CBCTRawImageViewer::slot_panoImage(QImage* panoImage)
-//{
-//    qDebug() << __FUNCTION__;
-//    QGraphicsScene* panoScene = new QGraphicsScene();
-
-
-//    QImage pano_Image(*panoImage);
-//    QPixmap panoPix;
-//    panoPix = QPixmap::fromImage(pano_Image, Qt::AutoColor);
-
-//    /* 파노라마 이미지가 90도 회전되어 있으므로, 출력시 원상복구한다 */
-//    QTransform panoTransform;
-//    panoTransform.rotate(90);
-//    panoScene->addPixmap(panoPix.transformed(panoTransform));
-//    m_mainwindowUi->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
-//    m_mainwindowUi->PanoGraphicsView->setScene(panoScene);
-//    /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
-//    int panoValue = m_mainwindowUi->PanoProgressBar->value();
-//    panoValue++;
-//    m_mainwindowUi->PanoProgressBar->setValue(panoValue);
-//}
-
-//void CBCTRawImageViewer::slot_cephImage(QImage* cephImage)
-//{
-//    qDebug() << __FUNCTION__;
-//    QGraphicsScene* cephScene = new QGraphicsScene();
-
-
-//    QImage ceph_Image(*cephImage);
-//    QPixmap cephPix;
-//    cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
-//    cephScene->addPixmap(cephPix);
-//    m_mainwindowUi->CephLabel->setPixmap(cephPix);
-//    m_mainwindowUi->CephGraphicsView->setScene(cephScene);
-//    /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
-//    int cephValue = m_mainwindowUi->CephProgressBar->value();
-//    cephValue++;
-//    m_mainwindowUi->CephProgressBar->setValue(cephValue);
-
-//}
 
 void CBCTRawImageViewer::timeoutPanoTimer()
 {

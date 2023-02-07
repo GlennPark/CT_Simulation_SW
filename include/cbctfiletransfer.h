@@ -45,7 +45,7 @@ private:
     QString fileName;                           // Receiving FileName
     QString fileSender;                         // Receiving File's Sender
     QString checkFileName;                      // Previous File Name for checking new file
-    //    QTcpSocket * FileSocket;
+
 
 
 signals:
@@ -55,6 +55,9 @@ signals:
     void receiveStopSignal();
     void receivePanoSignal();
     void receiveCephSignal();
+
+    void fileLogSignal();
+
 };
 
 #endif // CBCTFILETRANSFER_H

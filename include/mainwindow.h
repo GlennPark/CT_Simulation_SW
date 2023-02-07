@@ -71,6 +71,7 @@ private:
 private slots:
 	void slot_panoImage(QImage* pImg);
 	void slot_cephImage(QImage* cImg);
+
     void fileLogSlot();
 
 signals:

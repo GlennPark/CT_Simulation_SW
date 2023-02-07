@@ -2,11 +2,12 @@
 #include "protocol.h"
 #include "packetdata.h"
 
+
 CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 {
     protocol = new Protocol();
     CBCTSocket = new QTcpSocket(this);
-    CBCTSocket->connectToHost("192.168.0.20", 8002);
+    CBCTSocket->connectToHost("10.222.0.164", 8002);
     if(CBCTSocket->waitForConnected())
     {
         qDebug("CBCT Connected");
@@ -20,7 +21,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     }
 
     fileSocket = new QTcpSocket(this);
-    fileSocket->connectToHost("192.168.0.20", 8003);
+    fileSocket->connectToHost("10.222.0.164", 8003);
     if(fileSocket->waitForConnected())
     {
         qDebug("File Transfer Ready");
@@ -42,10 +43,10 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 
      int countMax = 0;
 
-    //if(modality == "PANO")
-    //{
+    if(modality == "PANO")
+    {
         countMax = 1750;
- //   }
+    }
     // PANO MODE
         QFile *panoFile;
         panoFile = new QFile;
@@ -83,10 +84,13 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
         return;
     }
     qDebug() << panoFileName;
-    qDebug() <<panoValue;
+    qDebug() << panoValue;
 
     panoFile->open(QIODevice::ReadOnly);
     fileSocket->write(panoFile->readAll());
+
+    emit fileLogSignal();
+
     panoFile->close();
     panoFile->deleteLater();
 }
@@ -99,10 +103,10 @@ void CBCTFileTransfer::sendCephFile(int cephValue)
 
 int countMax = 0;
 
- //   if(modality == "CEPH")
- //   {
+    if(modality == "CEPH")
+    {
         countMax = 1250;
- //   }
+    }
 
 
     // CEPH MODE
@@ -141,6 +145,9 @@ int countMax = 0;
     }
     cephFile->open(QIODevice::ReadOnly);
     fileSocket->write(cephFile->readAll());
+
+    emit fileLogSignal();
+
     cephFile->close();
     cephFile->deleteLater();
 }
