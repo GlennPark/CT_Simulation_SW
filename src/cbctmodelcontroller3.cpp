@@ -14,8 +14,7 @@
 #include "vtkTransform.h"
 #include "vtkAxesActor.h"
 #include "vtkCamera.h"
-#include "vtkLightActor.h"
-#include "vtkLight.h"
+
 
 #include "vtkRendererCollection.h"
 #include <vtkQuaternion.h>
@@ -42,7 +41,6 @@ enum dataType
     Upper,
     Pano,
     Ceph,
-    Xray,
 };
 enum viewType
 {
@@ -59,13 +57,12 @@ public:
     int m_MaxPanoImage = 0;
     int m_MaxCephImage = 0;
 
-    double m_curPositionX = 0;
+    int m_curPositionX = 0;
     int m_curPositionY = 0; // current Y Position Value
     int m_curPositionZ = 0; // cuttent Z Position Value
 
     double m_curAngle = 0;
     double* m_PanoCenter;
-    double* m_XrayCenter;
 
     bool isRunning_Pano = false;
     bool isRunning_Ceph = false;
@@ -109,10 +106,7 @@ public:
         _load_objfile(GeometryDataType::toString(Upper), m_dataMap);
         _load_objfile(GeometryDataType::toString(Pano), m_dataMap);
         _load_objfile(GeometryDataType::toString(Ceph), m_dataMap);
-        _load_objfile(GeometryDataType::toString(Xray), m_dataMap);
         // qDebug() << "걸린시간 = " << dbgTime.elapsed();
-        qDebug(" obj load ") ;
-
         ///* Create Mapper & Actor */
         _create_Mapper(GeometryViewType::toString(All), m_dataMap, m_mapperMap);
         _create_Mapper(GeometryViewType::toString(Main), m_dataMap, m_mapperMap);
@@ -140,18 +134,18 @@ public:
 
 
         m_PanoCenter = m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Pano))->GetCenter();
-        m_XrayCenter = m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Xray))->GetCenter();
+
         m_MaxPanoImage = m_parentUI->PanoProgressBar->maximum();
         m_MaxCephImage = m_parentUI->CephProgressBar->maximum();
+
 
         return true;
     }
 
 
     void _on_AscendingPushButton_pressed() {
-
-        _on_reset_Panorama_module();
-
+        if (isRunning_Pano || isRunning_Ceph)
+            return;
         if (m_curPositionY >= 0)
         {
             m_curPositionY = 0;
@@ -168,37 +162,27 @@ public:
             _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(All))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All))->SetUserTransform(transform);
-            _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(All))->SetUserTransform(transform);
-
 
             // Main
             _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(Main))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Main))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Main))->SetUserTransform(transform);
-            _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Main))->SetUserTransform(transform);
 
             // Sub
             _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(Sub))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Sub))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Sub))->SetUserTransform(transform);
-            _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Sub))->SetUserTransform(transform);
 
             transform->Update();
 
             _update_render();
-
         }
-
 
     }
 
     void _on_DescendingPushButton_pressed() {
-
-        _on_reset_Panorama_module();
-
         if (isRunning_Pano || isRunning_Ceph)
             return;
-        isRunning_Pano = true;
         if (m_curPositionY < -580)
         {
             m_curPositionY = -580;
@@ -206,7 +190,6 @@ public:
             return;
         }
         else {
-
             m_curPositionY -= 10;
             vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
             transform->Translate(0, m_curPositionY, 0);
@@ -215,26 +198,23 @@ public:
             _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(All))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All))->SetUserTransform(transform);
-            _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(All))->SetUserTransform(transform);
+
 
             // Main
             _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(Main))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Main))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Main))->SetUserTransform(transform);
-            _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Main))->SetUserTransform(transform);
 
             // Sub
             _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(Sub))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Sub))->SetUserTransform(transform);
             _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Sub))->SetUserTransform(transform);
-            _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Sub))->SetUserTransform(transform);
 
             transform->Update();
 
             _update_render();
             qDebug() << m_curPositionY;
         }
-        isRunning_Pano = false;
     }
 
     void _on_MainPushButton_clicked() {
@@ -243,11 +223,15 @@ public:
         vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
         transform->Translate(m_curPositionX, m_curPositionY, 0);
 
-
+        // All
+        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
+        auto actorAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
+        actorAll->SetUserTransform(transform);
 
         // Main
-
-
+        m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
+        auto actorMain = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Main));
+        actorMain->SetUserTransform(transform);
 
         if (isRunning_Pano || isRunning_Ceph)
         {
@@ -261,42 +245,30 @@ public:
             {
                 break;
             }
-
+            if(1 < i && i <= 10)
+            {
+                m_curPositionX = m_curPositionX + 1;
+            }
+            if(10 << i && i <= 20)
+            {
+                m_curPositionX = m_curPositionX - 1;
+            }
             _Rotate_Pano(i/2);
             transform->Update();
         }m_curAngle = m_curAngle +10;
-
         for (int i = 0; i <= 800; i++)
         {
             if (!isRunning_Pano)
                 break;
-            if(0 <= i && i < 400)
-            {
-                m_curPositionX = m_curPositionX -0.4;
-                transform->Update();
-            }
-            else if(400 <= i && i < 800)
-            {
-                m_curPositionX = m_curPositionX +0.4;
-                transform->Update();
-            }
-            else if(i == 800)
-            {
-                m_curPositionX = 0;
-                transform->Update();
-            }
+
             _Rotate_Pano(10 -i/4);
-            transform->Update();
         }m_curAngle = m_curAngle - 200;
-
-
         for (int i = 0; i <= 20; i++)
         {
             if(!isRunning_Pano)
                 break;
 
             _Rotate_Pano(-190 +i/2);
-             transform->Update();
         }m_curAngle = m_curAngle + 10;
         isRunning_Pano = false;
 
@@ -345,7 +317,7 @@ public:
             if (!isRunning_Pano)
                 break;
 
-            _Rotate_Xray(-i);
+            _Rotate_Pano(-i);
         }
         isRunning_Pano = false;
 
@@ -366,7 +338,7 @@ public:
             if (!isRunning_Pano)
                 break;
             /* -45 만큼 이동한 상태를 원상복구함 */
-            _Rotate_Xray(-45+i);
+            _Rotate_Pano(-45+i);
         }
         isRunning_Pano = false;
     }
@@ -523,67 +495,24 @@ public:
         transform->Translate(-m_PanoCenter[0], -m_PanoCenter[1], -m_PanoCenter[2]);
         transform->RotateY(angle);
         transform->Translate(m_PanoCenter);
-        transform->Translate(m_curPositionX, m_curPositionY, 0);
+        transform->Translate(0, m_curPositionY, 0);
 
         m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
-        auto actorPanoMain = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Main));
-        actorPanoMain->SetUserTransform(transform);
-        transform->Update();
-        m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
-        auto actorXrayMain = _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Main));
-        actorXrayMain->SetUserTransform(transform);
+        auto actorMain = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Main));
+        actorMain->SetUserTransform(transform);
         transform->Update();
 
         m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
-        auto actorPanoAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
-        actorPanoAll->SetUserTransform(transform);
-        transform->Update();
-        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
-        auto actorXrayAll = _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(All));
-        actorXrayAll->SetUserTransform(transform);
+        auto actorAll = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All));
+        actorAll->SetUserTransform(transform);
         transform->Update();
 
         m_actorMap.value(GeometryViewType::toString(Sub)).m_actor.value(GeometryDataType::toString(Pano))->SetUserTransform(transform);
-        auto actorPanoSub = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Sub));
-        actorPanoSub->SetUserTransform(transform);
-        transform->Update();
-        m_actorMap.value(GeometryViewType::toString(Sub)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
-        auto actorXraySub = _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Sub));
-        actorXraySub->SetUserTransform(transform);
+        auto actorSub = _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Sub));
+        actorSub->SetUserTransform(transform);
         transform->Update();
 
 
-
-        qDebug() << angle;
-
-        _update_render();
-    }
-
-    void _Rotate_Xray(int angle)
-    {
-        vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-        transform->PostMultiply();
-        transform->Translate(-m_XrayCenter[0], -m_XrayCenter[1], -m_XrayCenter[2]);
-        transform->RotateY(angle);
-        transform->Translate(m_XrayCenter);
-
-        //앞궁궤적 추적을 위한 x 좌표 변환 수치 적용
-        transform->Translate(m_curPositionX, m_curPositionY, 0);
-
-        m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
-        auto actorXrayMain = _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Main));
-        actorXrayMain->SetUserTransform(transform);
-        transform->Update();
-
-        m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
-        auto actorXrayAll = _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(All));
-        actorXrayAll->SetUserTransform(transform);
-        transform->Update();
-
-        m_actorMap.value(GeometryViewType::toString(Sub)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
-        auto actorXraySub = _get_actor(GeometryDataType::toString(Xray), GeometryViewType::toString(Sub));
-        actorXraySub->SetUserTransform(transform);
-        transform->Update();
 
         qDebug() << angle;
 
@@ -638,13 +567,7 @@ private:
             reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.obj");
             //     reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.mtl");
         }break;
-        case GeometryDataType::Xray:
-        {
-            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/XrayModule.obj");
-            //     reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/XrayModule.mtl");
-        }break;
         }
-
         reader->Update();
         objs.insert(type, reader->GetOutput());
 

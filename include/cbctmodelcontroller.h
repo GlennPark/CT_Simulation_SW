@@ -15,6 +15,7 @@ public:
 		Upper,
 		Panorama,
 		Cephalo,
+        Xray,
 	};
 
 	static QString toString(int type) {
@@ -27,6 +28,8 @@ public:
 			return "Panorama";
 		case GeometryDataType::Cephalo:
 			return "Cephalo";
+        case GeometryDataType::Xray:
+            return "Xray";
 		}
 
 		return "Error";
@@ -45,6 +48,9 @@ public:
 		else if (type == "Cephalo") {
 			return GeometryDataType::Cephalo;
 		}
+        else if (type == "Xray") {
+            return GeometryDataType::Xray;
+        }
 		return -1;
 	}
 };
