@@ -54,6 +54,9 @@ private slots:
     void receive_Pano_Modality();
     void receive_Ceph_Modality();
 
+    void messageLogSlot(QString msg);
+    void fileLogSlot(QString mode, int val, QString fileLog);
+
 private:
 	void resizeEvent(QResizeEvent* event) override;
 
@@ -72,7 +75,6 @@ private slots:
 	void slot_panoImage(QImage* pImg);
 	void slot_cephImage(QImage* cImg);
 
-    void fileLogSlot();
 
 signals:
 //    void sendReadySignal(ControlType);

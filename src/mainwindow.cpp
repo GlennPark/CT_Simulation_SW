@@ -121,6 +121,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_fileTransfer, SIGNAL(receivePanoSignal()), this, SLOT(receive_Pano_Modality()));
     connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
 
+    /* 파일 전송 시 로그 출력 */
+    connect(m_fileTransfer, SIGNAL(fileLogSignal(QString, int, QString)), this, SLOT(fileLogSlot(QString, int, QString)));
+
     // ui check box Update
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
         if (state == true)
@@ -143,12 +146,12 @@ MainWindow::MainWindow(QWidget* parent)
     });
 
     //ProgressBar 동작을 모션과 연결시켜 준다
-    connect(ui->PanoProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
-        m_modelController->on_Rotate_PanoObject(value);
-    });
-    connect(ui->CephProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
-        m_modelController->on_Translate_CephObject(value);
-    });
+//    connect(ui->PanoProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
+//        m_modelController->on_Rotate_PanoObject(value);
+//    });
+//    connect(ui->CephProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
+//        m_modelController->on_Translate_CephObject(value);
+//    });
 
     /* 프로그램 시작 시 초기화 및 준비 버튼만 활성화 */
     ui->PanoCheckBox->setChecked(true);
@@ -179,6 +182,18 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event);
 }
 
+void MainWindow::messageLogSlot(QString msg)
+{
+
+}
+void MainWindow::fileLogSlot(QString mode, int val, QString fileLog)
+{
+ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
+ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(mode));
+ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(val));
+ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(fileLog));
+
+}
 void MainWindow::receive_Pano_Modality()
 {
     ui->PanoCheckBox->setCheckState(Qt::Unchecked);
@@ -194,10 +209,7 @@ void MainWindow::receive_Ceph_Modality()
     ui->CephCheckBox->setChecked(true);
 }
 
-void MainWindow::fileLogSlot()
-{
 
-}
 void MainWindow::emitResetSignal()
 {
 
@@ -264,8 +276,7 @@ void MainWindow::on_CaptureResetPushButton_clicked()
         m_rawImageViewer->resetCephTimer();
     }
 
-    ui->PanoGraphicsView->resetTransform();
-    ui->CephGraphicsView->resetTransform();
+
     panoScene->clear();
     cephScene->clear();
     ui->PanoProgressBar->reset();
@@ -338,8 +349,8 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(false);
 
-    ui->PanoCheckBox->setCheckState(Qt::Checked);
-    ui->CephCheckBox->setCheckState(Qt::Unchecked);
+    ui->PanoCheckBox->isCheckable();
+    ui->CephCheckBox->isCheckable();
 
 
     m_rawImageViewer->stopPanoTimer();

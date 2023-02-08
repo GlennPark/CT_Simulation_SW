@@ -86,10 +86,17 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
     qDebug() << panoFileName;
     qDebug() << panoValue;
 
-    panoFile->open(QIODevice::ReadOnly);
+    bool panoOpen = panoFile->open(QIODevice::ReadOnly);
     fileSocket->write(panoFile->readAll());
 
-    emit fileLogSignal();
+    if(panoOpen)
+    {
+    emit fileLogSignal("PANORAMA MODE", panoValue, panoFileName);
+    }
+    else
+    {
+    emit fileLogSignal("No Panorama Files", panoValue, panoFileName);
+    }
 
     panoFile->close();
     panoFile->deleteLater();
@@ -143,10 +150,18 @@ int countMax = 0;
     {
         return;
     }
-    cephFile->open(QIODevice::ReadOnly);
+    bool cephOpen = cephFile->open(QIODevice::ReadOnly);
     fileSocket->write(cephFile->readAll());
 
-    emit fileLogSignal();
+    /* 전송되는 이미지를 테이블위젯에 출력 */
+    if(cephOpen)
+    {
+    emit fileLogSignal("CEPHALO MODE", cephValue, cephFileName);
+    }
+    else
+    {
+    emit fileLogSignal("No Cephalo Files", cephValue, cephFileName);
+    }
 
     cephFile->close();
     cephFile->deleteLater();

@@ -567,7 +567,7 @@ public:
         transform->RotateY(angle);
         transform->Translate(m_XrayCenter);
 
-        //앞궁궤적 추적을 위한 x 좌표 변환 수치 적용
+        //악궁궤적 추적을 위한 x 좌표 변환 수치 적용
         transform->Translate(m_curPositionX, m_curPositionY, 0);
 
         m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Xray))->SetUserTransform(transform);
