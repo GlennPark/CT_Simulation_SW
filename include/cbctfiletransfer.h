@@ -49,14 +49,14 @@ private:
 
 
 signals:
-    void receiveResetSignal();
-    void receiveReadySignal();
-    void receiveStartSignal();
-    void receiveStopSignal();
-    void receivePanoSignal();
-    void receiveCephSignal();
+    void receiveResetSignal(QString receiveMsg);
+    void receiveReadySignal(QString receiveMsg);
+    void receiveStartSignal(QString receiveMsg);
+    void receiveStopSignal(QString receiveMsg);
+    void receivePanoSignal(QString receiveMsg);
+    void receiveCephSignal(QString receiveMsg);
 
-    void modality_Signal(QString msg);
+  //  void modality_Signal(QString msg);
     void fileLogSignal(QString mode, QString fileLog);
     void sending_Control_Signal(QString msg);
 };

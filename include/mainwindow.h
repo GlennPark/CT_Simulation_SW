@@ -54,7 +54,9 @@ private slots:
     void receive_Pano_Modality();
     void receive_Ceph_Modality();
 
-    void messageLogSlot(QString msg, QString modality);
+    void receive_Message_LogSlot(QString receiveMsg);
+    void send_Message_LogSlot(QString msg);
+
     void fileLogSlot(QString mode, QString fileLog);
 
 

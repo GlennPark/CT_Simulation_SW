@@ -185,36 +185,35 @@ void CBCTFileTransfer::receiveControl()
         int control = protocol->packetData()->type();
         QString modality = protocol->packetData()->msg();
 
-        emit modality_Signal(modality);
 
         switch (control) {
         case 0:
             qDebug("RESET Received");
-            emit receiveResetSignal();
+            emit receiveResetSignal("RESET Received");
             break;
         case 1:
             qDebug("READY Received");
 
             if(modality == "PANO"){
                 qDebug("Pano Modality Received");
-                emit receivePanoSignal();
+                emit receivePanoSignal("Pano Modality Received");
             }
             else if (modality == "CEPH"){
                 qDebug("Ceph Modlality Received");
-                emit receiveCephSignal();
+                emit receiveCephSignal("Ceph Modlality Received");
             }
             else{
                 qDebug("WRONG MODAL STATE");
             }
-            emit receiveReadySignal();
+            emit receiveReadySignal("READY Received");
             break;
         case 2:
             qDebug("START Received");
-            emit receiveStartSignal();
+            emit receiveStartSignal("START Received");
             break;
         case 3:
             qDebug("STOP Received");
-            emit receiveStopSignal();
+            emit receiveStopSignal("STOP Received");
             break;
         }
     }

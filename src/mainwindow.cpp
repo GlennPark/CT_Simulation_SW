@@ -92,10 +92,18 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_fileTransfer, SIGNAL(fileLogSignal(QString,QString)), this, SLOT(fileLogSlot(QString,QString)));
 
     /* 촬영 SW에서 Signal 받았을 시 로그 출력 */
-    connect(m_fileTransfer, SIGNAL(modality_Signal(QString)), this, SLOT(messageLogSlot(QString)));
+    connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+    connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+    connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+    connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+    connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+    connect(m_fileTransfer, SIGNAL(receiveCephSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+
+
 
     /* 촬영 SW로 Signal 보낼 때 로그 출력 */
-    connect(m_fileTransfer, SIGNAL(sending_Control_Signal(int,QString)), this, SLOT(messageLogSlot(int,QString)));
+    connect(m_fileTransfer, SIGNAL(sending_Control_Signal(QString)), this, SLOT(send_Message_LogSlot(QString)));
+
     // ui check box Update
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
         if (state == true)
@@ -116,7 +124,7 @@ MainWindow::MainWindow(QWidget* parent)
             }
         }
     });
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_logThread, SLOT(runMethod()));
+   // connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_logThread, SLOT(runMethod()));
 
     //ProgressBar 동작을 모션과 연결시켜 준다
     //    connect(ui->PanoProgressBar, &QProgressBar::valueChanged, this, [&](int value) {
@@ -155,10 +163,16 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event);
 }
 
-void MainWindow::messageLogSlot(QString msg, QString modality)
+void MainWindow::receive_Message_LogSlot(QString receiveMsg)
 {
     ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
-    ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(modality));
+    ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(receiveMsg));
+    ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+}
+
+void MainWindow::send_Message_LogSlot(QString msg)
+{
+    ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
     ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(msg));
     ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 }
@@ -294,7 +308,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
         //    m_modelController->panorama_VTK_motion();
           //   m_modelController->on_MainPushButton_clicked();
-     //   m_rawImageViewer->startPanoTimer();
+        m_rawImageViewer->startPanoTimer();
         //m_logThread_1->pano_Capture_Start_Slot();
 
     }
@@ -306,7 +320,7 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
         //     m_modelController->cephalo_VTK_motion();
      //      m_modelController->on_SubPushButton_clicked();
-   //     m_rawImageViewer->startCephTimer();
+        m_rawImageViewer->startCephTimer();
        // m_logThread_2->ceph_Capture_Start_Slot();
     }
 }
