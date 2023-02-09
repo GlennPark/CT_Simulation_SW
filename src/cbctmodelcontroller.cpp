@@ -243,9 +243,6 @@ public:
         m_parentUI->MainPushButton->setEnabled(false);
         vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
         transform->Translate(m_curPositionX, m_curPositionY, 0);
-
-
-
         // Main
 
 
@@ -318,9 +315,9 @@ public:
         }
         isRunning_Pano = true;
 
-        if(m_curAngle == -180)
+        if(m_curAngle <= -1)
         {
-            for (int i = 0; i <= 180; i++)
+            for (int i = 0; i <= -m_curAngle; i++)
             {
                 if(!isRunning_Pano)
                     break;
@@ -939,83 +936,83 @@ bool CBCTModelController::initialize()
 
 
 /* 파일 전송(Progressbar Panovalue)과 일치하는 PanoModule 모션 */
-void CBCTModelController::on_Rotate_PanoObject(const int& val)
-{
-    auto angle = ceil(val / 3.89);
-    qDebug() << "image Count : " << val << "angle : " << angle;
+//void CBCTModelController::on_Rotate_PanoObject(const int& val)
+//{
+//    auto angle = ceil(val / 3.89);
+//    qDebug() << "image Count : " << val << "angle : " << angle;
 
-    if(val == 1750)
-    {
-        angle = 450;
-    }
+//    if(val == 1750)
+//    {
+//        angle = 450;
+//    }
 
-    if(0 < angle && angle <= 405)
-    {
-        if (PData->isRunning_Pano)
-            return;
-        PData->isRunning_Pano = true;
-        PData->_Rotate_Pano(angle);
-        PData->isRunning_Pano = false;
-    }
-    else if( 405 < angle && angle <= 450)
-    {
-        if (PData->isRunning_Pano)
-            return;
-        PData->isRunning_Pano = true;
-        PData->_Rotate_Pano(450 -angle);
-        PData->isRunning_Pano = false;
-    }
-}
+//    if(0 < angle && angle <= 405)
+//    {
+//        if (PData->isRunning_Pano)
+//            return;
+//        PData->isRunning_Pano = true;
+//        PData->_Rotate_Pano(angle);
+//        PData->isRunning_Pano = false;
+//    }
+//    else if( 405 < angle && angle <= 450)
+//    {
+//        if (PData->isRunning_Pano)
+//            return;
+//        PData->isRunning_Pano = true;
+//        PData->_Rotate_Pano(450 -angle);
+//        PData->isRunning_Pano = false;
+//    }
+//}
 
 /* 파일 전송(Progressbar Cephvalue)과 일치하는 CephModule 모션 */
-void CBCTModelController::on_Translate_CephObject(const int& val)
-{
+//void CBCTModelController::on_Translate_CephObject(const int& val)
+//{
 
-    int count = 0.848 * val;
+//    int count = 0.848 * val;
 
-    qDebug() << "image : " << val << "count : " << count;
-    // Z축 +동작
-    if (0 < count && count <= 260)
-    {
-        if (PData->isRunning_Ceph)
-            return;
-        PData->isRunning_Ceph = true;
+//    qDebug() << "image : " << val << "count : " << count;
+//    // Z축 +동작
+//    if (0 < count && count <= 260)
+//    {
+//        if (PData->isRunning_Ceph)
+//            return;
+//        PData->isRunning_Ceph = true;
 
-        PData->_Translate_Ceph(count);
+//        PData->_Translate_Ceph(count);
 
-        PData->isRunning_Ceph = false;
-    }
-    else if (260 < count && count <= 520)
-    {
-        if (PData->isRunning_Ceph)
-            return;
-        PData->isRunning_Ceph = true;
+//        PData->isRunning_Ceph = false;
+//    }
+//    else if (260 < count && count <= 520)
+//    {
+//        if (PData->isRunning_Ceph)
+//            return;
+//        PData->isRunning_Ceph = true;
 
-        PData->_Translate_Ceph(520 - count);
-        PData->isRunning_Ceph = false;
-    }
-    else if (520 < count && count <= 790)
-    {
+//        PData->_Translate_Ceph(520 - count);
+//        PData->isRunning_Ceph = false;
+//    }
+//    else if (520 < count && count <= 790)
+//    {
 
-        if (PData->isRunning_Ceph)
-            return;
-        PData->isRunning_Ceph = true;
+//        if (PData->isRunning_Ceph)
+//            return;
+//        PData->isRunning_Ceph = true;
 
-        PData->_Translate_Ceph(-(count - 520));
-        PData->isRunning_Ceph = false;
-    }
-    else if (790 < count && count <= 1060)
-    {
+//        PData->_Translate_Ceph(-(count - 520));
+//        PData->isRunning_Ceph = false;
+//    }
+//    else if (790 < count && count <= 1060)
+//    {
 
-        if (PData->isRunning_Ceph)
-            return;
-        PData->isRunning_Ceph = true;
+//        if (PData->isRunning_Ceph)
+//            return;
+//        PData->isRunning_Ceph = true;
 
-        PData->_Translate_Ceph(-(1060 - count));
-        PData->isRunning_Ceph = false;
-    }
+//        PData->_Translate_Ceph(-(1060 - count));
+//        PData->isRunning_Ceph = false;
+//    }
 
-}
+//}
 void CBCTModelController::on_MainPushButton_clicked()
 {
     qDebug() << "Main Push Btn!!";
@@ -1046,4 +1043,14 @@ void CBCTModelController::on_CaptureResetPushButton_VTK_clicked()
 void CBCTModelController::on_CaptureReadyPushButton_VTK_clicked()
 {
     PData->_on_CaptureReadyPushButton_VTK_clicked();
+}
+
+void CBCTModelController::panorama_VTK_motion()
+{
+    PData->_on_MainPushButton_clicked();
+}
+
+void CBCTModelController::cephalo_VTK_motion()
+{
+    PData->_on_SubPushButton_clicked();
 }

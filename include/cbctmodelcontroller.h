@@ -116,8 +116,10 @@ private slots:
 //    void on_CaptureReadyPushButton_VTK_clicked();
 public:
 	bool initialize();
-	void on_Rotate_PanoObject(const int& val);
-	void on_Translate_CephObject(const int& val);
+    void panorama_VTK_motion();
+    void cephalo_VTK_motion();
+//	void on_Rotate_PanoObject(const int& val);
+//	void on_Translate_CephObject(const int& val);
 
 private:
 	class Internal;

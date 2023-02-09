@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->SubPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_SubPushButton_clicked()));
 
     //    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureResetPushButton_VTK_clicked()));
-    //    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureReadyPushButton_VTK_clicked()));
+    //    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SL//OT(on_CaptureReadyPushButton_VTK_clicked()));
 
     /* 버튼 클릭시 network slot 함수를 연결*/
     //    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
@@ -87,8 +87,10 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
 
     /* 파일 전송 시 로그 출력 */
-    connect(m_fileTransfer, SIGNAL(panoFileLogSignal(QString,int,QString)), this, SLOT(panoFileLogSlot(QString,int,QString)));
-    connect(m_fileTransfer, SIGNAL(cephFileLogSignal(QString,int,QString)), this, SLOT(cephFileLogSlot(QString,int,QString)));
+    connect(m_fileTransfer, SIGNAL(fileLogSignal(QString,QString)), this, SLOT(fileLogSlot(QString,QString)));
+
+    /* 촬영 SW에서 Signal 받았을 시 로그 출력 */
+    connect(m_fileTransfer, SIGNAL(modality_Signal(QString)), this, SLOT(messageLogSlot(QString)));
 
     // ui check box Update
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
@@ -148,26 +150,19 @@ void MainWindow::resizeEvent(QResizeEvent* event)
     QMainWindow::resizeEvent(event);
 }
 
-void MainWindow::messageLogSlot(QString msg)
+void MainWindow::messageLogSlot(QString modality)
 {
+    ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
+    ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(modality));
+    ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 
 }
-void MainWindow::panoFileLogSlot(QString mode, int panoValue, QString fileLog)
+void MainWindow::fileLogSlot(QString mode, QString fileLog)
 {
 ui->FileLogTableWidget->insertRow(ui->FileLogTableWidget->rowCount());
 ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(mode));
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(panoValue));
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(fileLog));
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 3, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
-}
-
-void MainWindow::cephFileLogSlot(QString mode, int cephValue, QString fileLog)
-{
-ui->FileLogTableWidget->insertRow(ui->FileLogTableWidget->rowCount());
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(mode));
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(cephValue));
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(fileLog));
-ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 3, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(fileLog));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 }
 
 void MainWindow::receive_Pano_Modality()
@@ -289,31 +284,21 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
     if (ui->PanoCheckBox->isChecked())
     {
-        if (ui->CephCheckBox->isChecked())
-        {
-            m_panoErrorMessage = new QMessageBox;
-m_panoErrorMessage:ERROR_LOG_POLICY_CONFLICT;
-        }
-        else
-        {
+
             qDebug() << __FUNCTION__;
             m_rawImageViewer->startPanoTimer();
-        }
+         //   m_modelController->panorama_VTK_motion();
+           // m_modelController->panorama_VTK_motion();
+
     }
 
     if (ui->CephCheckBox->isChecked())
     {
-        if (ui->PanoCheckBox->isChecked())
-        {
-            m_cephErrorMessage = new QMessageBox;
-m_cephErrorMessage:ERROR_LOG_POLICY_CONFLICT;
 
-        }
-        else
-        {
             qDebug() << __FUNCTION__;
             m_rawImageViewer->startCephTimer();
-        }
+           // m_modelController->cephalo_VTK_motion();
+
     }
 }
 
@@ -325,9 +310,10 @@ void MainWindow::on_CaptureStopPushButton_clicked()
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(false);
 
-    ui->PanoCheckBox->isCheckable();
-    ui->CephCheckBox->isCheckable();
-
+   ui->PanoCheckBox->setCheckState(Qt::Checked);
+   ui->CephCheckBox->setCheckState(Qt::Unchecked);
+    ui->PanoCheckBox->raise();
+    ui->CephCheckBox->raise();
 
     m_rawImageViewer->stopPanoTimer();
     m_rawImageViewer->stopCephTimer();

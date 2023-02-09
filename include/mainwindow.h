@@ -55,8 +55,7 @@ private slots:
     void receive_Ceph_Modality();
 
     void messageLogSlot(QString msg);
-    void panoFileLogSlot(QString mode, int panoValue, QString fileLog);
-    void cephFileLogSlot(QString mode, int cephValue, QString fileLog);
+    void fileLogSlot(QString mode, QString fileLog);
 
 
 private:
@@ -79,6 +78,7 @@ private slots:
 
 
 signals:
+
 //    void sendReadySignal(ControlType);
 //    void sendResetSignal(ControlType);
 //    void sendStartSignal(ControlType);

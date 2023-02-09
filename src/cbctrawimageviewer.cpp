@@ -18,14 +18,14 @@ CBCTRawImageViewer::CBCTRawImageViewer()
 
     panoImageIterator = new QDirIterator(panoDir, QDirIterator::Subdirectories);
     panoImageTimer = new QTimer(this);
-    panoImageTimer->setInterval(7);
+    panoImageTimer->setInterval(1);
     connect(panoImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutPanoTimer);
 
     QDir cephDir("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)");
 
     cephImageIterator = new QDirIterator(cephDir, QDirIterator::Subdirectories);
     cephImageTimer = new QTimer(this);
-    cephImageTimer->setInterval(7);
+    cephImageTimer->setInterval(1);
     connect(cephImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutCephTimer);
 }
 

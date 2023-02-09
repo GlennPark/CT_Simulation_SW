@@ -91,11 +91,11 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 
     if(panoOpen)
     {
-    emit panoFileLogSignal("PANORAMA MODE", panoValue, panoFileName);
+    emit fileLogSignal("PANORAMA MODE", panoFileName);
     }
     else
     {
-    emit panoFileLogSignal("No Panorama Files", panoValue, panoFileName);
+    emit fileLogSignal("No Panorama Files", panoFileName);
     }
 
     panoFile->close();
@@ -156,11 +156,11 @@ int countMax = 0;
     /* 전송되는 이미지를 테이블위젯에 출력 */
     if(cephOpen)
     {
-    emit cephFileLogSignal("CEPHALO MODE", cephValue, cephFileName);
+    emit fileLogSignal("CEPHALO MODE", cephFileName);
     }
     else
     {
-    emit cephFileLogSignal("No Cephalo Files", cephValue, cephFileName);
+    emit fileLogSignal("No Cephalo Files", cephFileName);
     }
 
     cephFile->close();
@@ -182,6 +182,8 @@ void CBCTFileTransfer::receiveControl()
     {
         int control = protocol->packetData()->type();
         QString modality = protocol->packetData()->msg();
+
+        emit modality_Signal(modality);
 
         switch (control) {
         case 0:
