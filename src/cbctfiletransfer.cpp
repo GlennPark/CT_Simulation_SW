@@ -170,6 +170,8 @@ int countMax = 0;
 void CBCTFileTransfer::sendingControl(int buttonIdx, QString msg)
 {
     protocol->sendProtocol(CBCTSocket, "CTL", buttonIdx, msg);
+
+    emit sending_Control_Signal(msg);
 }
 
 void CBCTFileTransfer::receiveControl()

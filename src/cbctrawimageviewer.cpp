@@ -14,6 +14,7 @@
 
 CBCTRawImageViewer::CBCTRawImageViewer()
 {
+    m_parentUI = new Ui::MainWindow;
     QDir panoDir("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)");
 
     panoImageIterator = new QDirIterator(panoDir, QDirIterator::Subdirectories);
@@ -29,6 +30,17 @@ CBCTRawImageViewer::CBCTRawImageViewer()
     connect(cephImageTimer, &QTimer::timeout, this, &CBCTRawImageViewer::timeoutCephTimer);
 }
 
+void CBCTRawImageViewer::viewer_Output()
+{
+    if( m_parentUI->PanoCheckBox->isChecked())
+    {
+        startPanoTimer();
+    }
+    if( m_parentUI->CephCheckBox->isChecked())
+    {
+        startCephTimer();
+    }
+}
 
 
 QPixmap CBCTRawImageViewer::PanoImageViewer()

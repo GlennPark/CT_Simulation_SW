@@ -294,14 +294,11 @@ public:
                 break;
 
             _Rotate_Pano(-190 +i/2);
-             transform->Update();
+            transform->Update();
         }m_curAngle = m_curAngle + 10;
         isRunning_Pano = false;
 
         /*리셋으로 초기화 하기 전까지 메인 버튼 비활성화 */
-
-
-
 
 
     }
@@ -385,34 +382,6 @@ public:
         }
         while(m_curPositionY < 0);
 
-
-        //        _on_reset_Panorama_module();
-        //        vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
-        //        m_curPositionX = 0;
-        //        m_curPositionY = 0;
-        //        m_curPositionZ = 0;
-        //        transform->Translate(m_curPositionX, m_curPositionY, m_curPositionZ);
-
-        //        // All
-        //        _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(All))->SetUserTransform(transform);
-        //        _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(All))->SetUserTransform(transform);
-        //        _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All))->SetUserTransform(transform);
-
-
-        //        // Main
-        //        _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(Main))->SetUserTransform(transform);
-        //        _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Main))->SetUserTransform(transform);
-        //        _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Main))->SetUserTransform(transform);
-
-        //        // Sub
-        //        _get_actor(GeometryDataType::toString(Upper), GeometryViewType::toString(Sub))->SetUserTransform(transform);
-        //        _get_actor(GeometryDataType::toString(Pano), GeometryViewType::toString(Sub))->SetUserTransform(transform);
-        //        _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Sub))->SetUserTransform(transform);
-
-        //        transform->Update();
-
-        //        _update_render();
-
         m_parentUI->MainPushButton->setEnabled(true);
     }
 
@@ -461,6 +430,11 @@ public:
             auto actorAll = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All));
             actorAll->SetUserTransform(transform);
 
+            // Main
+            m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
+            auto actorMain = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Main));
+            actorMain->SetUserTransform(transform);
+
             // Sub
             m_actorMap.value(GeometryViewType::toString(Sub)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
             auto actorSub = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Sub));
@@ -484,6 +458,11 @@ public:
             m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
             auto actorAll = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All));
             actorAll->SetUserTransform(transform);
+
+            // Main
+            m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
+            auto actorMain = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Main));
+            actorMain->SetUserTransform(transform);
 
             // Sub
             m_actorMap.value(GeometryViewType::toString(Sub)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
@@ -599,7 +578,12 @@ public:
         actorSub->SetUserTransform(transform);
         transform->Update();
 
-        //All
+        // Main
+        m_actorMap.value(GeometryViewType::toString(Main)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
+        auto actorMain = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(Main));
+        actorMain->SetUserTransform(transform);
+
+        // All
         m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
         auto actorAll = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All));
         actorAll->SetUserTransform(transform);
@@ -757,6 +741,10 @@ private:
     {
         vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
         vtkSmartPointer<vtkRenderer> Renderer = vtkSmartPointer<vtkRenderer>::New();
+        vtkSmartPointer<vtkCamera> cam = Renderer->GetActiveCamera();
+        vtkSmartPointer<vtkLight> panoLight = vtkSmartPointer<vtkLight>::New();
+
+
 
 #ifdef USE_DISPLAY_GLOBALAXIS
         vtkSmartPointer<vtkAxesActor> axes = vtkSmartPointer<vtkAxesActor>::New();
@@ -765,7 +753,7 @@ private:
         axes->SetTotalLength(700, 700, 700);
         axes->GetCenter();
         axes->SetUserTransform(axesTransform);
-        axesTransform->Translate(-1000,0,0);
+        axesTransform->Translate(-2000,-1500,2000);
         Renderer->AddActor(axes);
 
 #endif
@@ -785,6 +773,19 @@ private:
                 Renderer->GradientBackgroundOn();
                 Renderer->ResetCamera();
 
+                Renderer->GetActiveCamera();
+
+
+
+                cam->SetClippingRange(0.1,10);
+                cam->SetFocalPoint(-2000,-1500,2000);
+                cam->SetViewUp(0,1,0);
+                cam->SetPosition(-8000,1000,8000);
+
+                panoLight->SetColor(1,1,0);
+                panoLight->SetFocalPoint(0,0,0);
+                panoLight->SetPosition(0,0,0);
+                //Renderer->AddLight(panoLight);
                 renderMap.insert(viewType, Renderer);
             }
         }break;
@@ -799,6 +800,11 @@ private:
                 }
                 Renderer->SetBackground(colors->GetColor3d("Black").GetData());
                 Renderer->ResetCamera();
+                cam->SetClippingRange(0.1,10);
+                cam->SetFocalPoint(0,0,0);
+                cam->SetViewUp(0,1,0);
+                cam->SetPosition(0,0,0);
+
 
                 renderMap.insert(viewType, Renderer);
             }
@@ -814,6 +820,10 @@ private:
                 }
                 Renderer->SetBackground(colors->GetColor3d("Black").GetData());
                 Renderer->ResetCamera();
+                cam->SetClippingRange(0.1,10);
+                cam->SetFocalPoint(0,0,0);
+                cam->SetViewUp(0,1,0);
+                cam->SetPosition(0,0,3000);
 
                 renderMap.insert(viewType, Renderer);
             }
@@ -916,6 +926,7 @@ private:
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> _get_window(const QString& viewType) {
         return m_windowMap.value(viewType);
     }
+
 };
 
 CBCTModelController::CBCTModelController(Ui::MainWindow* parentUI)
@@ -1016,7 +1027,14 @@ bool CBCTModelController::initialize()
 void CBCTModelController::on_MainPushButton_clicked()
 {
     qDebug() << "Main Push Btn!!";
-    PData->_on_MainPushButton_clicked();
+    if(PData->m_parentUI->PanoCheckBox->isChecked())
+    {
+        PData->_on_MainPushButton_clicked();
+    }
+    if(PData->m_parentUI->CephCheckBox->isChecked())
+    {
+        PData->_on_SubPushButton_clicked();
+    }
 }
 
 void CBCTModelController::on_SubPushButton_clicked()
@@ -1047,6 +1065,7 @@ void CBCTModelController::on_CaptureReadyPushButton_VTK_clicked()
 
 void CBCTModelController::panorama_VTK_motion()
 {
+
     PData->_on_MainPushButton_clicked();
 }
 

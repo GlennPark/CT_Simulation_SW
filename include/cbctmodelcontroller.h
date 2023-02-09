@@ -8,6 +8,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+
 class GeometryDataType {
 public:
 	enum Type {
@@ -101,7 +102,7 @@ public:
     void on_CaptureResetPushButton_VTK_clicked();
     void on_CaptureReadyPushButton_VTK_clicked();
 
-private slots:
+public slots:
 	// MainPush Btn : Pano Obj File이 Y Axis 기준으로 360 회전을 한다. 
 	void on_MainPushButton_clicked();
 	// SubPush Btn : Ceph Obj File이 우측 끝에서 좌측 끝으로 이동 후 원 상태로 복귀 한다. 
@@ -122,6 +123,7 @@ public:
 //	void on_Translate_CephObject(const int& val);
 
 private:
+
 	class Internal;
 	Internal* PData;
 };

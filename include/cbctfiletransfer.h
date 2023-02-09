@@ -58,7 +58,7 @@ signals:
 
     void modality_Signal(QString msg);
     void fileLogSignal(QString mode, QString fileLog);
-
+    void sending_Control_Signal(QString msg);
 };
 
 #endif // CBCTFILETRANSFER_H

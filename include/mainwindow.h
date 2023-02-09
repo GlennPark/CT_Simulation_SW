@@ -54,7 +54,7 @@ private slots:
     void receive_Pano_Modality();
     void receive_Ceph_Modality();
 
-    void messageLogSlot(QString msg);
+    void messageLogSlot(QString msg, QString modality);
     void fileLogSlot(QString mode, QString fileLog);
 
 
@@ -63,6 +63,7 @@ private:
 
 	CBCTFileTransfer* m_fileTransfer;
 	CBCTLogThread* m_logThread;
+
 	CBCTModelController* m_modelController;
 	CBCTRawImageViewer* m_rawImageViewer;
     MainWindow* m_mainWindow;

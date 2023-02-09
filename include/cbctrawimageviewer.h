@@ -16,7 +16,7 @@ class CBCTRawImageViewer : public QObject
 public:
     explicit CBCTRawImageViewer();
     ~CBCTRawImageViewer();
-    Ui::MainWindow* m_mainwindowUi = nullptr;
+    Ui::MainWindow* m_parentUI = nullptr;
 
     QPixmap PanoImageViewer();
     QPixmap CephImageViewer();
@@ -41,11 +41,12 @@ private:
     QDirIterator* cephImageIterator;
     QTimer* panoImageTimer;
     QTimer* cephImageTimer;
+public slots:
+    void viewer_Output();
 
 private slots:
         void timeoutPanoTimer();
         void timeoutCephTimer();
-
 //    void slot_panoImage(QImage* panoImage);
 //    void slot_cephImage(QImage* cephImage);
 
