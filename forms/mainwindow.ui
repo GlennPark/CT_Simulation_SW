@@ -129,7 +129,7 @@ background-color: rgb(50, 50, 50);
     <property name="title">
      <string>Equip Controller</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>7</x>
@@ -281,13 +281,13 @@ background-color: rgb(50, 50, 50);
     <property name="title">
      <string>Capture Controller</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>50</y>
-       <width>126</width>
-       <height>66</height>
+       <width>128</width>
+       <height>68</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
@@ -472,7 +472,7 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
     <property name="checkable">
      <bool>false</bool>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>1</x>
@@ -636,7 +636,7 @@ QProgressBar {
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>65</x>
@@ -720,13 +720,13 @@ QProgressBar {
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>141</y>
       <width>302</width>
-      <height>626</height>
+      <height>628</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_5">
@@ -846,17 +846,22 @@ QTableWidget
        </property>
        <column>
         <property name="text">
-         <string>New Column</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>Mode</string>
         </property>
        </column>
        <column>
         <property name="text">
+         <string>Image Number</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>File location</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Date&amp;Time</string>
         </property>
        </column>
       </widget>
@@ -870,7 +875,7 @@ QTableWidget
      <x>0</x>
      <y>0</y>
      <width>1248</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCBCT_Simulator">

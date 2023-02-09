@@ -13,45 +13,10 @@
 #include <qstring.h>
 #include <qevent.h>
 #include <QThread>
-/* 3D .Obj Visualization */
 
-#include <vtkRenderWindow.h>
-#include<vtkOBJExporter.h>
-#include <vtkPlaneSource.h>
-#include <vtkAxesActor.h>
-#include <vtkOBJImporter.h>
-
-#include <vtkObject.h>
-#include <vtkOBJReader.h>
-
-
-#include <vtkNamedColors.h>
-#include <vtkProperty.h>
-#include <vtkPointData.h>
-#include <vtkImporter.h>
-
-/* 3D .Obj Movement */
-#include <vtkRenderWindowInteractor.h>
-#include <vtkTransform.h>
-#include <vtkTransformPolyDataFilter.h>
-
-
-#include <qvtkopenglstereowidget.h>
-#include <QVTKRenderWidget.h>
-#include <QVTKOpenGLWindow.h>
-#include <vtkCamera.h>
-#include <vtkNew.h>
-
-#include <qopenglwidget.h>
-
-/* 2D Visualization */
-#include <vtkImageReader2Factory.h>
-#include <vtkImageReader2.h>
-#include <vtkImageViewer2.h>
-#include <vtkRenderWindow.h>
-#include <InteractionContext.h>
 #include <QDebug>
 
+#include <QDateTime>
 #include <QtNetwork>
 //#define USE_DISPLAY_GLOBALAXIS
 
@@ -122,7 +87,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
 
     /* 파일 전송 시 로그 출력 */
-    connect(m_fileTransfer, SIGNAL(fileLogSignal(QString, int, QString)), this, SLOT(fileLogSlot(QString, int, QString)));
+    connect(m_fileTransfer, SIGNAL(panoFileLogSignal(QString,int,QString)), this, SLOT(panoFileLogSlot(QString,int,QString)));
+    connect(m_fileTransfer, SIGNAL(cephFileLogSignal(QString,int,QString)), this, SLOT(cephFileLogSlot(QString,int,QString)));
 
     // ui check box Update
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
@@ -186,14 +152,24 @@ void MainWindow::messageLogSlot(QString msg)
 {
 
 }
-void MainWindow::fileLogSlot(QString mode, int val, QString fileLog)
+void MainWindow::panoFileLogSlot(QString mode, int panoValue, QString fileLog)
 {
-ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
-ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(mode));
-ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(val));
-ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(fileLog));
-
+ui->FileLogTableWidget->insertRow(ui->FileLogTableWidget->rowCount());
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(mode));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(panoValue));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(fileLog));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 3, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 }
+
+void MainWindow::cephFileLogSlot(QString mode, int cephValue, QString fileLog)
+{
+ui->FileLogTableWidget->insertRow(ui->FileLogTableWidget->rowCount());
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 0, new QTableWidgetItem(mode));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 1, new QTableWidgetItem(cephValue));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 2, new QTableWidgetItem(fileLog));
+ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount()-1, 3, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+}
+
 void MainWindow::receive_Pano_Modality()
 {
     ui->PanoCheckBox->setCheckState(Qt::Unchecked);

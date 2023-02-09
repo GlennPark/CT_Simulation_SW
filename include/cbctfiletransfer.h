@@ -56,7 +56,8 @@ signals:
     void receivePanoSignal();
     void receiveCephSignal();
 
-    void fileLogSignal(QString mode, int val, QString fileLog);
+    void panoFileLogSignal(QString mode, int panoValue, QString fileLog);
+    void cephFileLogSignal(QString mode, int cephValue, QString fileLog);
 
 };
 

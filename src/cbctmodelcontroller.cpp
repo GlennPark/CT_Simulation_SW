@@ -5,6 +5,7 @@
 #include "vtkPolyDataMapper.h"
 #include "vtkActor.h"
 #include "vtkOBJReader.h"
+#include "vtkPLYReader.h"
 #include "vtkOBJImporter.h"
 
 #include "vtkGenericOpenGLRenderWindow.h"
@@ -105,13 +106,13 @@ public:
     bool _initialize() {
 
         ///* Load Source */
-        _load_objfile(GeometryDataType::toString(Lower), m_dataMap);
-        _load_objfile(GeometryDataType::toString(Upper), m_dataMap);
-        _load_objfile(GeometryDataType::toString(Pano), m_dataMap);
-        _load_objfile(GeometryDataType::toString(Ceph), m_dataMap);
-        _load_objfile(GeometryDataType::toString(Xray), m_dataMap);
+        _load_plyfile(GeometryDataType::toString(Lower), m_dataMap);
+        _load_plyfile(GeometryDataType::toString(Upper), m_dataMap);
+        _load_plyfile(GeometryDataType::toString(Pano), m_dataMap);
+        _load_plyfile(GeometryDataType::toString(Ceph), m_dataMap);
+        _load_plyfile(GeometryDataType::toString(Xray), m_dataMap);
         // qDebug() << "걸린시간 = " << dbgTime.elapsed();
-        qDebug(" obj load ") ;
+        qDebug(" ply load ") ;
 
         ///* Create Mapper & Actor */
         _create_Mapper(GeometryViewType::toString(All), m_dataMap, m_mapperMap);
@@ -601,6 +602,7 @@ public:
         actorSub->SetUserTransform(transform);
         transform->Update();
 
+        //All
         m_actorMap.value(GeometryViewType::toString(All)).m_actor.value(GeometryDataType::toString(Ceph))->SetUserTransform(transform);
         auto actorAll = _get_actor(GeometryDataType::toString(Ceph), GeometryViewType::toString(All));
         actorAll->SetUserTransform(transform);
@@ -611,47 +613,41 @@ public:
     }
     // Internal Methods must be used in the Internal.
 private:
-    void _load_objfile(const QString& type, QMap<QString, vtkSmartPointer<vtkPolyData>>& objs)
+    void _load_plyfile(const QString& type, QMap<QString, vtkSmartPointer<vtkPolyData>>& plys)
     {
-        vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
-        //       vtkSmartPointer<vtkOBJImporter> reader = vtkSmartPointer<vtkOBJImporter>::New();
+        vtkSmartPointer<vtkPLYReader> reader = vtkSmartPointer<vtkPLYReader>::New();
         switch (GeometryDataType::toEnum(type))
         {
         case GeometryDataType::Lower:
         {
-            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.obj");
-            //         reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.mtl");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.ply");
 
         }break;
         case GeometryDataType::Upper:
         {
-            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.obj");
-            // reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.mtl");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.ply");
         }break;
         case GeometryDataType::Panorama:
         {
-            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.obj");
-            //       reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.mtl");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.ply");
         }break;
         case GeometryDataType::Cephalo:
         {
-            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.obj");
-            //     reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.mtl");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.ply");
         }break;
         case GeometryDataType::Xray:
         {
-            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/XrayModule.obj");
-            //     reader->SetFileNameMTL("C:/Qt_VTK_CT/resources/T2 Modeling/XrayModule.mtl");
+            reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/XrayModule.ply");
         }break;
         }
 
         reader->Update();
-        objs.insert(type, reader->GetOutput());
+        plys.insert(type, reader->GetOutput());
 
 
     }
 
-    void _create_Mapper(const QString& viewType, QMap<QString, vtkSmartPointer<vtkPolyData>>& objs, QMap<QString, MapperItem>& mapperMap)
+    void _create_Mapper(const QString& viewType, QMap<QString, vtkSmartPointer<vtkPolyData>>& plys, QMap<QString, MapperItem>& mapperMap)
     {
 
         switch (GeometryViewType::toEnum(viewType))
@@ -659,10 +655,10 @@ private:
         case GeometryViewType::All:
         {
             MapperItem item;
-            for (auto it = objs.keyBegin(); it != objs.keyEnd(); it++)
+            for (auto it = plys.keyBegin(); it != plys.keyEnd(); it++)
             {
                 vtkSmartPointer<vtkPolyDataMapper> map = vtkSmartPointer<vtkPolyDataMapper>::New();
-                map->SetInputData(objs.value(*it));
+                map->SetInputData(plys.value(*it));
                 map->Update();
                 item.m_mapper.insert(*it, map);
             }
@@ -671,10 +667,10 @@ private:
         case GeometryViewType::Main:
         {
             MapperItem item;
-            for (auto it = objs.keyBegin(); it != objs.keyEnd(); it++)
+            for (auto it = plys.keyBegin(); it != plys.keyEnd(); it++)
             {
                 vtkSmartPointer<vtkPolyDataMapper> map = vtkSmartPointer<vtkPolyDataMapper>::New();
-                map->SetInputData(objs.value(*it));
+                map->SetInputData(plys.value(*it));
                 map->Update();
                 item.m_mapper.insert(*it, map);
             }
@@ -683,10 +679,10 @@ private:
         case GeometryViewType::Sub:
         {
             MapperItem item;
-            for (auto it = objs.keyBegin(); it != objs.keyEnd(); it++)
+            for (auto it = plys.keyBegin(); it != plys.keyEnd(); it++)
             {
                 vtkSmartPointer<vtkPolyDataMapper> map = vtkSmartPointer<vtkPolyDataMapper>::New();
-                map->SetInputData(objs.value(*it));
+                map->SetInputData(plys.value(*it));
                 map->Update();
                 item.m_mapper.insert(*it, map);
             }
@@ -787,7 +783,9 @@ private:
                 {
                     Renderer->AddActor(actor.value(*it));
                 }
-                Renderer->SetBackground(colors->GetColor3d("Black").GetData());
+                Renderer->SetBackground(colors->GetColor3d("Gray").GetData());
+                Renderer->SetBackground2(colors->GetColor3d("Black").GetData());
+                Renderer->GradientBackgroundOn();
                 Renderer->ResetCamera();
 
                 renderMap.insert(viewType, Renderer);

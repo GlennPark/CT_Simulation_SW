@@ -55,7 +55,9 @@ private slots:
     void receive_Ceph_Modality();
 
     void messageLogSlot(QString msg);
-    void fileLogSlot(QString mode, int val, QString fileLog);
+    void panoFileLogSlot(QString mode, int panoValue, QString fileLog);
+    void cephFileLogSlot(QString mode, int cephValue, QString fileLog);
+
 
 private:
 	void resizeEvent(QResizeEvent* event) override;

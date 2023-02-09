@@ -8,7 +8,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     protocol = new Protocol();
     CBCTSocket = new QTcpSocket(this);
     CBCTSocket->connectToHost("10.222.0.164", 8002);
-    if(CBCTSocket->waitForConnected())
+    if(CBCTSocket->waitForConnected(100))
     {
         qDebug("CBCT Connected");
         connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
@@ -22,7 +22,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 
     fileSocket = new QTcpSocket(this);
     fileSocket->connectToHost("10.222.0.164", 8003);
-    if(fileSocket->waitForConnected())
+    if(fileSocket->waitForConnected(100))
     {
         qDebug("File Transfer Ready");
         connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
@@ -91,11 +91,11 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 
     if(panoOpen)
     {
-    emit fileLogSignal("PANORAMA MODE", panoValue, panoFileName);
+    emit panoFileLogSignal("PANORAMA MODE", panoValue, panoFileName);
     }
     else
     {
-    emit fileLogSignal("No Panorama Files", panoValue, panoFileName);
+    emit panoFileLogSignal("No Panorama Files", panoValue, panoFileName);
     }
 
     panoFile->close();
@@ -156,11 +156,11 @@ int countMax = 0;
     /* 전송되는 이미지를 테이블위젯에 출력 */
     if(cephOpen)
     {
-    emit fileLogSignal("CEPHALO MODE", cephValue, cephFileName);
+    emit cephFileLogSignal("CEPHALO MODE", cephValue, cephFileName);
     }
     else
     {
-    emit fileLogSignal("No Cephalo Files", cephValue, cephFileName);
+    emit cephFileLogSignal("No Cephalo Files", cephValue, cephFileName);
     }
 
     cephFile->close();
