@@ -1,13 +1,12 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-//#include "cbctfiletransfer.h"
+#include "cbctfiletransfer.h"
 #include "cbctlogthread.h"
-//#include "cbctrawimageviewer.h"
+#include "cbctrawimageviewer.h"
 #include <QMessageBox>
 #include <QFile>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsView>
-#include <QGraphicsScene>
+
+//#include <QGraphicsScene>
 #include <QList>
 #include <QTransform>
 #include <qstring.h>
@@ -66,6 +65,7 @@ MainWindow::MainWindow(QWidget* parent)
     /* 버튼 클릭시 기본 기능 동작*/
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
     connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
+    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_MainPushButton_clicked()));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
     connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
@@ -79,14 +79,15 @@ MainWindow::MainWindow(QWidget* parent)
     //    connect(ui->CaptureStartPushButton, SIGNAL(clicked), m_fileTransfer, SLOT());
 
     /* 촬영 SW에서 Signal 받았을 시 Emit Signal 제외한 기능 동작 */
-    //    connect(m_fileTransfer, SIGNAL(receiveResetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
-    //    connect(m_fileTransfer, SIGNAL(receiveReadySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
-    //    connect(m_fileTransfer, SIGNAL(receiveStartSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
-    //    connect(m_fileTransfer, SIGNAL(receiveStopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
+        connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(on_CaptureResetPushButton_clicked()));
+        connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(on_CaptureReadyPushButton_clicked()));
+        connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), m_modelController, SLOT(on_MainPushButton_clicked()));
+        connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(on_CaptureStartPushButton_clicked()));
+        connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(on_CaptureStopPushButton_clicked()));
 
     /* 촬영 SW에서 Signal 받았을 시 Modality CheckBox 기능 동작 */
-    connect(m_fileTransfer, SIGNAL(receivePanoSignal()), this, SLOT(receive_Pano_Modality()));
-    connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
+    connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Pano_Modality()));
+    connect(m_fileTransfer, SIGNAL(receiveCephSignal(QString)), this, SLOT(receive_Ceph_Modality()));
 
     /* 파일 전송 시 로그 출력 */
     connect(m_fileTransfer, SIGNAL(fileLogSignal(QString,QString)), this, SLOT(fileLogSlot(QString,QString)));

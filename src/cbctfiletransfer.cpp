@@ -7,7 +7,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 {
     protocol = new Protocol();
     CBCTSocket = new QTcpSocket(this);
-    CBCTSocket->connectToHost("10.222.0.164", 8002);
+    CBCTSocket->connectToHost("192.168.0.20", 8002);
     if(CBCTSocket->waitForConnected(100))
     {
         qDebug("CBCT Connected");
@@ -21,7 +21,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     }
 
     fileSocket = new QTcpSocket(this);
-    fileSocket->connectToHost("10.222.0.164", 8003);
+    fileSocket->connectToHost("192.168.0.20", 8003);
     if(fileSocket->waitForConnected(100))
     {
         qDebug("File Transfer Ready");

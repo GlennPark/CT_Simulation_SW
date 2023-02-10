@@ -1,9 +1,9 @@
 ﻿#include "cbctrawimageviewer.h"
 #include <QFile>
 #include <QImage>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsView>
-#include <QGraphicsScene>
+//#include <QGraphicsPixmapItem>
+//#include <QGraphicsView>
+//#include <QGraphicsScene>
 #include <QtWidgets>
 #include <QTimer>
 #include <QPixmap>
