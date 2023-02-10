@@ -17,7 +17,7 @@ public:
 
     explicit CBCTFileTransfer(QObject * parent = nullptr);
     ~CBCTFileTransfer();
-    void sendingControl(int buttonIdx, QString msg);
+    void sendingControl(QString header, QString event, int type, QString msg);
 
     void sendPanoFile(int panoValue);
     void sendCephFile(int cephValue);

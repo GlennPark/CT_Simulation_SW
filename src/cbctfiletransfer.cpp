@@ -13,8 +13,9 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
         qDebug("CBCT Connected");
         connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
         //        connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveModality()));
-        protocol->sendProtocol(CBCTSocket, "NEW", ConnectType::MODALITY, "NEW CBCT CONNECTED");
+        protocol->sendProtocol(CBCTSocket, "SEN", "NEW", ConnectType::MODALITY, "NEW CBCT CONNECTED");
     }
+    //sendProtocol(QTcpSocket* socket, QString header, QString event, int type, QString msg);
     else
     {
         qDebug("CBCT Not Connected");
@@ -27,7 +28,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
         qDebug("File Transfer Ready");
         connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
         //        connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveModality()));
-        protocol->sendProtocol(fileSocket, "NEW", ConnectType::MODALITY, "CBCT FILE TRANSFER READY");
+        protocol->sendProtocol(fileSocket, "SEN", "NEW", ConnectType::MODALITY, "CBCT FILE TRANSFER READY");
     }
     else
     {
@@ -52,7 +53,8 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
         panoFile = new QFile;
         QString panoFileName;
    
-
+        if (protocol->packetData()->header() == "ACK")
+        {
     if(panoValue >= countMax)
     {
         return;
@@ -77,6 +79,11 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
    //     qDebug() << panoValue;
         panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
     }
+        }
+        else if (protocol->packetData()->header() == "ERROR")
+        {
+            qDebug("Pano File Transfer Error State");
+        }
     panoFile->setFileName(panoFileName);
   //  qDebug() << panoFileName;
     if(!panoFile->exists())
@@ -120,31 +127,37 @@ int countMax = 0;
         QFile* cephFile;
         cephFile = new QFile;
         QString cephFileName;
-
-    if(cephValue >= countMax)
-    {
-        return;
-    }
-    if (cephValue >= 1000)
-    {
-        qDebug() << cephValue;
-        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/%1.raw").arg(cephValue);
-    }
-    else if (cephValue < 1000 && cephValue >= 100)
-    {
-        qDebug() << cephValue;
-        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/0%1.raw").arg(cephValue);
-    }
-    else if (cephValue < 100 && cephValue >= 10)
-    {
-        qDebug() << cephValue;
-        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/00%1.raw").arg(cephValue);
-    }
-    else
-    {
-        qDebug() << cephValue;
-        cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/000%1.raw").arg(cephValue);
-    }
+        if (protocol->packetData()->header() == "ACK")
+        {
+            if (cephValue >= countMax)
+            {
+                return;
+            }
+            if (cephValue >= 1000)
+            {
+                qDebug() << cephValue;
+                cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/%1.raw").arg(cephValue);
+            }
+            else if (cephValue < 1000 && cephValue >= 100)
+            {
+                qDebug() << cephValue;
+                cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/0%1.raw").arg(cephValue);
+            }
+            else if (cephValue < 100 && cephValue >= 10)
+            {
+                qDebug() << cephValue;
+                cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/00%1.raw").arg(cephValue);
+            }
+            else
+            {
+                qDebug() << cephValue;
+                cephFileName = QString("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)/000%1.raw").arg(cephValue);
+            }
+        }
+        else if(protocol->packetData()->header() == "ERROR")
+        {
+            qDebug("Ceph File Transfer Error State");
+        }
     cephFile->setFileName(cephFileName);
     if(!cephFile->exists())
     {
@@ -167,9 +180,9 @@ int countMax = 0;
     cephFile->deleteLater();
 }
 
-void CBCTFileTransfer::sendingControl(int buttonIdx, QString msg)
+void CBCTFileTransfer::sendingControl(QString header, QString event, int type, QString msg)
 {
-    protocol->sendProtocol(CBCTSocket, "CTL", buttonIdx, msg);
+    protocol->sendProtocol(CBCTSocket, "SEN", "CTL", type, msg);
 
     emit sending_Control_Signal(msg);
 }
@@ -182,39 +195,45 @@ void CBCTFileTransfer::receiveControl()
 
     if(protocol->packetData()->event() == "CTL")
     {
-        int control = protocol->packetData()->type();
-        QString modality = protocol->packetData()->msg();
+        if (protocol->packetData()->header() == "ACK")
+        {
+            int control = protocol->packetData()->type();
+            QString modality = protocol->packetData()->msg();
 
+            switch (control) {
+            case 0:
+                qDebug("RESET Received");
+                emit receiveResetSignal("RESET Received");
+                break;
+            case 1:
+                qDebug("READY Received");
 
-        switch (control) {
-        case 0:
-            qDebug("RESET Received");
-            emit receiveResetSignal("RESET Received");
-            break;
-        case 1:
-            qDebug("READY Received");
-
-            if(modality == "PANO"){
-                qDebug("Pano Modality Received");
-                emit receivePanoSignal("Pano Modality Received");
+                if (modality == "PANO") {
+                    qDebug("Pano Modality Received");
+                    emit receivePanoSignal("Pano Modality Received");
+                }
+                else if (modality == "CEPH") {
+                    qDebug("Ceph Modlality Received");
+                    emit receiveCephSignal("Ceph Modlality Received");
+                }
+                else {
+                    qDebug("WRONG MODAL STATE");
+                }
+                emit receiveReadySignal("READY Received");
+                break;
+            case 2:
+                qDebug("START Received");
+                emit receiveStartSignal("START Received");
+                break;
+            case 3:
+                qDebug("STOP Received");
+                emit receiveStopSignal("STOP Received");
+                break;
             }
-            else if (modality == "CEPH"){
-                qDebug("Ceph Modlality Received");
-                emit receiveCephSignal("Ceph Modlality Received");
-            }
-            else{
-                qDebug("WRONG MODAL STATE");
-            }
-            emit receiveReadySignal("READY Received");
-            break;
-        case 2:
-            qDebug("START Received");
-            emit receiveStartSignal("START Received");
-            break;
-        case 3:
-            qDebug("STOP Received");
-            emit receiveStopSignal("STOP Received");
-            break;
+        }
+        else if (protocol->packetData()->header() == "ERROR")
+        {
+            qDebug("Receive Control Error State");
         }
     }
 }

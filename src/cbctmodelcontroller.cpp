@@ -1031,7 +1031,7 @@ void CBCTModelController::on_MainPushButton_clicked()
     {
         PData->_on_MainPushButton_clicked();
     }
-    if(PData->m_parentUI->CephCheckBox->isChecked())
+    else if(PData->m_parentUI->CephCheckBox->isChecked())
     {
         PData->_on_SubPushButton_clicked();
     }
