@@ -41,54 +41,54 @@ public:
 	~MainWindow();
 
 private slots:
-    void on_CaptureReadyPushButton_clicked();
-    void on_CaptureResetPushButton_clicked();
+	void on_CaptureReadyPushButton_clicked();
+	void on_CaptureResetPushButton_clicked();
 	void on_CaptureStartPushButton_clicked();
 	void on_CaptureStopPushButton_clicked();
 
-	void emitResetSignal();
-	void emitReadySignal();
-	void emitStartSignal();
-	void emitStopSignal();
 
-    void receive_Pano_Modality();
-    void receive_Ceph_Modality();
+	void receive_Pano_Modality();
+	void receive_Ceph_Modality();
 
-    void receive_Message_LogSlot(QString receiveMsg);
-    void send_Message_LogSlot(QString msg);
-
-    void fileLogSlot(QString mode, QString fileLog);
+	void messageLogSlot(QString msg);
+	void panoFileLogSlot(QString mode, int panoValue, QString fileLog);
+	void cephFileLogSlot(QString mode, int cephValue, QString fileLog);
 
 
 private:
 	void resizeEvent(QResizeEvent* event) override;
 
+	// Button 초기 상태 지정 
+	void initializeButton();
+
+	// CBCTModel Controller 관련 connect 
+	void connectCBCTModelCtr();
+
+	// UI Button 관련 connect 
+	void connectUIBtn();
+
+	// CBCTRawImageViewer 관련 connect 
+	void connectCBCTRawImageView();
+
+	// CBCTFileTransfer 관련 connect
+	void connectCBCTFileTrans();
+
+
+
 	CBCTFileTransfer* m_fileTransfer;
 	CBCTLogThread* m_logThread;
-
 	CBCTModelController* m_modelController;
 	CBCTRawImageViewer* m_rawImageViewer;
-    MainWindow* m_mainWindow;
-    ControlPanel* m_controlPanel;
+	MainWindow* m_mainWindow;
+	ControlPanel* m_controlPanel;
 	QMessageBox* m_panoErrorMessage;
 	QMessageBox* m_cephErrorMessage;
 
 	Ui::MainWindow* ui;
-	
+
 private slots:
 	void slot_panoImage(QImage* pImg);
 	void slot_cephImage(QImage* cImg);
 
-
-signals:
-
-//    void sendReadySignal(ControlType);
-//    void sendResetSignal(ControlType);
-//    void sendStartSignal(ControlType);
-//    void sendStopSignal(ControlType);
-
-private:
-	QGraphicsScene* panoScene;
-	QGraphicsScene* cephScene;
 };
 #endif // MAINWINDOW_H
