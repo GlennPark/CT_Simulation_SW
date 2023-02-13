@@ -1019,6 +1019,67 @@ bool CBCTModelController::initialize()
 /* 파일 전송(Progressbar Panovalue)과 일치하는 PanoModule 모션 */
 void CBCTModelController::on_Rotate_PanoObject(const int& val)
 {
+	//// Main Push Button 비활성화 
+	//	/*리셋으로 초기화 하기 전까지 메인 버튼 비활성화 */
+	//m_parentUI->MainPushButton->setEnabled(false);
+
+	//// 회전중인 경우 종료
+	//if (isRunning_Pano || isRunning_Ceph)
+	//{
+	//	return;
+	//}
+	//isRunning_Pano = true;
+
+	//// 현재 Pano Angle을 +10도 까지 회전 
+	//for (int i = 0; i <= 10; i++)
+	//{
+	//	if (!isRunning_Pano)
+	//	{
+	//		break;
+	//	}
+	//	else {
+	//		m_curPanoAngle++;
+	//		_Rotate_Pano();
+	//	}
+	//	Sleep(10);
+	//}
+
+	//// 현재 Pano Angle을 반대로 200도 까지 회전
+	//for (int i = 0; i <= 200; i++)
+	//{
+	//	if (!isRunning_Pano)
+	//		break;
+	//	else {
+	//		if (0 <= i && i < 100)
+	//		{
+	//			m_curPositionX = m_curPositionX - 0.4;
+	//		}
+	//		else if (100 <= i && i < 200)
+	//		{
+	//			m_curPositionX = m_curPositionX + 0.4;
+	//		}
+	//		else if (i == 200)
+	//		{
+	//			m_curPositionX = 0;
+	//		}
+	//		m_curPanoAngle--;
+	//		_Rotate_Pano();
+	//	}
+	//	Sleep(20);
+	//}
+
+	//// 다시 + 방향으로 10도 회전
+	//for (int i = 0; i <= 10; i++)
+	//{
+	//	if (!isRunning_Pano)
+	//		break;
+	//	else {
+	//		m_curPanoAngle++;
+	//		_Rotate_Pano();
+	//	}
+	//	Sleep(10);
+	//}
+	//isRunning_Pano = false;
 	auto angle = ceil(val / 3.89);
 	qDebug() << "image Count : " << val << "angle : " << angle;
 
@@ -1027,6 +1088,7 @@ void CBCTModelController::on_Rotate_PanoObject(const int& val)
 		angle = 450;
 	}
 
+	if (0 <angle )
 	if (0 < angle && angle <= 405)
 	{
 		if (PData->isRunning_Pano)
@@ -1050,10 +1112,10 @@ void CBCTModelController::on_Rotate_PanoObject(const int& val)
 /* 파일 전송(Progressbar Cephvalue)과 일치하는 CephModule 모션 */
 void CBCTModelController::on_Translate_CephObject(const int& val)
 {
-	int count = 0.848 * val;
+	int count = 0.832 * val;
 
 	qDebug() << "image : " << val << "count : " << count;
-	if (0 < count && count <= 520)
+	if (0 < count && count <= 510)
 	{
 		if (PData->isRunning_Ceph)
 			return;
@@ -1062,7 +1124,7 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 		PData->_Translate_Ceph();
 		PData->isRunning_Ceph = false;
 	}
-	else if (520 < count && count <= 1040)
+	else if (510 < count && count <= 1020)
 	{
 		if (PData->isRunning_Ceph)
 			return;

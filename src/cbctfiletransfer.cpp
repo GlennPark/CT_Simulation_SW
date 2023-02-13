@@ -42,12 +42,8 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 
     qDebug() << protocol->packetData()->msg();
 
-     int countMax = 0;
+     int countMax = 1750;
 
-    if(modality == "PANO")
-    {
-        countMax = 1750;
-    }
     // PANO MODE
         QFile *panoFile;
         panoFile = new QFile;
@@ -114,13 +110,8 @@ void CBCTFileTransfer::sendCephFile(int cephValue)
 
     qDebug() << protocol->packetData()->msg();
 
-int countMax = 0;
-
-    if(modality == "CEPH")
-    {
-        countMax = 1250;
-    }
-
+int countMax = 1250;
+    
 
     // CEPH MODE
         QFile* cephFile;

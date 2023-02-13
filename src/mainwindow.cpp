@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget* parent)
 
 	/* 촬영 SW에서 Signal 받았을 시 Emit Signal 제외한 기능 동작 */
 	connectCBCTFileTrans();
+
+	connectLogMaster();
 }
 
 MainWindow::~MainWindow()
@@ -99,22 +101,29 @@ void MainWindow::connectCBCTModelCtr()
 	connect(ui->DescendingPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_DescendingPushButton_pressed()));
 
 
-	// TODO : 변경된 UI Widget에 따라 연결 필요. 
-	//connect(ui->LoadPatientPushButton, &QPushButton::clicked, this, [&](bool state) {
+	connect(ui->InvitePatientPushButton, &QPushButton::clicked, this, [&](bool state) {
 
-	//	QString filepath = QFileDialog::getOpenFileName(this, "patient", "C:\\", "Files(*.*)");
+		if (ui->PanoCheckBox->isChecked())
+		{
+		
+		QString filepath = QFileDialog::getOpenFileName(this, "patient", "C:\\", "Files(*.*)");
 
-	//	if (!m_modelController->Load_PanoPatient(filepath))
-	//		qDebug() << "Load 실패 했습니다.";
-	//	});
+		if (!m_modelController->Load_PanoPatient(filepath))
+			qDebug() << "Load 실패 했습니다.";
+		}
+		else if(ui->CephCheckBox->isChecked())
+		{
+		QString filepath = QFileDialog::getOpenFileName(this, "patient", "C:\\", "Files(*.*)");
 
-	//connect(ui->LoadPatientPushButton_2, &QPushButton::clicked, this, [&](bool state) {
+		if (!m_modelController->Load_CephPatient(filepath))
+			qDebug() << "Load 실패 했습니다.";
+		}
+		});
 
-	//	QString filepath = QFileDialog::getOpenFileName(this, "patient", "C:\\", "Files(*.*)");
-
-	//	if (!m_modelController->Load_CephPatient(filepath))
-	//		qDebug() << "Load 실패 했습니다.";
-	//	});
+	connect(ui->LeavePatientPushButton, &QPushButton::clicked, this, [&](bool state) {
+		m_modelController->Remove_PanoPatient();
+		m_modelController->Remove_CephPatient();
+		});
 }
 
 void MainWindow::connectUIBtn()
@@ -155,6 +164,7 @@ void MainWindow::connectCBCTRawImageView()
 
 void MainWindow::connectCBCTFileTrans()
 {
+	/* 촬영 SW 에서 시그널 받았을 때 기본 기능 동작 */
 	connect(m_fileTransfer, SIGNAL(receiveResetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
 	connect(m_fileTransfer, SIGNAL(receiveReadySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
 	connect(m_fileTransfer, SIGNAL(receiveStartSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
@@ -164,39 +174,53 @@ void MainWindow::connectCBCTFileTrans()
 	connect(m_fileTransfer, SIGNAL(receivePanoSignal()), this, SLOT(receive_Pano_Modality()));
 	connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
 
+
+	/* 장비에서 클릭 시 시그널 전송 */
+	connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(emitResetSignal()));
+	connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(emitReadySignal()));
+    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(emitStartSignal()));
+    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(emitStopSignal()));
+
+
+}
+
+void MainWindow::connectLogMaster()
+{
+	/* 촬영 SW로 Signal 보낼 때 로그 출력 */
+	connect(m_fileTransfer, SIGNAL(sending_Control_Signal(QString)), this, SLOT(send_Message_LogSlot(QString)));
+
 	/* 파일 전송 시 로그 출력 */
 	connect(m_fileTransfer, SIGNAL(panoFileLogSignal(QString, int, QString)), this, SLOT(panoFileLogSlot(QString, int, QString)));
 	connect(m_fileTransfer, SIGNAL(cephFileLogSignal(QString, int, QString)), this, SLOT(cephFileLogSlot(QString, int, QString)));
 
+	/* 촬영 SW에서 Signal 받았을 시 로그 출력 */
+	connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+	connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+	connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+	connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+	connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
+	connect(m_fileTransfer, SIGNAL(receiveCephSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
 
-	/* 버튼 클릭시 network slot 함수를 연결*/
-	//    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
-	//    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
-	//    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
-	//    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), m_fileTransfer, SLOT(sendButtonControl(int, QString)));
 }
 
-void MainWindow::panoFileLogSlot(QString mode, int panoValue, QString fileLog)
+void MainWindow::receive_Message_LogSlot(QString receiveMsg)
+{
+	ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
+	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(receiveMsg));
+}
+
+void MainWindow::send_Message_LogSlot(QString msg)
+{
+	ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
+	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(msg));
+}
+
+void MainWindow::fileLogSlot(QString mode, QString fileLog)
 {
 	ui->FileLogTableWidget->insertRow(ui->FileLogTableWidget->rowCount());
 	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(mode));
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 1, new QTableWidgetItem(panoValue));
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 2, new QTableWidgetItem(fileLog));
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 3, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
-}
-
-void MainWindow::messageLogSlot(QString msg)
-{
-
-}
-
-void MainWindow::cephFileLogSlot(QString mode, int cephValue, QString fileLog)
-{
-	ui->FileLogTableWidget->insertRow(ui->FileLogTableWidget->rowCount());
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(mode));
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 1, new QTableWidgetItem(cephValue));
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 2, new QTableWidgetItem(fileLog));
-	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 3, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 1, new QTableWidgetItem(fileLog));
+	ui->FileLogTableWidget->setItem(ui->FileLogTableWidget->rowCount() - 1, 2, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 }
 
 void MainWindow::receive_Pano_Modality()
@@ -211,6 +235,64 @@ void MainWindow::receive_Ceph_Modality()
 	ui->PanoCheckBox->setCheckState(Qt::Unchecked);
 	ui->CephCheckBox->setCheckState(Qt::Unchecked);
 	ui->CephCheckBox->setChecked(true);
+}
+
+void MainWindow::emitResetSignal()
+{
+	if (ui->PanoCheckBox->isChecked())
+	{
+		m_fileTransfer->sendingControl("SEN", "CTL", 0, "PANO");
+	}
+	if (ui->CephCheckBox->isChecked())
+	{
+		m_fileTransfer->sendingControl("SEN", "CTL", 0, "CEPH");
+	}
+
+}
+void MainWindow::emitReadySignal()
+{
+
+	if (ui->PanoCheckBox->isChecked())
+	{
+		m_fileTransfer->sendingControl("SEN", "CTL", 1, "PANO");
+
+	}
+	if (ui->CephCheckBox->isChecked())
+	{
+		m_fileTransfer->sendingControl("SEN", "CTL", 1, "CEPH");
+	}
+
+
+}
+
+void MainWindow::emitStartSignal()
+{
+	//   m_mainWindow->on_CaptureStartPushButton_clicked();
+	if (ui->PanoCheckBox->isChecked())
+
+		if (ui->PanoCheckBox->isChecked())
+		{
+			m_fileTransfer->sendingControl("SEN", "CTL", 2, "PANO");
+		}
+		else if (ui->CephCheckBox->isChecked())
+			{
+				m_fileTransfer->sendingControl("SEN", "CTL", 2, "CEPH");
+			}
+}
+	//    emit sendStartSignal(ControlType::START);
+
+void MainWindow::emitStopSignal()
+{
+	
+	if (ui->PanoCheckBox->isChecked())
+	{
+		m_fileTransfer->sendingControl("SEN", "CTL", 3, "PANO");
+	}
+	else if (ui->CephCheckBox->isChecked())
+	{
+		m_fileTransfer->sendingControl("SEN", "CTL", 3, "CEPH");
+	}
+	//    emit STOPSignal(ControlType::STOP);
 }
 
 void MainWindow::on_CaptureResetPushButton_clicked()

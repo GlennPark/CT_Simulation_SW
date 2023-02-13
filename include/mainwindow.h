@@ -49,11 +49,14 @@ private slots:
 
 	void receive_Pano_Modality();
 	void receive_Ceph_Modality();
+	void fileLogSlot(QString mode, QString fileLog);
+	void receive_Message_LogSlot(QString receiveMsg);
+	void send_Message_LogSlot(QString msg);
 
-	void messageLogSlot(QString msg);
-	void panoFileLogSlot(QString mode, int panoValue, QString fileLog);
-	void cephFileLogSlot(QString mode, int cephValue, QString fileLog);
-
+	void emitResetSignal();
+	void emitReadySignal();
+	void emitStartSignal();
+	void emitStopSignal();
 
 private:
 	void resizeEvent(QResizeEvent* event) override;
@@ -73,7 +76,7 @@ private:
 	// CBCTFileTransfer 관련 connect
 	void connectCBCTFileTrans();
 
-
+	void connectLogMaster();
 
 	CBCTFileTransfer* m_fileTransfer;
 	CBCTLogThread* m_logThread;

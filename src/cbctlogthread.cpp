@@ -22,7 +22,7 @@ void CBCTLogThread::runMethod()
     m_modelController->moveToThread(modelThread);
     m_rawImageViewer->moveToThread(viewThread);
 
-    connect(modelThread, &QThread::started, m_modelController, &CBCTModelController::on_MainPushButton_clicked);
-    connect(viewThread, &QThread::started, m_rawImageViewer, &CBCTRawImageViewer::viewer_Output);
+ //   connect(modelThread, &QThread::started, m_modelController, &CBCTModelController::on_MainPushButton_clicked);
+ //   connect(viewThread, &QThread::started, m_rawImageViewer, &CBCTRawImageViewer::viewer_Output);
 
 }
