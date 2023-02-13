@@ -269,9 +269,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
    <widget class="QGroupBox" name="ControlGroupBox">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>280</x>
       <y>-30</y>
-      <width>151</width>
+      <width>141</width>
       <height>131</height>
      </rect>
     </property>
@@ -420,9 +420,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
    <widget class="QGroupBox" name="VTKGroupBox">
     <property name="geometry">
      <rect>
-      <x>459</x>
+      <x>429</x>
       <y>-9</y>
-      <width>781</width>
+      <width>811</width>
       <height>781</height>
      </rect>
     </property>
@@ -572,9 +572,9 @@ QCheckBox
    <widget class="QGroupBox" name="RawGroupBox">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>290</x>
       <y>100</y>
-      <width>151</width>
+      <width>131</width>
       <height>681</height>
      </rect>
     </property>
@@ -833,7 +833,7 @@ QLabel
    <widget class="QGroupBox" name="ControlGroupBox_2">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>140</x>
       <y>-30</y>
       <width>141</width>
       <height>131</height>
@@ -927,32 +927,6 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="DescendingPushButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton{stretch:3;}
-
-QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
-QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
-QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
-       </property>
-       <property name="text">
-        <string>DOWN</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
       <widget class="QPushButton" name="LeavePatientPushButton">
        <property name="sizePolicy">
@@ -979,6 +953,32 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
        </property>
       </widget>
      </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="DescendingPushButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
+QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
+       </property>
+       <property name="text">
+        <string>DOWN</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QGroupBox" name="LogGroupBox">
@@ -986,7 +986,7 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      <rect>
       <x>-20</x>
       <y>100</y>
-      <width>320</width>
+      <width>311</width>
       <height>681</height>
      </rect>
     </property>
