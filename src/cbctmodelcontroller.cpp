@@ -62,7 +62,7 @@ public:
 
 	double m_curPositionX = 0;
 	int m_curPositionY = 0; // current Y Position Value
-	int m_curPositionZ = 0; // 현재 Ceph Z Position 값
+	double m_curPositionZ = 0; // 현재 Ceph Z Position 값
 
 	double m_curPanoAngle = 0; // 현재 Pano Angle 값
 	double m_curXRayAngle = 0; // 현재 Xray Angle 값
@@ -359,11 +359,11 @@ public:
 			else {
 				if (0 <= i && i < 100)
 				{
-					m_curPositionX = m_curPositionX - 0.4;
+					m_curPositionX = m_curPositionX - 1;
 				}
 				else if (100 <= i && i < 200)
 				{
-					m_curPositionX = m_curPositionX + 0.4;
+					m_curPositionX = m_curPositionX + 1;
 				}
 				else if (i == 200)
 				{
@@ -1105,11 +1105,11 @@ void CBCTModelController::on_Rotate_PanoObject(const int& val)
 				return;
 			if (10 < angle && angle <= 210)
 			{
-				PData->m_curPositionX = -0.4;
+				PData->m_curPositionX = PData->m_curPositionX -0.15;
 			}
 			if (210 < angle && angle <= 410)
 			{
-				PData->m_curPositionX = +0.4;
+				PData->m_curPositionX = PData->m_curPositionX +0.15;
 			}
 			PData->isRunning_Pano = true;
 			PData->m_curPanoAngle = 10 - ((angle - 10) / 2);
@@ -1131,30 +1131,11 @@ void CBCTModelController::on_Rotate_PanoObject(const int& val)
 /* 파일 전송(Progressbar Cephvalue)과 일치하는 CephModule 모션 */
 void CBCTModelController::on_Translate_CephObject(const int& val)
 {
-	int count = 0.832 * val;
+	int count = 1.248 * val;
 
 	qDebug() << "image : " << val << "count : " << count;
 
-	/*for (count = 0; count <= )
-	{
-		if (PData->isRunning_Ceph)
-			return;
-		PData->isRunning_Ceph = true;
-		PData->m_curPositionZ--;
-		PData->_Translate_Ceph();
-		PData->isRunning_Ceph = false;
-	}
-	for (780 < count && count <= 1040)
-	{
-		if (PData->isRunning_Ceph)
-			return;
-		PData->isRunning_Ceph = true;
-		PData->m_curPositionZ = PData->m_curPositionZ +2;
-		PData->_Translate_Ceph();
-		PData->isRunning_Ceph = false;
-	}*/
-
-	//if (0 < count && count <= 780)
+	//for (count = 0; count <= )
 	//{
 	//	if (PData->isRunning_Ceph)
 	//		return;
@@ -1163,18 +1144,37 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 	//	PData->_Translate_Ceph();
 	//	PData->isRunning_Ceph = false;
 	//}
-	//else if (780 < count && count <= 1040)
+	//for (780 < count && count <= 1040)
 	//{
 	//	if (PData->isRunning_Ceph)
 	//		return;
 	//	PData->isRunning_Ceph = true;
-	//	PData->m_curPositionZ++;
+	//	PData->m_curPositionZ = PData->m_curPositionZ +2;
 	//	PData->_Translate_Ceph();
 	//	PData->isRunning_Ceph = false;
 	//}
 
+	if (0 < count && count <= 1040)
+	{
+		if (PData->isRunning_Ceph)
+			return;
+		PData->isRunning_Ceph = true;
+		PData->m_curPositionZ = PData->m_curPositionZ -0.64;
+		PData->_Translate_Ceph();
+		PData->isRunning_Ceph = false;
+	}
+	else if (1040 < count && count <= 1560)
+	{
+		if (PData->isRunning_Ceph)
+			return;
+		PData->isRunning_Ceph = true;
+		PData->m_curPositionZ = PData->m_curPositionZ + 1.28;
+		PData->_Translate_Ceph();
+		PData->isRunning_Ceph = false;
+	}
+
 	// Z축 +동작
-	if (0 < count && count <= 260)
+	/*if (0 < count && count <= 260)
 	{
 		if (PData->isRunning_Ceph)
 			return;
@@ -1189,7 +1189,7 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 		if (PData->isRunning_Ceph)
 			return;
 		PData->isRunning_Ceph = true;
-		PData->m_curPositionZ = 520 - count;
+		PData->m_curPositionZ = 520 - count;*/
 
 		//	PData->_Translate_Ceph();
 		//	PData->isRunning_Ceph = false;
@@ -1216,7 +1216,7 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 		//	PData->isRunning_Ceph = false;
 		//}
 
-	}
+	
 }
 void CBCTModelController::on_XRayModule_Ready()
 {

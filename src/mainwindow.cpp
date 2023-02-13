@@ -206,7 +206,7 @@ void MainWindow::receive_Message_LogSlot(QString receiveMsg)
 {
 	ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
 	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(receiveMsg));
-	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 2, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 1, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 
 }
 
@@ -214,7 +214,7 @@ void MainWindow::send_Message_LogSlot(QString msg)
 {
 	ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
 	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(msg));
-	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 2, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 1, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
 
 }
 
