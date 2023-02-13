@@ -159,6 +159,12 @@ public:
 		return true;
 	}
 
+	void _stop()
+	{
+		isRunning_Pano = false;
+		isRunning_Ceph = false;
+	}
+
 	void _on_AscendingPushButton_pressed() {
 
 		_on_reset_Panorama_module();
@@ -701,24 +707,24 @@ private:
 		{
 		case GeometryDataType::Lower:
 		{
-			reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/LowerBody.ply");
+			reader->SetFileName("./resources/T2 Modeling/LowerBody.ply");
 
 		}break;
 		case GeometryDataType::Upper:
 		{
-			reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/UpperBody.ply");
+			reader->SetFileName("./resources/T2 Modeling/UpperBody.ply");
 		}break;
 		case GeometryDataType::Panorama:
 		{
-			reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/PanoModule.ply");
+			reader->SetFileName("./resources/T2 Modeling/PanoModule.ply");
 		}break;
 		case GeometryDataType::Cephalo:
 		{
-			reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/CephModule.ply");
+			reader->SetFileName("./resources/T2 Modeling/CephModule.ply");
 		}break;
 		case GeometryDataType::Xray:
 		{
-			reader->SetFileName("C:/Qt_VTK_CT/resources/T2 Modeling/XrayModule.ply");
+			reader->SetFileName("./resources/T2 Modeling/XrayModule.ply");
 		}break;
 		}
 
@@ -1280,6 +1286,6 @@ void CBCTModelController::on_CephModel_Reset() {
 void CBCTModelController::stop() {
 	PData->m_parentUI->CaptureStopPushButton->setEnabled(false);
 
-	//PData->_stop();
+	PData->_stop();
 }
 

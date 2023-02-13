@@ -83,7 +83,7 @@ void MainWindow::initializeButton()
 void MainWindow::connectCBCTModelCtr()
 {
 
-
+	connect(ui->StopPushButton, SIGNAL(clicked()), m_modelController, SLOT(stop()));
 	connect(ui->ResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_PanoModel_Reset()));
 	connect(ui->ResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CephModel_Reset()));
 	// TODO : Patient Remove 동작에 따른 Signal 연결 (Widget 구성 후 ) 
