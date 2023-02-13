@@ -40,7 +40,9 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QGroupBox {
+     <string notr="true">QGroupBox{stretch:3;}
+
+QGroupBox {
 border: 5px;
 
 background-color: rgb(50, 50, 50);
@@ -89,7 +91,9 @@ background-color: rgb(50, 50, 50);
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </property>
@@ -119,7 +123,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0;}
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </property>
@@ -149,7 +155,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </property>
@@ -179,7 +187,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </property>
@@ -204,7 +214,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </sizepolicy>
     </property>
     <property name="styleSheet">
-     <string notr="true">QGroupBox {
+     <string notr="true">QGroupBox{stretch:3;}
+
+QGroupBox {
 border: 5px;
 
 background-color: rgb(50, 50, 50);
@@ -253,7 +265,9 @@ background-color: rgb(50, 50, 50);
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
      </property>
@@ -283,7 +297,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
      </property>
@@ -313,7 +329,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
      </property>
@@ -343,7 +361,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
      </property>
@@ -366,6 +386,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{stretch:3;}</string>
     </property>
     <property name="title">
      <string/>
@@ -392,7 +415,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QCheckBox
+      <string notr="true">QCheckBox{stretch:3;}
+
+QCheckBox
 {
 	transform: scale(1.0, 1.0)
 }</string>
@@ -416,6 +441,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QVTKOPenGLStereoWidget{stretch:3;}
+</string>
+     </property>
     </widget>
     <widget class="QVTKOpenGLStereoWidget" name="openGLWidget_Sub">
      <property name="geometry">
@@ -432,6 +461,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QVTKOPenGLStereoWidget{stretch:3;}
+</string>
+     </property>
     </widget>
     <widget class="QVTKOpenGLStereoWidget" name="openGLWidget_All">
      <property name="geometry">
@@ -447,6 +480,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QVTKOPenGLStereoWidget{stretch:3;}
+</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="PanoCheckBox">
@@ -471,7 +508,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QCheckBox
+      <string notr="true">QCheckBox{stretch:3;}
+
+
+QCheckBox
 {
 	transform: scale(1.0, 1.0)
 }</string>
@@ -498,6 +538,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{stretch:3;}</string>
     </property>
     <property name="title">
      <string/>
@@ -530,7 +573,7 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">
+      <string notr="true">QProgressBar{stretch:3;}
 
 QProgressBar::chunk {
 	background-color: #FF0000;
@@ -650,7 +693,9 @@ QProgressBar {
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLabel
+      <string notr="true">QLabel{stretch:3;}
+
+QLabel
 {
     border: 6px solid white;
     border-radius: 35px;
@@ -691,7 +736,9 @@ QProgressBar {
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLabel {
+      <string notr="true">QLabel{stretch:3;}
+
+QLabel {
     border: 6px solid white;
     border-radius: 35px;
 	margin: 1px;
@@ -725,7 +772,8 @@ QProgressBar {
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">
+      <string notr="true">QProgressBar{stretch:3;}
+
 QProgressBar::chunk {
     background-color:#0000FF;
 	height : 4px;
@@ -778,7 +826,9 @@ QProgressBar {
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
     </property>
@@ -808,7 +858,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
     </property>
@@ -838,7 +890,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
     </property>
@@ -868,7 +922,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
     </property>
@@ -892,7 +948,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTableWidget
+     <string notr="true">QTableWidget{stretch:3;}
+
+QTableWidget
 {
 	transform: scale(1.0, 1.0);	
 }</string>
@@ -933,7 +991,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </size>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTableWidget
+     <string notr="true">QTableWidget{stretch:3;}
+
+QTableWidget
 {
 	transform: scale(1.0, 1.0);
 }</string>
