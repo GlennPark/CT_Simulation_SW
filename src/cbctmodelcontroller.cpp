@@ -1080,16 +1080,16 @@ void CBCTModelController::on_Rotate_PanoObject(const int& val)
 	//	Sleep(10);
 	//}
 	//isRunning_Pano = false;
-	auto angle = ceil(val / 3.89);
+
+	auto angle = ceil(val / 4.16);
 	qDebug() << "image Count : " << val << "angle : " << angle;
 
 	if (val == 1750)
 	{
-		angle = 450;
+		angle = 420;
 	}
 
-	if (0 <angle )
-	if (0 < angle && angle <= 405)
+	if (0 < angle && angle <= 10)
 	{
 		if (PData->isRunning_Pano)
 			return;
@@ -1098,12 +1098,31 @@ void CBCTModelController::on_Rotate_PanoObject(const int& val)
 		PData->_Rotate_Pano();
 		PData->isRunning_Pano = false;
 	}
-	else if (405 < angle && angle <= 450)
+
+		if (10 < angle && angle <= 410)
+		{
+			if (PData->isRunning_Pano)
+				return;
+			if (10 < angle && angle <= 210)
+			{
+				PData->m_curPositionX = -0.4;
+			}
+			if (210 < angle && angle <= 410)
+			{
+				PData->m_curPositionX = +0.4;
+			}
+			PData->isRunning_Pano = true;
+			PData->m_curPanoAngle = 10 - ((angle - 10) / 2);
+			PData->_Rotate_Pano();
+			PData->isRunning_Pano = false;
+		}
+
+	else if (410 < angle && angle <= 420)
 	{
 		if (PData->isRunning_Pano)
 			return;
 		PData->isRunning_Pano = true;
-		PData->m_curPanoAngle = 450 - angle;
+		PData->m_curPanoAngle = -190 + (angle -410);
 		PData->_Rotate_Pano();
 		PData->isRunning_Pano = false;
 	}
@@ -1115,7 +1134,8 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 	int count = 0.832 * val;
 
 	qDebug() << "image : " << val << "count : " << count;
-	if (0 < count && count <= 510)
+
+	/*for (count = 0; count <= )
 	{
 		if (PData->isRunning_Ceph)
 			return;
@@ -1124,63 +1144,82 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 		PData->_Translate_Ceph();
 		PData->isRunning_Ceph = false;
 	}
-	else if (510 < count && count <= 1020)
+	for (780 < count && count <= 1040)
 	{
 		if (PData->isRunning_Ceph)
 			return;
 		PData->isRunning_Ceph = true;
-		PData->m_curPositionZ++;
+		PData->m_curPositionZ = PData->m_curPositionZ +2;
 		PData->_Translate_Ceph();
 		PData->isRunning_Ceph = false;
+	}*/
+
+	//if (0 < count && count <= 780)
+	//{
+	//	if (PData->isRunning_Ceph)
+	//		return;
+	//	PData->isRunning_Ceph = true;
+	//	PData->m_curPositionZ--;
+	//	PData->_Translate_Ceph();
+	//	PData->isRunning_Ceph = false;
+	//}
+	//else if (780 < count && count <= 1040)
+	//{
+	//	if (PData->isRunning_Ceph)
+	//		return;
+	//	PData->isRunning_Ceph = true;
+	//	PData->m_curPositionZ++;
+	//	PData->_Translate_Ceph();
+	//	PData->isRunning_Ceph = false;
+	//}
+
+	// Z축 +동작
+	if (0 < count && count <= 260)
+	{
+		if (PData->isRunning_Ceph)
+			return;
+		PData->isRunning_Ceph = true;
+		PData->m_curPositionZ = count;
+		PData->_Translate_Ceph();
+
+		PData->isRunning_Ceph = false;
 	}
+	else if (260 < count && count <= 520)
+	{
+		if (PData->isRunning_Ceph)
+			return;
+		PData->isRunning_Ceph = true;
+		PData->m_curPositionZ = 520 - count;
 
-	//// Z축 +동작
-	//if (0 < count && count <= 260)
-	//{
-	//	if (PData->isRunning_Ceph)
-	//		return;
-	//	PData->isRunning_Ceph = true;
-	//	PData->m_curPositionZ = count;
-	//	PData->_Translate_Ceph();
+		//	PData->_Translate_Ceph();
+		//	PData->isRunning_Ceph = false;
+		//}
+		//else if (520 < count && count <= 790)
+		//{
 
-	//	PData->isRunning_Ceph = false;
-	//}
-	//else if (260 < count && count <= 520)
-	//{
-	//	if (PData->isRunning_Ceph)
-	//		return;
-	//	PData->isRunning_Ceph = true;
-	//	PData->m_curPositionZ = 520 - count;
+		//	if (PData->isRunning_Ceph)
+		//		return;
+		//	PData->isRunning_Ceph = true;
+		//	PData->m_curPositionZ = -(count - 520);
 
-	//	PData->_Translate_Ceph();
-	//	PData->isRunning_Ceph = false;
-	//}
-	//else if (520 < count && count <= 790)
-	//{
+		//	PData->_Translate_Ceph();
+		//	PData->isRunning_Ceph = false;
+		//}
+		//else if (790 < count && count <= 1060)
+		//{
 
-	//	if (PData->isRunning_Ceph)
-	//		return;
-	//	PData->isRunning_Ceph = true;
-	//	PData->m_curPositionZ = -(count - 520);
+		//	if (PData->isRunning_Ceph)
+		//		return;
+		//	PData->isRunning_Ceph = true;
+		//	PData->m_curPositionZ = (-(1060 - count));
+		//	PData->_Translate_Ceph();
+		//	PData->isRunning_Ceph = false;
+		//}
 
-	//	PData->_Translate_Ceph();
-	//	PData->isRunning_Ceph = false;
-	//}
-	//else if (790 < count && count <= 1060)
-	//{
-
-	//	if (PData->isRunning_Ceph)
-	//		return;
-	//	PData->isRunning_Ceph = true;
-	//	PData->m_curPositionZ = (-(1060 - count));
-	//	PData->_Translate_Ceph();
-	//	PData->isRunning_Ceph = false;
-	//}
-
+	}
 }
-
-void CBCTModelController::on_XRayModule_Ready() {
-
+void CBCTModelController::on_XRayModule_Ready()
+{
 	PData->_on_XRayModule_Ready();
 }
 

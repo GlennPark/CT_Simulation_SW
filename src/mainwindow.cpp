@@ -165,14 +165,14 @@ void MainWindow::connectCBCTRawImageView()
 void MainWindow::connectCBCTFileTrans()
 {
 	/* 촬영 SW 에서 시그널 받았을 때 기본 기능 동작 */
-	connect(m_fileTransfer, SIGNAL(receiveResetSignal()), this, SLOT(on_CaptureResetPushButton_clicked()));
-	connect(m_fileTransfer, SIGNAL(receiveReadySignal()), this, SLOT(on_CaptureReadyPushButton_clicked()));
-	connect(m_fileTransfer, SIGNAL(receiveStartSignal()), this, SLOT(on_CaptureStartPushButton_clicked()));
-	connect(m_fileTransfer, SIGNAL(receiveStopSignal()), this, SLOT(on_CaptureStopPushButton_clicked()));
+	connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(on_CaptureResetPushButton_clicked()));
+	connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(on_CaptureReadyPushButton_clicked()));
+	connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(on_CaptureStartPushButton_clicked()));
+	connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(on_CaptureStopPushButton_clicked()));
 
 	/* 촬영 SW에서 Signal 받았을 시 Modality CheckBox 기능 동작 */
-	connect(m_fileTransfer, SIGNAL(receivePanoSignal()), this, SLOT(receive_Pano_Modality()));
-	connect(m_fileTransfer, SIGNAL(receiveCephSignal()), this, SLOT(receive_Ceph_Modality()));
+	connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Pano_Modality()));
+	connect(m_fileTransfer, SIGNAL(receiveCephSignal(QString)), this, SLOT(receive_Ceph_Modality()));
 
 
 	/* 장비에서 클릭 시 시그널 전송 */
@@ -190,8 +190,7 @@ void MainWindow::connectLogMaster()
 	connect(m_fileTransfer, SIGNAL(sending_Control_Signal(QString)), this, SLOT(send_Message_LogSlot(QString)));
 
 	/* 파일 전송 시 로그 출력 */
-	connect(m_fileTransfer, SIGNAL(panoFileLogSignal(QString, int, QString)), this, SLOT(panoFileLogSlot(QString, int, QString)));
-	connect(m_fileTransfer, SIGNAL(cephFileLogSignal(QString, int, QString)), this, SLOT(cephFileLogSlot(QString, int, QString)));
+	connect(m_fileTransfer, SIGNAL(fileLogSignal(QString, QString)), this, SLOT(fileLogSlot(QString, QString)));
 
 	/* 촬영 SW에서 Signal 받았을 시 로그 출력 */
 	connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
@@ -207,12 +206,16 @@ void MainWindow::receive_Message_LogSlot(QString receiveMsg)
 {
 	ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
 	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(receiveMsg));
+	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 2, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+
 }
 
 void MainWindow::send_Message_LogSlot(QString msg)
 {
 	ui->MessageLogTableWidget->insertRow(ui->MessageLogTableWidget->rowCount());
 	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 1, 0, new QTableWidgetItem(msg));
+	ui->MessageLogTableWidget->setItem(ui->MessageLogTableWidget->rowCount() - 2, 0, new QTableWidgetItem(QDateTime::currentDateTime().toString()));
+
 }
 
 void MainWindow::fileLogSlot(QString mode, QString fileLog)
