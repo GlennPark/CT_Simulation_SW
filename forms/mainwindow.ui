@@ -33,14 +33,16 @@
    <widget class="QGroupBox" name="CBCTGroupBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>-20</y>
-      <width>144</width>
+      <width>131</width>
       <height>121</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QGroupBox {
+     <string notr="true">QGroupBox{stretch:3;}
+
+QGroupBox {
 border: 5px;
 
 background-color: rgb(50, 50, 50);
@@ -67,119 +69,139 @@ background-color: rgb(50, 50, 50);
     <property name="title">
      <string>Equip Controller</string>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QPushButton" name="StopPushButton">
      <property name="geometry">
       <rect>
-       <x>7</x>
-       <y>50</y>
-       <width>131</width>
-       <height>71</height>
+       <x>60</x>
+       <y>80</y>
+       <width>61</width>
+       <height>30</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="1">
-       <widget class="QPushButton" name="DescendingPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>DOWN</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="AscendingPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     </property>
+     <property name="text">
+      <string>STOP</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ResetPushButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>50</y>
+       <width>61</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0;}
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>UP</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="SubPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     </property>
+     <property name="text">
+      <string>RESET</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="MainPushButton">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>50</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>SUB</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="MainPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     </property>
+     <property name="text">
+      <string>MAIN</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="SubPushButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>80</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>MAIN</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     </property>
+     <property name="text">
+      <string>SUB</string>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="ControlGroupBox">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>310</x>
       <y>-20</y>
       <width>143</width>
       <height>121</height>
@@ -192,7 +214,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      </sizepolicy>
     </property>
     <property name="styleSheet">
-     <string notr="true">QGroupBox {
+     <string notr="true">QGroupBox{stretch:3;}
+
+QGroupBox {
 border: 5px;
 
 background-color: rgb(50, 50, 50);
@@ -219,113 +243,133 @@ background-color: rgb(50, 50, 50);
     <property name="title">
      <string>Capture Controller</string>
     </property>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QPushButton" name="CaptureStopPushButton">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>128</width>
-       <height>68</height>
+       <x>70</x>
+       <y>80</y>
+       <width>60</width>
+       <height>30</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
-       <widget class="QPushButton" name="CaptureResetPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>RESET</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="CaptureReadyPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     </property>
+     <property name="text">
+      <string>STOP</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureReadyPushButton">
+     <property name="geometry">
+      <rect>
+       <x>76</x>
+       <y>51</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>READY</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="CaptureStartPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     </property>
+     <property name="text">
+      <string>READY</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureResetPushButton">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>51</y>
+       <width>60</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>START</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="CaptureStopPushButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+     </property>
+     <property name="text">
+      <string>RESET</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CaptureStartPushButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>45</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 7px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
 QPushButton:hover{border-radius:10px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
 QPushButton:pressed{background-color: #DFDFDF;}</string>
-        </property>
-        <property name="text">
-         <string>STOP</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     </property>
+     <property name="text">
+      <string>START</string>
+     </property>
     </widget>
    </widget>
    <widget class="QGroupBox" name="VTKGroupBox">
@@ -342,6 +386,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{stretch:3;}</string>
     </property>
     <property name="title">
      <string/>
@@ -368,7 +415,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QCheckBox
+      <string notr="true">QCheckBox{stretch:3;}
+
+QCheckBox
 {
 	transform: scale(1.0, 1.0)
 }</string>
@@ -392,6 +441,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QVTKOPenGLStereoWidget{stretch:3;}
+</string>
+     </property>
     </widget>
     <widget class="QVTKOpenGLStereoWidget" name="openGLWidget_Sub">
      <property name="geometry">
@@ -408,6 +461,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QVTKOPenGLStereoWidget{stretch:3;}
+</string>
+     </property>
     </widget>
     <widget class="QVTKOpenGLStereoWidget" name="openGLWidget_All">
      <property name="geometry">
@@ -423,6 +480,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QVTKOPenGLStereoWidget{stretch:3;}
+</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="PanoCheckBox">
@@ -447,7 +508,10 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QCheckBox
+      <string notr="true">QCheckBox{stretch:3;}
+
+
+QCheckBox
 {
 	transform: scale(1.0, 1.0)
 }</string>
@@ -461,9 +525,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
     <property name="geometry">
      <rect>
       <x>311</x>
-      <y>1</y>
+      <y>140</y>
       <width>151</width>
-      <height>770</height>
+      <height>631</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -475,6 +539,9 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QGroupBox{stretch:3;}</string>
+    </property>
     <property name="title">
      <string/>
     </property>
@@ -484,96 +551,13 @@ QPushButton:pressed{background-color: #DFDFDF;}</string>
     <property name="checkable">
      <bool>false</bool>
     </property>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>65</x>
-       <y>21</y>
-       <width>126</width>
-       <height>741</height>
-      </rect>
-     </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="1" column="0">
-       <widget class="QLabel" name="CephLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QLabel {
-    border: 6px solid white;
-    border-radius: 35px;
-	margin: 1px;
-	padding: 5px;
-	transform: scale(1.0, 1.0);
-}</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QProgressBar" name="CephProgressBar">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">
-QProgressBar::chunk {
-    background-color:#0000FF;
-	height : 4px;
-    margin: 0.5px;
-}
-QProgressBar {
-    border: 2px solid white;
-    border-radius: 10px;
-	transform: scale(1.0, 1.0);
-	padding: 4px;
-}
-</string>
-        </property>
-        <property name="maximum">
-         <number>1250</number>
-        </property>
-        <property name="value">
-         <number>0</number>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="textVisible">
-         <bool>false</bool>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="QProgressBar" name="PanoProgressBar">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>130</y>
-       <width>31</width>
-       <height>281</height>
+       <x>10</x>
+       <y>10</y>
+       <width>21</width>
+       <height>611</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -589,7 +573,7 @@ QProgressBar {
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">
+      <string notr="true">QProgressBar{stretch:3;}
 
 QProgressBar::chunk {
 	background-color: #FF0000;
@@ -629,10 +613,10 @@ QProgressBar {
     <widget class="QLabel" name="PanoLabel">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>130</y>
+       <x>40</x>
+       <y>10</y>
        <width>30</width>
-       <height>311</height>
+       <height>611</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -709,7 +693,9 @@ QProgressBar {
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLabel
+      <string notr="true">QLabel{stretch:3;}
+
+QLabel
 {
     border: 6px solid white;
     border-radius: 35px;
@@ -731,93 +717,311 @@ QProgressBar {
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QLabel" name="CephLabel">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>28</width>
+       <height>611</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{stretch:3;}
+
+QLabel {
+    border: 6px solid white;
+    border-radius: 35px;
+	margin: 1px;
+	padding: 5px;
+	transform: scale(1.0, 1.0);
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="CephProgressBar">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>10</y>
+       <width>21</width>
+       <height>611</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar{stretch:3;}
+
+QProgressBar::chunk {
+    background-color:#0000FF;
+	height : 4px;
+    margin: 0.5px;
+}
+QProgressBar {
+    border: 2px solid white;
+    border-radius: 10px;
+	transform: scale(1.0, 1.0);
+	padding: 4px;
+}
+</string>
+     </property>
+     <property name="maximum">
+      <number>1250</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QPushButton" name="DescendingPushButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>141</y>
-      <width>302</width>
-      <height>628</height>
+      <x>160</x>
+      <y>60</y>
+      <width>60</width>
+      <height>30</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout_5">
-     <item row="0" column="0">
-      <widget class="QTableWidget" name="MessageLogTableWidget">
-       <property name="minimumSize">
-        <size>
-         <width>300</width>
-         <height>310</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QTableWidget
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>60</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
+QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
+    </property>
+    <property name="text">
+     <string>DOWN</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="InvitePatientPushButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>30</y>
+      <width>61</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
+QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
+    </property>
+    <property name="text">
+     <string>입실</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LeavePatientPushButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>60</y>
+      <width>61</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
+QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
+    </property>
+    <property name="text">
+     <string>퇴실</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AscendingPushButton">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>30</y>
+      <width>61</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>30</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{stretch:3;}
+
+QPushButton{border-radius: 15px;  font-size: 16px; background-color:#000000; color:#ffffff; outline: 0; }
+QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; color:#ffffff; outline: 0; }
+QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
+    </property>
+    <property name="text">
+     <string>UP</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="MessageLogTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>142</y>
+      <width>300</width>
+      <height>310</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>300</width>
+      <height>310</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget{stretch:3;}
+
+QTableWidget
 {
 	transform: scale(1.0, 1.0);	
 }</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth">
-        <number>3</number>
-       </property>
-       <column>
-        <property name="text">
-         <string>Network Log</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Date &amp; Time</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QTableWidget" name="FileLogTableWidget">
-       <property name="minimumSize">
-        <size>
-         <width>300</width>
-         <height>310</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QTableWidget
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>3</number>
+    </property>
+    <column>
+     <property name="text">
+      <string>Network Log</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Date &amp; Time</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="FileLogTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>457</y>
+      <width>300</width>
+      <height>310</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>300</width>
+      <height>310</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget{stretch:3;}
+
+QTableWidget
 {
 	transform: scale(1.0, 1.0);
 }</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="lineWidth">
-        <number>3</number>
-       </property>
-       <column>
-        <property name="text">
-         <string>Mode</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>File location</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Date &amp; Time</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-    </layout>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>3</number>
+    </property>
+    <column>
+     <property name="text">
+      <string>Mode</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>File location</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Date &amp; Time</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -826,7 +1030,7 @@ QProgressBar {
      <x>0</x>
      <y>0</y>
      <width>1248</width>
-     <height>22</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuCBCT_Simulator">

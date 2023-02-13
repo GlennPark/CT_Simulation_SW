@@ -114,7 +114,6 @@ void CBCTRawImageViewer::stopCephTimer()
 
 void CBCTRawImageViewer::timeoutPanoTimer()
 {
-
     qDebug("find bug test 0");
     // 타이머 함수 -> mainwindow로 이미지 파일 하나씩 읽어 보내주도록 한다.
     if (panoImageIterator->hasNext())
@@ -122,21 +121,27 @@ void CBCTRawImageViewer::timeoutPanoTimer()
         panoImageIterator->next();
 
         QString panoPath = panoImageIterator->filePath();
+        if (panoPath.contains(".raw"))
+        {
+            qDebug("find bug test 1");
+            qDebug() << __FUNCTION__ << panoPath;
 
-        qDebug("find bug test 1");
-        qDebug() << __FUNCTION__ << panoPath;
+            QFile panoFile(panoPath);
+            if (!panoFile.open(QFile::ReadOnly))
+                return;
+            QByteArray pBa = panoFile.readAll();
+            const uchar* pData = (const uchar*)pBa.constData();;
+            panoFile.close();
+            panoFile.deleteLater();
+            QImage* panoImage = new QImage(pData, 740, 100, QImage::Format_RGB555);
+            emit signals_panoImage(panoImage);
 
-        QFile panoFile(panoPath);
-        if (!panoFile.open(QFile::ReadOnly))
-            return;
-        QByteArray pBa = panoFile.readAll();
-        const uchar* pData = (const uchar*) pBa.constData();;
-        panoFile.close();
-        panoFile.deleteLater();
-        QImage* panoImage = new QImage(pData, 740, 100, QImage::Format_RGB555);
-        emit signals_panoImage(panoImage);
-
-        qDebug("find bug test 2");
+            qDebug("find bug test 2");
+        }
+        else 
+        {
+            qDebug() << "not Find Raw file.";
+        }
     }
     else
     {
@@ -156,18 +161,23 @@ void CBCTRawImageViewer::timeoutCephTimer()
         cephImageIterator->next();
 
         QString cephPath = cephImageIterator->filePath();
+        if (cephPath.contains(".raw"))
+        {
+            qDebug() << __FUNCTION__ << cephPath;
 
-        qDebug() << __FUNCTION__ << cephPath;
-
-        QFile cephFile(cephPath);
-        if (!cephFile.open(QFile::ReadOnly))
-            return;
-        QByteArray cBa = cephFile.readAll();
-        const uchar* cData = (const uchar*) cBa.constData();;
-        cephFile.close();
-        cephFile.deleteLater();
-        QImage* cephImage = new QImage(cData, 100, 740, QImage::Format_RGB555);
-        emit signals_cephImage(cephImage);
+            QFile cephFile(cephPath);
+            if (!cephFile.open(QFile::ReadOnly))
+                return;
+            QByteArray cBa = cephFile.readAll();
+            const uchar* cData = (const uchar*)cBa.constData();;
+            cephFile.close();
+            cephFile.deleteLater();
+            QImage* cephImage = new QImage(cData, 100, 740, QImage::Format_RGB555);
+            emit signals_cephImage(cephImage);
+        }
+        else {
+            qDebug() << "not Find Raw file.";
+        }
     }
     else
     {

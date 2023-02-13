@@ -42,12 +42,8 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
 
     qDebug() << protocol->packetData()->msg();
 
-     int countMax = 0;
+     int countMax = 1750;
 
-    if(modality == "PANO")
-    {
-        countMax = 1750;
-    }
     // PANO MODE
         QFile *panoFile;
         panoFile = new QFile;
@@ -88,14 +84,13 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
   //  qDebug() << panoFileName;
     if(!panoFile->exists())
     {
+        qDebug() << " not file Exist : " << panoFileName;
         return;
     }
-    qDebug() << panoFileName;
-    qDebug() << panoValue;
 
     bool panoOpen = panoFile->open(QIODevice::ReadOnly);
     fileSocket->write(panoFile->readAll());
-
+    qDebug() << "value : " << panoValue << "File name : " << panoFileName;
     if(panoOpen)
     {
     emit fileLogSignal("PANORAMA MODE", panoFileName);
@@ -115,13 +110,8 @@ void CBCTFileTransfer::sendCephFile(int cephValue)
 
     qDebug() << protocol->packetData()->msg();
 
-int countMax = 0;
-
-    if(modality == "CEPH")
-    {
-        countMax = 1250;
-    }
-
+int countMax = 1250;
+    
 
     // CEPH MODE
         QFile* cephFile;
@@ -161,11 +151,12 @@ int countMax = 0;
     cephFile->setFileName(cephFileName);
     if(!cephFile->exists())
     {
+        qDebug() << " not file Exist : " << cephFileName;
         return;
     }
     bool cephOpen = cephFile->open(QIODevice::ReadOnly);
     fileSocket->write(cephFile->readAll());
-
+    qDebug() << "value : " << cephValue << "File name : " << cephFileName;
     /* 전송되는 이미지를 테이블위젯에 출력 */
     if(cephOpen)
     {
