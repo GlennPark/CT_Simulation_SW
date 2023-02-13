@@ -420,9 +420,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
    <widget class="QGroupBox" name="VTKGroupBox">
     <property name="geometry">
      <rect>
-      <x>429</x>
+      <x>419</x>
       <y>-9</y>
-      <width>811</width>
+      <width>831</width>
       <height>781</height>
      </rect>
     </property>
@@ -442,9 +442,9 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>11</y>
-       <width>780</width>
-       <height>451</height>
+       <y>1</y>
+       <width>831</width>
+       <height>461</height>
       </rect>
      </property>
      <property name="sizePolicy">
@@ -463,7 +463,7 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
       <rect>
        <x>-10</x>
        <y>460</y>
-       <width>801</width>
+       <width>851</width>
        <height>331</height>
       </rect>
      </property>
@@ -504,7 +504,7 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>20</y>
+        <y>0</y>
         <width>100</width>
         <height>20</height>
        </rect>
@@ -527,14 +527,14 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
  QCheckBox { image:url(:/images/checkbox.png); } </string>
       </property>
       <property name="text">
-       <string>Pano Ready</string>
+       <string/>
       </property>
      </widget>
      <widget class="QCheckBox" name="CephCheckBox">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>20</y>
+        <x>440</x>
+        <y>0</y>
         <width>100</width>
         <height>20</height>
        </rect>
@@ -560,7 +560,7 @@ QCheckBox
 }</string>
       </property>
       <property name="text">
-       <string>Ceph Ready</string>
+       <string/>
       </property>
      </widget>
      <zorder>openGLWidget_Sub</zorder>
