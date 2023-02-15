@@ -91,6 +91,11 @@ void MainWindow::initializeButton()
     /* 환자 입실, 퇴실 */
     ui->InvitePatientPushButton->setEnabled(false);
     ui->LeavePatientPushButton->setEnabled(false);
+ui->openGLWidget_All;
+   QVTKOpenGLStereoWidget* vtkWidgetAll = new QVTKOpenGLStereoWidget;
+    ui->PanoCheckBox->setParent(vtkWidgetAll);
+    ui->PanoCheckBox->setGeometry(10,10,100,20);
+    vtkWidgetAll->show();
 }
 
 void MainWindow::connectCBCTModelCtr()
@@ -118,13 +123,13 @@ void MainWindow::connectCBCTModelCtr()
     connect(ui->InvitePatientPushButton, &QPushButton::clicked, this, [&](bool state) {
         if (ui->PanoCheckBox->isChecked())
         {
-            QString filepath = QFileDialog::getOpenFileName(this, "patient", "C:\\", "Files(*.*)");
+            QString filepath = QFileDialog::getOpenFileName(this, "patient", "./resources/PatientPano", "Files(*.*)");
             if (!m_modelController->Load_PanoPatient(filepath))
                 qDebug() << "Load 실패 했습니다.";
         }
         else if(ui->CephCheckBox->isChecked())
         {
-            QString filepath = QFileDialog::getOpenFileName(this, "patient", "C:\\", "Files(*.*)");
+            QString filepath = QFileDialog::getOpenFileName(this, "patient", "./resources/PatientCeph", "Files(*.*)");
             if (!m_modelController->Load_CephPatient(filepath))
                 qDebug() << "Load 실패 했습니다.";
         }
