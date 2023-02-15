@@ -56,7 +56,7 @@ QPixmap CBCTRawImageViewer::CephImageViewer()
 void CBCTRawImageViewer::resetPanoTimer()
 {
     qDebug() << __FUNCTION__;
-    QDir panoDir("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)");
+    QDir panoDir("./resources/Pano_Frame(1152x64)");
 
     panoImageIterator = new QDirIterator(panoDir, QDirIterator::Subdirectories);
     panoImageTimer->start();
@@ -66,7 +66,7 @@ void CBCTRawImageViewer::resetPanoTimer()
 void CBCTRawImageViewer::resetCephTimer()
 {
     qDebug() << __FUNCTION__;
-    QDir cephDir("C:/Qt_VTK_CT/resources/Ceph_Frame(48x2400)");
+    QDir cephDir("./resources/Ceph_Frame(48x2400)");
 
     cephImageIterator = new QDirIterator(cephDir, QDirIterator::Subdirectories);
     cephImageTimer->start();

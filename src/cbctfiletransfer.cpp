@@ -58,22 +58,22 @@ void CBCTFileTransfer::sendPanoFile(int panoValue)
     if (panoValue >= 1000)
     {
     //    qDebug() << panoValue;
-        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
+        panoFileName = QString("./resources/Pano_Frame(1152x64)/%1.raw").arg(panoValue);
     }
     else if (panoValue < 1000 && panoValue >= 100)
     {
    //     qDebug() << panoValue;
-        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
+        panoFileName = QString("./resources/Pano_Frame(1152x64)/0%1.raw").arg(panoValue);
     }
     else if (panoValue < 100 && panoValue >= 10)
     {
    //     qDebug() << panoValue;
-        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/00%1.raw").arg(panoValue);
+        panoFileName = QString("./resources/Pano_Frame(1152x64)/00%1.raw").arg(panoValue);
     }
     else
     {
    //     qDebug() << panoValue;
-        panoFileName = QString("C:/Qt_VTK_CT/resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
+        panoFileName = QString("./resources/Pano_Frame(1152x64)/000%1.raw").arg(panoValue);
     }
         }
         else if (protocol->packetData()->header() == "ERROR")
