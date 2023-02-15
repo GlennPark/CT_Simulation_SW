@@ -1426,8 +1426,7 @@ void CBCTModelController::remove_Patient_Exception()
     {
         PData->m_parentUI->CaptureResetPushButton->setEnabled(true);
     }
-    if(PData->m_patientPano != nullptr || PData->m_patientCeph == nullptr)
-    {
+    else{
         PData->m_parentUI->CaptureResetPushButton->setEnabled(false);
     }
 }
