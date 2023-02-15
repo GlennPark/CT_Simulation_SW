@@ -123,13 +123,13 @@ void MainWindow::connectCBCTModelCtr()
     connect(ui->InvitePatientPushButton, &QPushButton::clicked, this, [&](bool state) {
         if (ui->PanoCheckBox->isChecked())
         {
-            QString filepath = QFileDialog::getOpenFileName(this, "patient", "./resources/PatientPano", "Files(*.*)");
+            QString filepath = QFileDialog::getOpenFileName(this, "patient", "./resources/Patient1", "Files(*.*)");
             if (!m_modelController->Load_PanoPatient(filepath))
                 qDebug() << "Load 실패 했습니다.";
         }
         else if(ui->CephCheckBox->isChecked())
         {
-            QString filepath = QFileDialog::getOpenFileName(this, "patient", "./resources/PatientCeph", "Files(*.*)");
+            QString filepath = QFileDialog::getOpenFileName(this, "patient", "./resources/Patient2", "Files(*.*)");
             if (!m_modelController->Load_CephPatient(filepath))
                 qDebug() << "Load 실패 했습니다.";
         }

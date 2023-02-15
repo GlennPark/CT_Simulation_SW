@@ -83,17 +83,18 @@ public:
         QMap<QString, vtkSmartPointer<vtkActor>> m_actor;
     };
     // Member Variable Concealment.
+    vtkSmartPointer<vtkPolyData> m_patientPano;
+    vtkSmartPointer<vtkPolyData> m_patientCeph;
 private:
 
     // Pano Patient
-    vtkSmartPointer<vtkPolyData> m_patientPano;
     vtkSmartPointer<vtkPolyDataMapper> m_patientPanomapperAll;
     vtkSmartPointer<vtkPolyDataMapper> m_patientPanomapperMain;
     vtkSmartPointer<vtkActor> m_patientPanoactorAll;
     vtkSmartPointer<vtkActor> m_patientPanoactorMain;
 
     // Ceph Patient
-    vtkSmartPointer<vtkPolyData> m_patientCeph;
+
     vtkSmartPointer<vtkPolyDataMapper> m_patientCephmapperAll;
     vtkSmartPointer<vtkPolyDataMapper> m_patientCephmapperSub;
     vtkSmartPointer<vtkActor> m_patientCephactorAll;
@@ -1413,11 +1414,11 @@ void CBCTModelController::on_StopPushButton_clicked()
 {
     PData->_stop();
 
-//    if(PData->m_patientPano == nullptr && m_patientCeph == nullptr)
-//    {
-        PData->m_parentUI->ResetPushButton->setEnabled(true);
- //   }
-
+    if(PData->m_patientPano == nullptr && PData->m_patientCeph == nullptr)
+    {
+        PData->m_parentUI->CaptureResetPushButton->setEnabled(true);
+    }
+    PData->m_parentUI->ResetPushButton->setEnabled(true);
     PData->m_parentUI->StopPushButton->setEnabled(false);
     PData->m_parentUI->AscendingPushButton->setEnabled(false);
     PData->m_parentUI->DescendingPushButton->setEnabled(false);
