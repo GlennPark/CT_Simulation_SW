@@ -91,11 +91,10 @@ void MainWindow::initializeButton()
     /* 환자 입실, 퇴실 */
     ui->InvitePatientPushButton->setEnabled(false);
     ui->LeavePatientPushButton->setEnabled(false);
-    ui->openGLWidget_All;
-    QVTKOpenGLStereoWidget* vtkWidgetAll = new QVTKOpenGLStereoWidget;
-    ui->PanoCheckBox->setParent(vtkWidgetAll);
-    ui->PanoCheckBox->setGeometry(10,10,100,20);
-    vtkWidgetAll->show();
+//    ui->openGLWidget_All;
+//    QVTKOpenGLStereoWidget* vtkWidgetAll = new QVTKOpenGLStereoWidget;
+//    ui->PanoCheckBox->setParent(vtkWidgetAll);
+//    vtkWidgetAll->show();
 }
 
 void MainWindow::connectCBCTModelCtr()
