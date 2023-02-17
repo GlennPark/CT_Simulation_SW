@@ -127,8 +127,6 @@ public:
     void stop();
     // Stop 명령에 따라 Running 중인 Model들을 Stop한다.
 
-
-
 	// 환자 btn : 환자 obj file을 로드한다. 
 	bool Load_PanoPatient(const QString& path);
 	bool Load_CephPatient(const QString& path);

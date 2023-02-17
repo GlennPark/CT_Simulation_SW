@@ -123,15 +123,12 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_8">
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
+     <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
       <property name="spacing">
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
-        <property name="spacing">
-         <number>0</number>
-        </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,1">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <property name="spacing">
@@ -236,7 +233,7 @@ QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; 
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
                  </property>
                  <property name="text">
-                  <string>MAIN</string>
+                  <string>PANO</string>
                  </property>
                 </widget>
                </item>
@@ -262,7 +259,7 @@ QPushButton:hover{border-radius:15px; background-color: #F2A754; color:#677381; 
 QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
                  </property>
                  <property name="text">
-                  <string>SUB</string>
+                  <string>CEPH</string>
                  </property>
                 </widget>
                </item>
@@ -620,7 +617,7 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="3,0">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,0">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -656,7 +653,7 @@ QPushButton:pressed{border-radius:15px; background-color: #DFDFDF;}</string>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
-                 <height>310</height>
+                 <height>200</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -739,7 +736,7 @@ QTableWidget QTableCornerButton::section {
                <property name="minimumSize">
                 <size>
                  <width>200</width>
-                 <height>310</height>
+                 <height>200</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -1033,8 +1030,14 @@ QLabel
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>30</width>
+                     <width>10</width>
                      <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>30</width>
+                     <height>16777215</height>
                     </size>
                    </property>
                    <property name="autoFillBackground">
