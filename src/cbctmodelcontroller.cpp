@@ -266,6 +266,10 @@ public:
 
     /* 파노라마 환자는 Sub RenderWindow 에 출력할 필요가 없으므로 데이터 세이브 */
     bool _Load_PanoPatient(const QString& path) {
+        if(isLoadPano == true)
+        {
+            return false;
+        }
         vtkSmartPointer<vtkPLYReader> reader = vtkSmartPointer<vtkPLYReader>::New();
 
         // reader->SetFileName(path.toStdString().c_str());
@@ -296,6 +300,10 @@ public:
 
     /* 세팔로 환자는 Main RenderWindow 에 출력할 필요가 없으므로 데이터 세이브 */
     bool _Load_CephPatient(const QString& path) {
+        if(isLoadCeph == true)
+        {
+            return false;
+        }
         vtkSmartPointer<vtkPLYReader> reader = vtkSmartPointer<vtkPLYReader>::New();
         //   reader->SetFileName(path.toStdString().c_str());
         reader->SetFileName("./resources/Patient2.ply");
