@@ -18,12 +18,6 @@ public:
     ~CBCTRawImageViewer();
     Ui::MainWindow* m_parentUI = nullptr;
 
-    QPixmap PanoImageViewer();
-    QPixmap CephImageViewer();
-
-//    QImage timeoutPanoTimer();
-//    QImage timeoutCephTimer();
-
     void resetPanoTimer();
     void resetCephTimer();
     void readyPanoTimer();
@@ -35,20 +29,13 @@ public:
     void stopCephTimer();
 
 private:
-
+    bool isRunningPano = false;
+    bool isRunningCeph = false;
 
     QDirIterator* panoImageIterator;
     QDirIterator* cephImageIterator;
     QTimer* panoImageTimer;
     QTimer* cephImageTimer;
-public slots:
-    void viewer_Output();
-
-private slots:
-        void timeoutPanoTimer();
-        void timeoutCephTimer();
-//    void slot_panoImage(QImage* panoImage);
-//    void slot_cephImage(QImage* cephImage);
 
 signals:
     void signals_panoImage(QImage*);
