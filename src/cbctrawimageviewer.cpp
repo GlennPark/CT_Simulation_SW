@@ -67,7 +67,7 @@ void CBCTRawImageViewer::startPanoTimer()
         const uchar* pData = (const uchar*)pBa.constData();;
         panoFile.close();
         panoFile.deleteLater();
-        QImage* panoImage = new QImage(pData, 20, 100,QImage::Format_Grayscale16);
+        QImage* panoImage = new QImage(pData, 500, 20,QImage::Format_Grayscale16);
 
         emit signals_panoImage(panoImage);
     }
@@ -114,7 +114,7 @@ void CBCTRawImageViewer::startCephTimer()
         const uchar* cData = (const uchar*)cBa.constData();;
         cephFile.close();
         cephFile.deleteLater();
-        QImage* cephImage = new QImage(cData, 20, 100, QImage::Format_Grayscale16);
+        QImage* cephImage = new QImage(cData, 20, 500, QImage::Format_Grayscale16);
 
         emit signals_cephImage(cephImage);
     }
