@@ -27,20 +27,10 @@ void CBCTRawImageViewer::resetCephTimer()
     qDebug() << __FUNCTION__;
 }
 
-void CBCTRawImageViewer::readyPanoTimer()
-{
-    qDebug() << __FUNCTION__;
-}
-
-void CBCTRawImageViewer::readyCephTimer()
-{
-    qDebug() << __FUNCTION__;
-
-}
 void CBCTRawImageViewer::startPanoTimer()
 {
     qDebug() << __FUNCTION__;
-    isRunningPano = true;
+   // isRunningPano = true;
     for (int i = 0; i < 1750; i++)
     {
         if (isRunningPano == false)
@@ -65,7 +55,11 @@ void CBCTRawImageViewer::startPanoTimer()
         {
             panoFileName = QString("C:/Qt_VTK_CT/RawImages/Pano_Frame(1152x64)/000%1.raw").arg(i);
         }
+        
+        if (i == 1749)
+        {
 
+        }
         QFile panoFile(panoFileName);
         if (!panoFile.open(QFile::ReadOnly))
             return;
@@ -84,8 +78,7 @@ void CBCTRawImageViewer::startCephTimer()
 {
     // 타이머 함수 -> mainwindow로 이미지 파일 하나씩 읽어 보내주도록 한다.
     qDebug() << __FUNCTION__;
-    isRunningCeph = true;
-
+   // isRunningCeph = true;
     for (int i = 0; i < 1250; i++)
     {
         if (isRunningCeph == false)

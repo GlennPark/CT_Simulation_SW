@@ -363,13 +363,11 @@ void MainWindow::on_CaptureReadyPushButton_clicked()
     /* 이미지 뷰어 타이머 Ready 동작 */
     if (ui->PanoCheckBox->isChecked())
     {
-        m_rawImageViewer->readyPanoTimer();
         m_modelController->Load_PanoPatient(windowFilePath());
 
     }
     else if (ui->CephCheckBox->isChecked())
     {
-        m_rawImageViewer->readyCephTimer();
         m_modelController->Load_CephPatient(windowFilePath());
 
     }
@@ -399,31 +397,29 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
     /* stop 버튼 클릭시 reset 버튼만 활성화 */
+    
 
     ui->CaptureResetPushButton->setEnabled(true);
     if(ui->PanoCheckBox->isChecked()){
-        qDebug()<<"m_patientPano";
     m_modelController->Remove_PanoPatient();
+    m_rawImageViewer->stopPanoTimer();
     }
-        qDebug()<<"m_patientPano";
     if(ui->CephCheckBox->isChecked()){
     m_modelController->Remove_CephPatient();
+    m_rawImageViewer->stopCephTimer();
     }
-//    m_modelController->remove_Patient_Exception();
     ui->CaptureReadyPushButton->setEnabled(false);
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(false);
 
     m_modelController->stop();
 
-    m_rawImageViewer->stopPanoTimer();
-    m_rawImageViewer->stopCephTimer();
 }
 
-void MainWindow::slot_panoImage(QImage* pImg)
+void MainWindow::slot_panoImage(QImage* panoImage)
 {
     qDebug() << __FUNCTION__;
-    QImage pano_Image(*pImg);
+    QImage pano_Image(*panoImage);
     QPixmap panoPix;
     panoPix = QPixmap::fromImage(pano_Image, Qt::AutoColor);
 
@@ -431,7 +427,7 @@ void MainWindow::slot_panoImage(QImage* pImg)
     QTransform panoTransform;
     panoTransform.rotate(90);
 
-    ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
+   // ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
 
     /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
     int panoValue = ui->PanoProgressBar->value();
@@ -443,13 +439,13 @@ void MainWindow::slot_panoImage(QImage* pImg)
     m_modelController->on_Rotate_PanoObject(panoValue);
 }
 
-void MainWindow::slot_cephImage(QImage* cImg)
+void MainWindow::slot_cephImage(QImage* cephImage)
 {
     qDebug() << __FUNCTION__;
-    QImage ceph_Image(*cImg);
+    QImage ceph_Image(*cephImage);
     QPixmap cephPix;
     cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
-    ui->CephLabel->setPixmap(cephPix);
+  //  ui->CephLabel->setPixmap(cephPix);
 
     /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
     int cephValue = ui->CephProgressBar->value();
