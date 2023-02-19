@@ -58,9 +58,6 @@ private slots:
 	void emitStartSignal();
 	void emitStopSignal();
 
-	void slot_panoImage(QImage* panoImage);
-	void slot_cephImage(QImage* cephImage);
-
 private:
 	void resizeEvent(QResizeEvent* event) override;
 
@@ -91,6 +88,10 @@ private:
 	QMessageBox* m_cephErrorMessage;
 
 	Ui::MainWindow* ui;
+
+private slots:
+	void slot_panoImage(QImage* pImg);
+	void slot_cephImage(QImage* cImg);
 
 };
 #endif // MAINWINDOW_H

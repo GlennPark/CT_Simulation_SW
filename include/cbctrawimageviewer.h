@@ -4,7 +4,6 @@
 #include <QObject>
 #include <qdebug.h>
 #include "ui_mainwindow.h"
-#include "cbctmodelcontroller.h"
 
 class QDir;
 class QDirIterator;
@@ -21,6 +20,8 @@ public:
 
     void resetPanoTimer();
     void resetCephTimer();
+    void readyPanoTimer();
+    void readyCephTimer();
     void startPanoTimer();
     void stopPanoTimer();
 
@@ -28,10 +29,13 @@ public:
     void stopCephTimer();
 
 private:
-    CBCTModelController* m_modelController;
+    bool isRunningPano = false;
+    bool isRunningCeph = false;
 
-    bool isRunningPano = true;
-    bool isRunningCeph = true;
+    QDirIterator* panoImageIterator;
+    QDirIterator* cephImageIterator;
+    QTimer* panoImageTimer;
+    QTimer* cephImageTimer;
 
 signals:
     void signals_panoImage(QImage*);
