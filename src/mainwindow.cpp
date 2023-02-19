@@ -328,7 +328,7 @@ void MainWindow::on_CaptureResetPushButton_clicked()
     ui->AscendingPushButton->setEnabled(true);
     ui->DescendingPushButton->setEnabled(true);
     ui->InvitePatientPushButton->setEnabled(true);
-//    ui->LeavePatientPushButton->setEnabled(false);
+
     ui->PanoCheckBox->setEnabled(true);
     ui->CephCheckBox->setEnabled(true);
 
@@ -379,8 +379,8 @@ void MainWindow::on_CaptureStartPushButton_clicked()
     ui->CaptureResetPushButton->setEnabled(false);
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(true);
- //   ui->LeavePatientPushButton->setEnabled(true);
-
+    ui->AscendingPushButton->setEnabled(false);
+    ui->DescendingPushButton->setEnabled(false);
 
     if (ui->PanoCheckBox->isChecked())
     {
@@ -397,16 +397,15 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
     /* stop 버튼 클릭시 reset 버튼만 활성화 */
-    
-
     ui->CaptureResetPushButton->setEnabled(true);
     if(ui->PanoCheckBox->isChecked()){
+        m_rawImageViewer->stopPanoTimer();
     m_modelController->Remove_PanoPatient();
-    m_rawImageViewer->stopPanoTimer();
     }
     if(ui->CephCheckBox->isChecked()){
+        m_rawImageViewer->stopCephTimer();
     m_modelController->Remove_CephPatient();
-    m_rawImageViewer->stopCephTimer();
+   
     }
     ui->CaptureReadyPushButton->setEnabled(false);
     ui->CaptureStartPushButton->setEnabled(false);
@@ -427,7 +426,7 @@ void MainWindow::slot_panoImage(QImage* panoImage)
     QTransform panoTransform;
     panoTransform.rotate(90);
 
-   // ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
+    ui->PanoLabel->setPixmap(panoPix.transformed(panoTransform));
 
     /* 파노라마 Raw Image 전송상태를 표시해주는 ProgressBar */
     int panoValue = ui->PanoProgressBar->value();
@@ -445,12 +444,14 @@ void MainWindow::slot_cephImage(QImage* cephImage)
     QImage ceph_Image(*cephImage);
     QPixmap cephPix;
     cephPix = QPixmap::fromImage(ceph_Image, Qt::AutoColor);
-  //  ui->CephLabel->setPixmap(cephPix);
+    
+    ui->CephLabel->setPixmap(cephPix);
 
     /* 세팔로 Raw Image 전송상태를 표시해주는 ProgressBar */
     int cephValue = ui->CephProgressBar->value();
     cephValue++;
     ui->CephProgressBar->setValue(cephValue);
+    ui->CephProgressBar->update();
     m_fileTransfer->sendCephFile(cephValue);
     // Progress 값을 통해 Ceph Module 이동
     m_modelController->on_Translate_CephObject(cephValue);
