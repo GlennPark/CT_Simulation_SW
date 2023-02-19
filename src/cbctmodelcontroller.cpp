@@ -173,14 +173,13 @@ public:
     {
         isRunning_Pano = false;
         isRunning_Ceph = false;
-
     }
 
     void _on_AscendingPushButton_pressed() {
 
         _on_reset_Panorama_module();
         // 아래 함수에는 y축 초기화가 포함
-        //_on_PanoModel_Reset();
+
         if (m_curPositionY >= 0)
         {
             m_curPositionY = 0;
@@ -222,7 +221,7 @@ public:
 
         _on_reset_Panorama_module();
         // 아래 함수에는 y축 리셋이 포함되어 있음
-        //     _on_PanoModel_Reset();
+
         if (isRunning_Pano || isRunning_Ceph)
             return;
         isRunning_Pano = true;
@@ -353,8 +352,6 @@ public:
         m_patientPanomapperMain = nullptr;
         m_patientPanoactorMain = nullptr;
 
-
-
         qDebug() << m_patientPano << m_patientPanoactorAll << m_patientPanoactorMain << m_patientPanomapperAll << m_patientPanomapperMain;
         return true;
     }
@@ -381,8 +378,6 @@ public:
 
         return true;
     }
-
-
 
     void _on_XRayModule_Ready() {
         isRunning_Ceph = true;
@@ -456,34 +451,8 @@ public:
         isRunning_Pano = false;
     }
 
-    void _on_reset_Panorama_module()
-    {
-        if (isRunning_Pano || isRunning_Ceph)
-        {
-            return;
-        }
-        isRunning_Pano = true;
-
-        if (m_curPanoAngle == -180)
-        {
-            for (int i = 0; i <= 180; i++)
-            {
-                if (!isRunning_Pano)
-                    break;
-                m_curPanoAngle = -180 + i;
-                _Rotate_Pano();
-
-            }
-            m_curPanoAngle = 0;
-        }
-        isRunning_Pano = false;
-    }
-
     void _on_SubPushButton_clicked()
     {
-        // SubPushButton비활성화
-        m_parentUI->SubPushButton->setEnabled(false);
-
         if (isRunning_Pano || isRunning_Ceph)
             return;
         isRunning_Ceph = true;
@@ -509,11 +478,32 @@ public:
             _Rotate_Xray();
         }
         isRunning_Ceph = false;
-
-        // 정상적으로 모두 완료 한 경우
-        if (m_curXRayAngle == 0 && m_curPositionZ == 0)
-            m_parentUI->SubPushButton->setEnabled(true);
     }
+
+
+    void _on_reset_Panorama_module()
+    {
+        if (isRunning_Pano || isRunning_Ceph)
+        {
+            return;
+        }
+        isRunning_Pano = true;
+
+        if (m_curPanoAngle == -180)
+        {
+            for (int i = 0; i <= 180; i++)
+            {
+                if (!isRunning_Pano)
+                    break;
+                m_curPanoAngle = -180 + i;
+                _Rotate_Pano();
+
+            }
+            m_curPanoAngle = 0;
+        }
+        isRunning_Pano = false;
+    }
+
 
     void _Animation_Ceph() {
 
@@ -661,6 +651,7 @@ public:
         _update_render();
     }
 
+    /* 파노라마 모듈 초기화 */
     void _on_PanoModel_Reset() {
         if (isRunning_Pano || isRunning_Ceph)
         {
@@ -715,11 +706,9 @@ public:
                 }
         }
         isRunning_Pano = false;
-        // Main Push Button 활성화
-        m_parentUI->MainPushButton->setEnabled(true);
-
     }
 
+    /* 세팔로 모듈 초기화 */
     void _on_CephModel_Reset() {
         if (isRunning_Pano || isRunning_Ceph)
         {
@@ -787,8 +776,10 @@ public:
             }
         }
     }
+
     // Internal Methods must be used in the Internal.
 private:
+    /* 다중 ply 파일 호출 */
     void _load_plyfile(const QString& type, QMap<QString, vtkSmartPointer<vtkPolyData>>& plys)
     {
         vtkSmartPointer<vtkPLYReader> reader = vtkSmartPointer<vtkPLYReader>::New();
@@ -818,10 +809,9 @@ private:
 
         reader->Update();
         plys.insert(type, reader->GetOutput());
-
-
     }
 
+    /* 파이프라인 매퍼를 생성 */
     void _create_Mapper(const QString& viewType, QMap<QString, vtkSmartPointer<vtkPolyData>>& plys, QMap<QString, MapperItem>& mapperMap)
     {
 
@@ -868,6 +858,7 @@ private:
         }
     }
 
+    /* 파이프라인 액터를 생성 */ 
     void _create_actor(const QString& viewType, QMap<QString, MapperItem>& mapperMap, QMap<QString, ActorItem>& actorMap)
     {
 
@@ -931,6 +922,7 @@ private:
         }
     }
 
+    /* 파이프라인 렌더를 생성 */
     void _create_render(const QString& viewType, QMap<QString, ActorItem>& actorMap, QMap<QString, vtkSmartPointer<vtkRenderer>>& renderMap)
     {
         vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
@@ -968,6 +960,7 @@ private:
                 cam->Azimuth(340);
                 cam->Elevation(20);
                 cam->Zoom(1.6);
+                cam->GetFocalPoint();
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);
@@ -986,10 +979,10 @@ private:
                 Renderer->ResetCamera();
                 Renderer->LightFollowCameraOn();
                 cam->SetViewUp(0,5000,0);
-
                 cam->Azimuth(60);
                 cam->Elevation(20);
                 cam->Zoom(3.0);
+                cam->GetFocalPoint();
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);
@@ -1013,6 +1006,7 @@ private:
                 cam->Azimuth(240);
                 cam->Elevation(10);
                 cam->Zoom(2.4);
+                cam->GetFocalPoint();
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);
@@ -1135,68 +1129,6 @@ bool CBCTModelController::initialize()
 /* 파일 전송(Progressbar Panovalue)과 일치하는 PanoModule 모션 */
 void CBCTModelController::on_Rotate_PanoObject(const int& val)
 {
-    //// Main Push Button 비활성화
-    //	/*리셋으로 초기화 하기 전까지 메인 버튼 비활성화 */
-    //m_parentUI->MainPushButton->setEnabled(false);
-
-    //// 회전중인 경우 종료
-    //if (isRunning_Pano || isRunning_Ceph)
-    //{
-    //	return;
-    //}
-    //isRunning_Pano = true;
-
-    //// 현재 Pano Angle을 +10도 까지 회전
-    //for (int i = 0; i <= 10; i++)
-    //{
-    //	if (!isRunning_Pano)
-    //	{
-    //		break;
-    //	}
-    //	else {
-    //		m_curPanoAngle++;
-    //		_Rotate_Pano();
-    //	}
-    //	Sleep(10);
-    //}
-
-    //// 현재 Pano Angle을 반대로 200도 까지 회전
-    //for (int i = 0; i <= 200; i++)
-    //{
-    //	if (!isRunning_Pano)
-    //		break;
-    //	else {
-    //		if (0 <= i && i < 100)
-    //		{
-    //			m_curPositionX = m_curPositionX - 0.4;
-    //		}
-    //		else if (100 <= i && i < 200)
-    //		{
-    //			m_curPositionX = m_curPositionX + 0.4;
-    //		}
-    //		else if (i == 200)
-    //		{
-    //			m_curPositionX = 0;
-    //		}
-    //		m_curPanoAngle--;
-    //		_Rotate_Pano();
-    //	}
-    //	Sleep(20);
-    //}
-
-    //// 다시 + 방향으로 10도 회전
-    //for (int i = 0; i <= 10; i++)
-    //{
-    //	if (!isRunning_Pano)
-    //		break;
-    //	else {
-    //		m_curPanoAngle++;
-    //		_Rotate_Pano();
-    //	}
-    //	Sleep(10);
-    //}
-    //isRunning_Pano = false;
-
     auto angle = ceil(val / 4.16);
     qDebug() << "image Count : " << val << "angle : " << angle;
 
@@ -1251,25 +1183,6 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
 
     qDebug() << "image : " << val << "count : " << count;
 
-    //for (count = 0; count <= )
-    //{
-    //	if (PData->isRunning_Ceph)
-    //		return;
-    //	PData->isRunning_Ceph = true;
-    //	PData->m_curPositionZ--;
-    //	PData->_Translate_Ceph();
-    //	PData->isRunning_Ceph = false;
-    //}
-    //for (780 < count && count <= 1040)
-    //{
-    //	if (PData->isRunning_Ceph)
-    //		return;
-    //	PData->isRunning_Ceph = true;
-    //	PData->m_curPositionZ = PData->m_curPositionZ +2;
-    //	PData->_Translate_Ceph();
-    //	PData->isRunning_Ceph = false;
-    //}
-
     if (0 < count && count <= 1040)
     {
         if (PData->isRunning_Ceph)
@@ -1288,50 +1201,6 @@ void CBCTModelController::on_Translate_CephObject(const int& val)
         PData->_Translate_Ceph();
         PData->isRunning_Ceph = false;
     }
-
-    // Z축 +동작
-    /*if (0 < count && count <= 260)
-    {
-        if (PData->isRunning_Ceph)
-            return;
-        PData->isRunning_Ceph = true;
-        PData->m_curPositionZ = count;
-        PData->_Translate_Ceph();
-
-        PData->isRunning_Ceph = false;
-    }
-    else if (260 < count && count <= 520)
-    {
-        if (PData->isRunning_Ceph)
-            return;
-        PData->isRunning_Ceph = true;
-        PData->m_curPositionZ = 520 - count;*/
-
-    //	PData->_Translate_Ceph();
-    //	PData->isRunning_Ceph = false;
-    //}
-    //else if (520 < count && count <= 790)
-    //{
-
-    //	if (PData->isRunning_Ceph)
-    //		return;
-    //	PData->isRunning_Ceph = true;
-    //	PData->m_curPositionZ = -(count - 520);
-
-    //	PData->_Translate_Ceph();
-    //	PData->isRunning_Ceph = false;
-    //}
-    //else if (790 < count && count <= 1060)
-    //{
-
-    //	if (PData->isRunning_Ceph)
-    //		return;
-    //	PData->isRunning_Ceph = true;
-    //	PData->m_curPositionZ = (-(1060 - count));
-    //	PData->_Translate_Ceph();
-    //	PData->isRunning_Ceph = false;
-    //}
-
 
 }
 void CBCTModelController::on_XRayModule_Ready()
@@ -1387,23 +1256,33 @@ void CBCTModelController::stop() {
 
 void CBCTModelController::on_CaptureVTK_Reset()
 {
+    PData->m_parentUI->CaptureResetPushButton->setEnabled(false);
+
     PData->_on_PanoModel_Reset();
     PData->_on_CephModel_Reset();
     PData->_on_Elevation_reset();
+
+    PData->m_parentUI->CaptureResetPushButton->setEnabled(true);
+    PData->m_parentUI->CaptureReadyPushButton->setEnabled(true);
+
 }
 
+/* 장비 컨트롤러 : 리셋 */
 void CBCTModelController::on_ResetPushButton_clicked()
 {
     PData->m_parentUI->ResetPushButton->setEnabled(false);
+
+    PData->_on_PanoModel_Reset();
+    PData->_on_CephModel_Reset();
+    PData->_on_Elevation_reset();
+
     PData->m_parentUI->AscendingPushButton->setEnabled(true);
     PData->m_parentUI->DescendingPushButton->setEnabled(true);
     PData->m_parentUI->MainPushButton->setEnabled(true);
     PData->m_parentUI->SubPushButton->setEnabled(true);
-    PData->_on_PanoModel_Reset();
-    PData->_on_CephModel_Reset();
-    PData->_on_Elevation_reset();
 }
 
+/* 장비 컨트롤러 : 파노라마 */
 void CBCTModelController::on_MainPushButton_clicked()
 {
     // Main Push Button 비활성화
@@ -1415,11 +1294,13 @@ void CBCTModelController::on_MainPushButton_clicked()
     PData->m_parentUI->DescendingPushButton->setEnabled(false);
     qDebug() << "Main Push Btn!!";
     PData->_on_MainPushButton_clicked();
+
 }
 
+/* 장비 컨트롤러 : 세팔로 */
 void CBCTModelController::on_SubPushButton_clicked()
 {
-    PData->m_parentUI->SubPushButton->setEnabled(false);
+    PData->m_parentUI->MainPushButton->setEnabled(false);
     PData->m_parentUI->SubPushButton->setEnabled(false);
     PData->m_parentUI->StopPushButton->setEnabled(true);
     PData->m_parentUI->AscendingPushButton->setEnabled(false);
@@ -1435,6 +1316,7 @@ void CBCTModelController::on_SubPushButton_clicked()
     }
 }
 
+/* 장비 컨트롤러 : 정지 */
 void CBCTModelController::on_StopPushButton_clicked()
 {
     PData->_stop();
@@ -1447,7 +1329,6 @@ void CBCTModelController::on_StopPushButton_clicked()
 }
 
 /* Stop 기능 작동 시 환자가 퇴실했을 때만 리셋 버튼 활성화 */
-
 void CBCTModelController::remove_Patient_Exception()
 {
     if(PData->m_patientPano == nullptr && PData->m_patientCeph == nullptr)

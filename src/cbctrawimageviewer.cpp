@@ -11,6 +11,7 @@
 CBCTRawImageViewer::CBCTRawImageViewer()
 {
     m_parentUI = new Ui::MainWindow;
+    m_modelController = new CBCTModelController;
 }
 
 
@@ -58,7 +59,7 @@ void CBCTRawImageViewer::startPanoTimer()
         
         if (i == 1749)
         {
-
+                m_modelController->Remove_PanoPatient();
         }
         QFile panoFile(panoFileName);
         if (!panoFile.open(QFile::ReadOnly))
@@ -105,7 +106,7 @@ void CBCTRawImageViewer::startCephTimer()
 
         if (i == 1249)
         {
-
+            m_modelController->Remove_CephPatient();
         }
         QFile cephFile(cephFileName);
         if (!cephFile.open(QFile::ReadOnly))

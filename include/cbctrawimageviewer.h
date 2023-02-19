@@ -4,6 +4,7 @@
 #include <QObject>
 #include <qdebug.h>
 #include "ui_mainwindow.h"
+#include "cbctmodelcontroller.h"
 
 class QDir;
 class QDirIterator;
@@ -27,6 +28,8 @@ public:
     void stopCephTimer();
 
 private:
+    CBCTModelController* m_modelController;
+
     bool isRunningPano = true;
     bool isRunningCeph = true;
 
