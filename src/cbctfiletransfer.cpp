@@ -176,7 +176,7 @@ int countMax = 1250;
             else if (cephValue < 100 && cephValue >= 10)
             {
                 qDebug() << cephValue;
-                cephFileName = QString("C:/Qt_VTK_CT/RawImagesCeph_Frame(48x2400)/00%1.raw").arg(cephValue);
+                cephFileName = QString("C:/Qt_VTK_CT/RawImages/Ceph_Frame(48x2400)/00%1.raw").arg(cephValue);
             }
             else
             {
