@@ -380,11 +380,7 @@ public:
     }
 
     void _on_XRayModule_Ready() {
-        /* 모션 발생하는 동안 다른 버튼 예외처리 */
         isRunning_Ceph = true;
-        m_parentUI->CaptureResetPushButton->setEnabled(false);
-        m_parentUI->CaptureReadyPushButton->setEnabled(false);
-        m_parentUI->CaptureStartPushButton->setEnabled(false);
         for (int i = 0; i <= 45; i++)
         {
             if (!isRunning_Ceph)
@@ -392,13 +388,8 @@ public:
             m_curXRayAngle--;
             _Rotate_Xray();
         }
-        m_parentUI->CaptureResetPushButton->setEnabled(true);
-        m_parentUI->CaptureReadyPushButton->setEnabled(true);
-        m_parentUI->CaptureStartPushButton->setEnabled(true);
         isRunning_Ceph = false;
     }
-
-
 
     void _on_MainPushButton_clicked() {
         // 회전중인 경우 종료

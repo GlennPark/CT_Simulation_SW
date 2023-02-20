@@ -113,6 +113,7 @@ void MainWindow::connectCBCTModelCtr()
         {
             ui->CaptureReadyPushButton->setEnabled(false);
             m_modelController->on_XRayModule_Ready();
+  
         }
     });
 
@@ -396,22 +397,19 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 void MainWindow::on_CaptureStopPushButton_clicked()
 {
     /* stop 버튼 클릭시 reset 버튼만 활성화 */
+   
     qDebug() << "stop button clicked";
-    m_rawImageViewer->stopPanoTimer();
-    m_rawImageViewer->stopCephTimer();
      if (ui->PanoCheckBox->isChecked()) 
      {
-    
+        m_rawImageViewer->stopPanoTimer();
     m_modelController->Remove_PanoPatient();
-  
     ui->CaptureStopPushButton->setEnabled(false);
     ui->CaptureResetPushButton->setEnabled(true);
-     }
-     else if(ui->CephCheckBox->isChecked())
-     {
- 
+      }
+       if(ui->CephCheckBox->isChecked())
+       {
+           m_rawImageViewer->stopCephTimer();
     m_modelController->Remove_CephPatient();
- 
     ui->CaptureStopPushButton->setEnabled(false);
     ui->CaptureResetPushButton->setEnabled(true);
      }

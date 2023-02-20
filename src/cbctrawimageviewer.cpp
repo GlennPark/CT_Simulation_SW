@@ -14,6 +14,8 @@ CBCTRawImageViewer::CBCTRawImageViewer()
     m_modelController = new CBCTModelController;
 }
 
+
+
 void CBCTRawImageViewer::resetPanoTimer()
 {
     isRunningPano = true;
@@ -29,14 +31,14 @@ void CBCTRawImageViewer::resetCephTimer()
 void CBCTRawImageViewer::startPanoTimer()
 {
     qDebug() << __FUNCTION__;
-
-  //  isRunningPano = true;
+   // isRunningPano = true;
     for (int i = 0; i < 1750; i++)
     {
         if (isRunningPano == false)
         {
             return;
         }
+
         QString panoFileName;
         if (i >= 1000)
         {
@@ -55,7 +57,7 @@ void CBCTRawImageViewer::startPanoTimer()
             panoFileName = QString("C:/Qt_VTK_CT/RawImages/Pano_Frame(1152x64)/000%1.raw").arg(i);
         }
         
-        if (i == 1748)
+        if (i == 1749)
         {
                 m_modelController->Remove_PanoPatient();
         }
@@ -70,15 +72,14 @@ void CBCTRawImageViewer::startPanoTimer()
 
         emit signals_panoImage(panoImage);
     }
-    isRunningPano = false;
 }
 
 
 void CBCTRawImageViewer::startCephTimer()
 {
+    // 타이머 함수 -> mainwindow로 이미지 파일 하나씩 읽어 보내주도록 한다.
     qDebug() << __FUNCTION__;
-  
-  //  isRunningCeph = true;
+   // isRunningCeph = true;
     for (int i = 0; i < 1250; i++)
     {
         if (isRunningCeph == false)
@@ -118,34 +119,22 @@ void CBCTRawImageViewer::startCephTimer()
 
         emit signals_cephImage(cephImage);
     }
-    isRunningCeph = false;
 }
 
 
 void CBCTRawImageViewer::stopPanoTimer()
 {
-    qDebug() << __FUNCTION__ << isRunningPano;
-    if (isRunningPano == false)
-    {
-        return;
-    }
-    else
-    {
-        isRunningPano = false;
-    }
+    // 타이머 종료
+    qDebug() << __FUNCTION__;
+    isRunningPano = false;
+
 }
 
 void CBCTRawImageViewer::stopCephTimer()
 {
-    qDebug() << __FUNCTION__ << isRunningCeph;
-    if (isRunningPano == false)
-    {
-        return;
-    }
-    else
-    {
-        isRunningCeph = false;
-    }
+    // 타이머 종료
+    qDebug() << __FUNCTION__;
+    isRunningCeph = false;
 }
 
 CBCTRawImageViewer::~CBCTRawImageViewer()

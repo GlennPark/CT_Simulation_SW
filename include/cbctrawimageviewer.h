@@ -30,8 +30,8 @@ public:
 private:
     CBCTModelController* m_modelController;
 
-    bool isRunningPano = false;
-    bool isRunningCeph = false;
+    bool isRunningPano = true;
+    bool isRunningCeph = true;
 
 signals:
     void signals_panoImage(QImage*);
