@@ -381,6 +381,8 @@ public:
 
     void _on_XRayModule_Ready() {
         isRunning_Ceph = true;
+        m_parentUI->CaptureReadyPushButton->setEnabled(false);
+        m_parentUI->CaptureStartPushButton->setEnabled(false);
         for (int i = 0; i <= 45; i++)
         {
             if (!isRunning_Ceph)
@@ -388,6 +390,8 @@ public:
             m_curXRayAngle--;
             _Rotate_Xray();
         }
+        m_parentUI->CaptureReadyPushButton->setEnabled(true);
+        m_parentUI->CaptureStartPushButton->setEnabled(true);
         isRunning_Ceph = false;
     }
 
@@ -979,10 +983,11 @@ private:
                 Renderer->ResetCamera();
                 Renderer->LightFollowCameraOn();
                 cam->SetViewUp(0,5000,0);
-                cam->Azimuth(60);
+                cam->Azimuth(280);
                 cam->Elevation(20);
-                cam->Zoom(3.0);
+                cam->Zoom(4.7);
                 cam->GetFocalPoint();
+                cam->SetFocalPoint(1700,2000,2000);
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);
@@ -1003,10 +1008,11 @@ private:
                 Renderer->LightFollowCameraOn();
                 cam->SetViewUp(0,5000,0);
 
-                cam->Azimuth(240);
-                cam->Elevation(10);
-                cam->Zoom(2.4);
+                cam->Azimuth(10);
+                cam->Elevation(15);
+                cam->Zoom(4.7);
                 cam->GetFocalPoint();
+                cam->SetFocalPoint(1000,1500,0);
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);

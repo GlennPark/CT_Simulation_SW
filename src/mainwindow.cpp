@@ -1,4 +1,4 @@
-﻿#include "mainwindow.h"
+﻿        #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFile>
@@ -188,6 +188,15 @@ void MainWindow::connectCBCTFileTrans()
     connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(on_CaptureReadyPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(on_CaptureStartPushButton_clicked()));
     connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(on_CaptureStopPushButton_clicked()));
+ //   connect(m_fileTransfer, &SIGNAL(receiveReadySignal(QString)), this, [&](bool state) {
+        /* 세팔로 촬영 시 X-Ray 모듈 회전 */
+ //       if (ui->CephCheckBox->isChecked())
+ //       {
+ //           ui->CaptureReadyPushButton->setEnabled(false);
+//m_modelController->on_XRayModule_Ready();
+//
+ //       }
+//});
 
     /* 촬영 SW에서 Signal 받았을 시 Modality CheckBox 기능 동작 */
     connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Pano_Modality()));
@@ -379,18 +388,32 @@ void MainWindow::on_CaptureStartPushButton_clicked()
     ui->CaptureResetPushButton->setEnabled(false);
     ui->CaptureStartPushButton->setEnabled(false);
     ui->CaptureStopPushButton->setEnabled(true);
+
     ui->AscendingPushButton->setEnabled(false);
     ui->DescendingPushButton->setEnabled(false);
 
     if (ui->PanoCheckBox->isChecked())
     {
         qDebug() << __FUNCTION__;
-        m_rawImageViewer->startPanoTimer();
+        if(!m_rawImageViewer->startPanoTimer());
+        {
+         ui->CaptureResetPushButton->setEnabled(true);
+         ui->CaptureStartPushButton->setEnabled(false);
+         ui->CaptureReadyPushButton->setEnabled(false);
+         ui->CaptureStopPushButton->setEnabled(false);
+        }
     }
     if (ui->CephCheckBox->isChecked())
     {
         qDebug() << __FUNCTION__;
-        m_rawImageViewer->startCephTimer();
+        if(!m_rawImageViewer->startCephTimer());
+        {
+            ui->CaptureResetPushButton->setEnabled(true);
+            ui->CaptureStartPushButton->setEnabled(false);
+            ui->CaptureReadyPushButton->setEnabled(false);
+            ui->CaptureStopPushButton->setEnabled(false);
+        }
+
     }
 }
 

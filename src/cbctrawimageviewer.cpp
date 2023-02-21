@@ -28,7 +28,7 @@ void CBCTRawImageViewer::resetCephTimer()
     qDebug() << __FUNCTION__;
 }
 
-void CBCTRawImageViewer::startPanoTimer()
+bool CBCTRawImageViewer::startPanoTimer()
 {
     qDebug() << __FUNCTION__;
    // isRunningPano = true;
@@ -36,7 +36,7 @@ void CBCTRawImageViewer::startPanoTimer()
     {
         if (isRunningPano == false)
         {
-            return;
+            return false;
         }
 
         QString panoFileName;
@@ -63,7 +63,7 @@ void CBCTRawImageViewer::startPanoTimer()
         }
         QFile panoFile(panoFileName);
         if (!panoFile.open(QFile::ReadOnly))
-            return;
+            return false;
         QByteArray pBa = panoFile.readAll();
         const uchar* pData = (const uchar*)pBa.constData();;
         panoFile.close();
@@ -72,10 +72,11 @@ void CBCTRawImageViewer::startPanoTimer()
 
         emit signals_panoImage(panoImage);
     }
+    return true;
 }
 
 
-void CBCTRawImageViewer::startCephTimer()
+bool CBCTRawImageViewer::startCephTimer()
 {
     // 타이머 함수 -> mainwindow로 이미지 파일 하나씩 읽어 보내주도록 한다.
     qDebug() << __FUNCTION__;
@@ -84,7 +85,7 @@ void CBCTRawImageViewer::startCephTimer()
     {
         if (isRunningCeph == false)
         {
-            return;
+            return false;
         }
         QString cephFileName;
         if (i >= 1000)
@@ -110,7 +111,7 @@ void CBCTRawImageViewer::startCephTimer()
         }
         QFile cephFile(cephFileName);
         if (!cephFile.open(QFile::ReadOnly))
-            return;
+            return false;
         QByteArray cBa = cephFile.readAll();
         const uchar* cData = (const uchar*)cBa.constData();;
         cephFile.close();
@@ -119,6 +120,7 @@ void CBCTRawImageViewer::startCephTimer()
 
         emit signals_cephImage(cephImage);
     }
+    return true;
 }
 
 

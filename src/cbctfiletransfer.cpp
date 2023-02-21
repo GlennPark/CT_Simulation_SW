@@ -8,8 +8,8 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 {
     protocol = new Protocol();
     CBCTSocket = new QTcpSocket(this);
-    CBCTSocket->connectToHost("192.168.0.97", 8002);
-    if(CBCTSocket->waitForConnected(100))
+    CBCTSocket->connectToHost("192.168.0.20", 8002);
+    if(CBCTSocket->waitForConnected())
     {
         qDebug("CBCT Connected");
         connect(CBCTSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
@@ -22,8 +22,8 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     }
 
     fileSocket = new QTcpSocket(this);
-    fileSocket->connectToHost("192.168.0.97", 8003);
-    if(fileSocket->waitForConnected(100))
+    fileSocket->connectToHost("192.168.0.20", 8003);
+    if(fileSocket->waitForConnected())
     {
         qDebug("File Transfer Ready");
         connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
@@ -176,7 +176,7 @@ int countMax = 1250;
             else if (cephValue < 100 && cephValue >= 10)
             {
                 qDebug() << cephValue;
-                cephFileName = QString("C:/Qt_VTK_CT/RawImagesCeph_Frame(48x2400)/00%1.raw").arg(cephValue);
+                cephFileName = QString("C:/Qt_VTK_CT/RawImages/Ceph_Frame(48x2400)/00%1.raw").arg(cephValue);
             }
             else
             {

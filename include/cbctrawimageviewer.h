@@ -21,10 +21,9 @@ public:
 
     void resetPanoTimer();
     void resetCephTimer();
-    void startPanoTimer();
+    bool startPanoTimer();
+    bool startCephTimer();
     void stopPanoTimer();
-
-    void startCephTimer();
     void stopCephTimer();
 
 private:
