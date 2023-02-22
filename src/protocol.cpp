@@ -22,7 +22,7 @@ void Protocol::sendProtocol(QTcpSocket* socket, QString header, QString event, i
     m_packetData->setEvent(event);
     m_packetData->setType(type);
     m_packetData->setMsg(msg);
-
+    qDebug() << __FUNCTION__ << type << msg;
     socket->write(m_packetData->makeSendData());
 }
 

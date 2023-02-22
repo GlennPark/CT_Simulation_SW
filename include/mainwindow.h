@@ -41,10 +41,10 @@ public:
 	~MainWindow();
 
 private slots:
-	void on_CaptureReadyPushButton_clicked();
-	void on_CaptureResetPushButton_clicked();
-	void on_CaptureStartPushButton_clicked();
-	void on_CaptureStopPushButton_clicked();
+    void testRESET();
+    void testREADY();
+    void testSTART();
+    void testSTOP();
 
 
 	void receive_Pano_Modality();
@@ -53,15 +53,19 @@ private slots:
 	void receive_Message_LogSlot(QString receiveMsg);
 	void send_Message_LogSlot(QString msg);
 
-	void emitResetSignal();
-	void emitReadySignal();
-	void emitStartSignal();
-	void emitStopSignal();
 
 	void slot_panoImage(QImage* panoImage);
 	void slot_cephImage(QImage* cephImage);
 
+
+    void emitResetSignal();
+    void emitReadySignal();
+    void emitStartSignal();
+    void emitStopSignal();
 private:
+
+    Protocol* m_protocol;
+
 	void resizeEvent(QResizeEvent* event) override;
 
 	// Button 초기 상태 지정 

@@ -98,6 +98,7 @@ public:
 	CBCTModelController(Ui::MainWindow* parentUI = nullptr);
 	~CBCTModelController();
 
+    void on_CaptureVTK_Reset();
 private slots:
     /* reset equip motion */
     void on_ResetPushButton_clicked();
@@ -112,7 +113,7 @@ private slots:
 	// 하강 Btn : Lower Body Obj File 만 빼고 Y Axis 기준 -Lo Min을 벗어나면 안된다. 
 	void on_DescendingPushButton_pressed();
 
-    void on_CaptureVTK_Reset();
+    //void on_CaptureVTK_Reset();
 	// PanoModel을 초기화 위치로 이동시킨다. 
 	void on_PanoModel_Reset();
 	// CephModel을 초기화 위치로 이동시킨다. 

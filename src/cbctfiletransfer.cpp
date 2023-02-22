@@ -8,7 +8,7 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
 {
     protocol = new Protocol();
     CBCTSocket = new QTcpSocket(this);
-    CBCTSocket->connectToHost("192.168.0.20", 8002);
+    CBCTSocket->connectToHost("192.168.0.20", 8010);
     if(CBCTSocket->waitForConnected())
     {
         qDebug("CBCT Connected");
@@ -22,17 +22,19 @@ CBCTFileTransfer::CBCTFileTransfer(QObject*parent):QObject{parent}
     }
 
     fileSocket = new QTcpSocket(this);
-    fileSocket->connectToHost("192.168.0.20", 8003);
+    fileSocket->connectToHost("192.168.0.20", 8020);
     if(fileSocket->waitForConnected())
     {
         qDebug("File Transfer Ready");
-        connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
+        connect(fileSocket, SIGNAL(disconnected()), this, SLOT(disconnectSubServer()));
         protocol->sendProtocol(fileSocket, "SEN", "NEW", ConnectType::MODALITY, "CBCT FILE TRANSFER READY");
     }
     else
     {
         qDebug("File Transfer Not Ready");
     }
+
+
 }
 
 void CBCTFileTransfer::connectSubServer(QString address, int port)
@@ -46,6 +48,7 @@ void CBCTFileTransfer::connectSubServer(QString address, int port)
     if (CBCTSocket->waitForConnected(1000) && fileSocket->waitForConnected(1000)) {
         connect(CBCTSocket, SIGNAL(readyRead()), SLOT(receiveControl()));
         connect(CBCTSocket, SIGNAL(disconnected()), this, SLOT(disconnectServer()));
+
         connect(fileSocket, SIGNAL(readyRead()), SLOT(receiveFile()));
 
         protocol->sendProtocol(CBCTSocket, "SEN", "NEW", ConnectType::MODALITY, "NEW CBCT CONNECTED");
@@ -61,21 +64,37 @@ void CBCTFileTransfer::connectSubServer(QString address, int port)
     }
 }
 
+void CBCTFileTransfer::connectFileSocket()
+{
+    fileSocket = new QTcpSocket(this);
+    fileSocket->connectToHost("192.168.0.20", 8020);
+    if(fileSocket->waitForConnected())
+    {
+        qDebug("File Transfer Ready");
+        connect(fileSocket, SIGNAL(disconnected()), this, SLOT(disconnectSubServer()));
+
+//        connect(fileSocket, SIGNAL(readyRead()), this, SLOT(receiveControl()));
+        protocol->sendProtocol(fileSocket, "SEN", "NEW", ConnectType::MODALITY, "CBCT FILE TRANSFER READY");
+    }
+
+}
+
 void CBCTFileTransfer::disconnectSubServer()
 {
-    CBCTSocket->close();
+    qDebug() << __FUNCTION__;
        fileSocket->close();
-
-       CBCTSocket->deleteLater();
        fileSocket->deleteLater();
 
-       QMessageBox disconnectBox(QMessageBox::Warning, "ERROR",
-                                 "Not connected",
-                                 QMessageBox::Ok);
-       disconnectBox.exec();
+//       QMessageBox disconnectBox(QMessageBox::Warning, "ERROR",
+//                                 "Not connected",
+//                                 QMessageBox::Ok);
+//       disconnectBox.exec();
 
        emit connectStatusChanged(false);
+
+       emit emitStopSignal();
 }
+
 void CBCTFileTransfer::sendPanoFile(int panoValue)
 {
     QString modality = protocol->packetData()->msg();
@@ -213,16 +232,17 @@ int countMax = 1250;
 
 void CBCTFileTransfer::sendingControl(QString header, QString event, int type, QString msg)
 {
+    qDebug()<< __FUNCTION__<< type << msg;
     protocol->sendProtocol(CBCTSocket, "SEN", "CTL", type, msg);
-
     emit sending_Control_Signal(msg);
 }
 
 void CBCTFileTransfer::receiveControl()
 {
-    qDebug("control receive test");
-    CBCTSocket = dynamic_cast<QTcpSocket*>(sender());
-    protocol->receiveProtocol(CBCTSocket);
+    qDebug("%s", __FUNCTION__);
+//    CBCTSocket = dynamic_cast<QTcpSocket*>(sender());
+    QTcpSocket* rec = dynamic_cast<QTcpSocket*>(sender());
+    protocol->receiveProtocol(rec);
 
     if(protocol->packetData()->event() == "CTL")
     {
@@ -231,6 +251,8 @@ void CBCTFileTransfer::receiveControl()
             int control = protocol->packetData()->type();
             QString modality = protocol->packetData()->msg();
 
+
+            qDebug("%s %d ", __FUNCTION__, control);
             switch (control) {
             case 0:
                 qDebug("RESET Received");

@@ -987,7 +987,7 @@ private:
                 cam->Elevation(20);
                 cam->Zoom(4.7);
                 cam->GetFocalPoint();
-                cam->SetFocalPoint(1700,2000,2000);
+                cam->SetFocalPoint(2000,2000,1500);
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);
@@ -1012,7 +1012,7 @@ private:
                 cam->Elevation(15);
                 cam->Zoom(4.7);
                 cam->GetFocalPoint();
-                cam->SetFocalPoint(1000,1500,0);
+                cam->SetFocalPoint(1000,1500,500);
 
                 Renderer->ResetCameraClippingRange();
                 renderMap.insert(viewType, Renderer);

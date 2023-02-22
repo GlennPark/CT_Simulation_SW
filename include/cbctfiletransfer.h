@@ -21,6 +21,7 @@ public:
 
     void sendPanoFile(int panoValue);
     void sendCephFile(int cephValue);
+      void connectFileSocket();
 
 private slots:
     void receiveControl();
@@ -58,6 +59,8 @@ signals:
     void receiveStopSignal(QString receiveMsg);
     void receivePanoSignal(QString receiveMsg);
     void receiveCephSignal(QString receiveMsg);
+
+    void emitStopSignal();
 
   //  void modality_Signal(QString msg);
     void fileLogSignal(QString mode, QString fileLog);

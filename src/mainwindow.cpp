@@ -1,4 +1,4 @@
-﻿        #include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFile>
@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QtNetwork>
+#include "protocol.h"
 
 //#define USE_DISPLAY_GLOBALAXIS
 
@@ -28,7 +29,7 @@ MainWindow::MainWindow(QWidget* parent)
     m_modelController = new CBCTModelController(ui);
     m_rawImageViewer = new CBCTRawImageViewer();
     m_fileTransfer = new CBCTFileTransfer(this);
-
+    m_protocol = new Protocol();
     if (!m_modelController->initialize())
         qDebug() << "CBCTModelController initialize Fail ! ";
 
@@ -45,6 +46,8 @@ MainWindow::MainWindow(QWidget* parent)
     connectCBCTFileTrans();
 
     connectLogMaster();
+
+    connect(ui->quitToolButton,SIGNAL(clcked()), qApp, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -91,10 +94,10 @@ void MainWindow::initializeButton()
     /* 환자 입실, 퇴실 */
     ui->InvitePatientPushButton->setEnabled(true);
     ui->LeavePatientPushButton->setEnabled(true);
-//    ui->openGLWidget_All;
-//    QVTKOpenGLStereoWidget* vtkWidgetAll = new QVTKOpenGLStereoWidget;
-//    ui->PanoCheckBox->setParent(vtkWidgetAll);
-//    vtkWidgetAll->show();
+    //    ui->openGLWidget_All;
+    //    QVTKOpenGLStereoWidget* vtkWidgetAll = new QVTKOpenGLStereoWidget;
+    //    ui->PanoCheckBox->setParent(vtkWidgetAll);
+    //    vtkWidgetAll->show();
 }
 
 void MainWindow::connectCBCTModelCtr()
@@ -107,13 +110,14 @@ void MainWindow::connectCBCTModelCtr()
 
     /* 촬영 컨트롤 버튼 -> VTK 모션 연결 */
     connect(ui->CaptureResetPushButton, SIGNAL(clicked()), m_modelController, SLOT(on_CaptureVTK_Reset()));
+
     connect(ui->CaptureReadyPushButton, &QPushButton::clicked, m_modelController, [&](bool state) {
         /* 세팔로 촬영 시 X-Ray 모듈 회전 */
         if (ui->CephCheckBox->isChecked())
         {
             ui->CaptureReadyPushButton->setEnabled(false);
             m_modelController->on_XRayModule_Ready();
-  
+
         }
     });
 
@@ -147,10 +151,10 @@ void MainWindow::connectCBCTModelCtr()
 void MainWindow::connectUIBtn()
 {
     /* 촬영 컨트롤 버튼 클릭 시 버튼별 슬롯함수 동작, 통합 기능 포함 */
-    connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
-    connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
-    connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
-    connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
+ //   connect(ui->CaptureResetPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureResetPushButton_clicked()));
+ //   connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureReadyPushButton_clicked()));
+ //   connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStartPushButton_clicked()));
+ //   connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(on_CaptureStopPushButton_clicked()));
 
     /* ui check box Update : 중복체크 되지 않도록 설정 */
     connect(ui->PanoCheckBox, &QCheckBox::clicked, this, [&](bool state) {
@@ -184,19 +188,23 @@ void MainWindow::connectCBCTRawImageView()
 void MainWindow::connectCBCTFileTrans()
 {
     /* 촬영 SW 에서 시그널 받았을 때 기본 기능 동작 */
-    connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(on_CaptureResetPushButton_clicked()));
-    connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(on_CaptureReadyPushButton_clicked()));
-    connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(on_CaptureStartPushButton_clicked()));
-    connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(on_CaptureStopPushButton_clicked()));
- //   connect(m_fileTransfer, &SIGNAL(receiveReadySignal(QString)), this, [&](bool state) {
-        /* 세팔로 촬영 시 X-Ray 모듈 회전 */
- //       if (ui->CephCheckBox->isChecked())
- //       {
- //           ui->CaptureReadyPushButton->setEnabled(false);
-//m_modelController->on_XRayModule_Ready();
-//
- //       }
-//});
+    connect(m_fileTransfer, SIGNAL(receiveResetSignal(QString)), this, SLOT(testRESET()));
+    connect(m_fileTransfer, SIGNAL(receiveReadySignal(QString)), this, SLOT(testREADY()));
+    connect(m_fileTransfer, SIGNAL(receiveStartSignal(QString)), this, SLOT(testSTART()));
+    connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(testSTOP()));
+
+    connect(m_fileTransfer, SIGNAL(emitStopSignal()), this, SLOT(testSTOP()));
+
+
+    //   connect(m_fileTransfer, &SIGNAL(receiveReadySignal(QString)), this, [&](bool state) {
+    /* 세팔로 촬영 시 X-Ray 모듈 회전 */
+    //       if (ui->CephCheckBox->isChecked())
+    //       {
+    //           ui->CaptureReadyPushButton->setEnabled(false);
+    //m_modelController->on_XRayModule_Ready();
+    //
+    //       }
+    //});
 
     /* 촬영 SW에서 Signal 받았을 시 Modality CheckBox 기능 동작 */
     connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Pano_Modality()));
@@ -208,8 +216,6 @@ void MainWindow::connectCBCTFileTrans()
     connect(ui->CaptureReadyPushButton, SIGNAL(clicked()), this, SLOT(emitReadySignal()));
     connect(ui->CaptureStartPushButton, SIGNAL(clicked()), this, SLOT(emitStartSignal()));
     connect(ui->CaptureStopPushButton, SIGNAL(clicked()), this, SLOT(emitStopSignal()));
-
-
 }
 
 void MainWindow::connectLogMaster()
@@ -227,7 +233,6 @@ void MainWindow::connectLogMaster()
     connect(m_fileTransfer, SIGNAL(receiveStopSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
     connect(m_fileTransfer, SIGNAL(receivePanoSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
     connect(m_fileTransfer, SIGNAL(receiveCephSignal(QString)), this, SLOT(receive_Message_LogSlot(QString)));
-
 }
 
 void MainWindow::receive_Message_LogSlot(QString receiveMsg)
@@ -275,6 +280,7 @@ void MainWindow::receive_Ceph_Modality()
 
 void MainWindow::emitResetSignal()
 {
+    qDebug() << __FUNCTION__;
     /* 장비 초기화 신호 송신 */
     if (ui->PanoCheckBox->isChecked())
     {
@@ -304,30 +310,37 @@ void MainWindow::emitStartSignal()
     /* 체크박스 상태에 따라 어떤 종류의 촬영을 시작하는지 송신 */
     if (ui->PanoCheckBox->isChecked())
     {
-        m_fileTransfer->sendingControl("SEN", "CTL", 2, "PANO");
+        qDebug() << "sending Start Test";
+        m_fileTransfer->sendingControl("SEN", "CTL", ControlType::START, "PANO");
     }
     if (ui->CephCheckBox->isChecked())
     {
-        m_fileTransfer->sendingControl("SEN", "CTL", 2, "CEPH");
+        qDebug() << "sending Start Test";
+        m_fileTransfer->sendingControl("SEN", "CTL", ControlType::START, "CEPH");
     }
 }
 
 void MainWindow::emitStopSignal()
 {
+    qDebug("%s", __FUNCTION__);
     /* 촬영 정지 신호 송신 */
     if (ui->PanoCheckBox->isChecked())
     {
-        m_fileTransfer->sendingControl("SEN", "CTL", 3, "PANO");
+        qDebug() << __FUNCTION__;
+        m_fileTransfer->sendingControl("SEN", "CTL", ControlType::STOP, "PANO");
     }
     else if (ui->CephCheckBox->isChecked())
     {
-        m_fileTransfer->sendingControl("SEN", "CTL", 3, "CEPH");
+        m_fileTransfer->sendingControl("SEN", "CTL", ControlType::STOP, "CEPH");
     }
     //    emit STOPSignal(ControlType::STOP);
 }
 
-void MainWindow::on_CaptureResetPushButton_clicked()
+void MainWindow::testRESET()
 {
+    qDebug() << __FUNCTION__;
+  m_modelController->on_CaptureVTK_Reset();
+
     /* reset 버튼 클릭시 start, stop 버튼 비활성화 */
     ui->CaptureResetPushButton->setEnabled(false);
     ui->CaptureReadyPushButton->setEnabled(true);
@@ -361,12 +374,15 @@ void MainWindow::on_CaptureResetPushButton_clicked()
     ui->CephProgressBar->reset();
 }
 
-void MainWindow::on_CaptureReadyPushButton_clicked()
+void MainWindow::testREADY()
 {
+    qDebug() << __FUNCTION__;
+
+
     /* ready 버튼 클릭시 pressed 상태로 고정 후 start 버튼 활성화 */
     ui->CaptureReadyPushButton->setEnabled(false);
     ui->CaptureStartPushButton->setEnabled(true);
- //   ui->InvitePatientPushButton->setEnabled(false);
+    //   ui->InvitePatientPushButton->setEnabled(false);
     ui->PanoCheckBox->setEnabled(false);
     ui->CephCheckBox->setEnabled(false);
 
@@ -377,13 +393,14 @@ void MainWindow::on_CaptureReadyPushButton_clicked()
     }
     else if (ui->CephCheckBox->isChecked())
     {
+        m_modelController->on_XRayModule_Ready();
         m_modelController->Load_CephPatient(windowFilePath());
-
     }
 }
 
-void MainWindow::on_CaptureStartPushButton_clicked()
+void MainWindow::testSTART()
 {
+    qDebug() << __FUNCTION__;
     /* start 버튼 클릭시 Stop 버튼만 활성화 */
     ui->CaptureResetPushButton->setEnabled(false);
     ui->CaptureStartPushButton->setEnabled(false);
@@ -394,18 +411,16 @@ void MainWindow::on_CaptureStartPushButton_clicked()
 
     if (ui->PanoCheckBox->isChecked())
     {
-        qDebug() << __FUNCTION__;
         if(!m_rawImageViewer->startPanoTimer());
         {
-         ui->CaptureResetPushButton->setEnabled(true);
-         ui->CaptureStartPushButton->setEnabled(false);
-         ui->CaptureReadyPushButton->setEnabled(false);
-         ui->CaptureStopPushButton->setEnabled(false);
+            ui->CaptureResetPushButton->setEnabled(true);
+            ui->CaptureStartPushButton->setEnabled(false);
+            ui->CaptureReadyPushButton->setEnabled(false);
+            ui->CaptureStopPushButton->setEnabled(false);
         }
     }
     if (ui->CephCheckBox->isChecked())
     {
-        qDebug() << __FUNCTION__;
         if(!m_rawImageViewer->startCephTimer());
         {
             ui->CaptureResetPushButton->setEnabled(true);
@@ -414,28 +429,30 @@ void MainWindow::on_CaptureStartPushButton_clicked()
             ui->CaptureStopPushButton->setEnabled(false);
         }
 
-    }
+    }qDebug() << __LINE__;
 }
 
-void MainWindow::on_CaptureStopPushButton_clicked()
+void MainWindow::testSTOP()
 {
     /* stop 버튼 클릭시 reset 버튼만 활성화 */
-   
+
     qDebug() << "stop button clicked";
-     if (ui->PanoCheckBox->isChecked()) 
-     {
+    if (ui->PanoCheckBox->isChecked())
+    {
         m_rawImageViewer->stopPanoTimer();
-    m_modelController->Remove_PanoPatient();
-    ui->CaptureStopPushButton->setEnabled(false);
-    ui->CaptureResetPushButton->setEnabled(true);
-      }
-       if(ui->CephCheckBox->isChecked())
-       {
-           m_rawImageViewer->stopCephTimer();
-    m_modelController->Remove_CephPatient();
-    ui->CaptureStopPushButton->setEnabled(false);
-    ui->CaptureResetPushButton->setEnabled(true);
-     }
+        m_modelController->Remove_PanoPatient();
+        ui->CaptureStopPushButton->setEnabled(false);
+        ui->CaptureResetPushButton->setEnabled(true);
+    }
+    if(ui->CephCheckBox->isChecked())
+    {
+        m_rawImageViewer->stopCephTimer();
+        m_modelController->Remove_CephPatient();
+        ui->CaptureStopPushButton->setEnabled(false);
+        ui->CaptureResetPushButton->setEnabled(true);
+    }
+
+    m_fileTransfer->connectFileSocket();
 }
 
 void MainWindow::slot_panoImage(QImage* panoImage)
